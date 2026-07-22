@@ -7,6 +7,7 @@ import json
 import sys
 from typing import Any
 
+from kongali_security.analysis.audit import analyze_audit
 from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.headers import analyze_headers
@@ -171,6 +172,27 @@ def build_parser() -> argparse.ArgumentParser:
         choices=("text", "json"),
         default="text",
         help="Output format.",
+    )
+
+    # Security Audit
+    audit_parser = subparsers.add_parser(
+        "audit",
+        help="Run a complete security assessment.",
+    )
+
+    audit_parser.add_argument(
+        "target",
+        help="Target URL to assess.",
+    )
+
+    audit_parser.add_argument(
+        "--format",
+        choices=(
+            "text",
+            "json",
+        ),
+        default="text",
+        help="Audit output format.",
     )
 
     # Security Report
@@ -538,6 +560,29 @@ def main() -> int:
         except Exception as exc:
             print(
                 f"Error: Report export failed: {exc}",
+                file=sys.stderr,
+            )
+
+            return 1
+
+    # Security Audit
+    if args.command == "audit":
+        try:
+            result = analyze_audit(
+                args.target
+            )
+
+            _print_result(
+                result,
+                args.format,
+                "Kongali Security Security Audit",
+            )
+
+            return 0
+
+        except Exception as exc:
+            print(
+                f"Error: Security audit failed: {exc}",
                 file=sys.stderr,
             )
 
