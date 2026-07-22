@@ -3,12 +3,19 @@
 from __future__ import annotations
 
 import html
+import json
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 
+from kongali_security.analysis.cvss import (
+    default_cvss_for_finding,
+)
+
+from kongali_security.analysis.owasp import get_owasp_mapping
+
 
 MODULE_NAME = "security_report"
-MODULE_VERSION = "0.1.0"
+MODULE_VERSION = "0.2.0"
 
 
 SECURITY_HEADER_SEVERITY = {
@@ -46,7 +53,10 @@ def _build_findings(
 
     findings: List[Dict[str, Any]] = []
 
-    headers = scan.get("headers", {})
+    headers = scan.get(
+        "headers",
+        {},
+    )
 
     if isinstance(headers, dict):
         missing_headers = headers.get(
@@ -61,18 +71,38 @@ def _build_findings(
                     "MEDIUM",
                 )
 
+                mapping = get_owasp_mapping(
+                    header,
+                )
+
+                finding = {
+                    "severity": severity,
+                    "category": "HTTP Security Headers",
+                    "title": (
+                        f"Missing security header: {header}"
+                    ),
+                    "description": (
+                        "The HTTP response does not include "
+                        f"the {header} security header."
+                    ),
+                    "owasp": mapping["owasp"],
+                    "cwe": mapping["cwe"],
+                    "impact": mapping["impact"],
+                    "remediation": mapping["remediation"],
+                    "evidence": {
+                        "header": header,
+                        "status": "missing",
+                    },
+                }
+
+                finding["cvss"] = (
+                    default_cvss_for_finding(
+                        finding
+                    )
+                )
+
                 findings.append(
-                    {
-                        "severity": severity,
-                        "category": "HTTP Security Headers",
-                        "title": (
-                            f"Missing security header: {header}"
-                        ),
-                        "description": (
-                            "The HTTP response does not include "
-                            f"the {header} security header."
-                        ),
-                    }
+                    finding
                 )
 
     return findings
@@ -83,10 +113,15 @@ def _calculate_score(
 ) -> int:
     """Calculate an overall security score from 0 to 100."""
 
-    headers = scan.get("headers", {})
+    headers = scan.get(
+        "headers",
+        {},
+    )
 
     if isinstance(headers, dict):
-        score = headers.get("security_score")
+        score = headers.get(
+            "security_score",
+        )
 
         if isinstance(score, (int, float)):
             return max(
@@ -157,7 +192,7 @@ def generate_report(
     """Generate a complete security assessment report."""
 
     scan = _result_to_dict(
-        scan_result
+        scan_result,
     )
 
     target = str(
@@ -168,11 +203,11 @@ def generate_report(
     )
 
     findings = _build_findings(
-        scan
+        scan,
     )
 
     score = _calculate_score(
-        scan
+        scan,
     )
 
     risk = _calculate_risk(
@@ -205,7 +240,7 @@ def generate_report(
         "findings": findings,
         "summary": {
             "total_findings": len(
-                findings
+                findings,
             ),
             "severity_counts": severity_counts,
         },
@@ -214,7 +249,7 @@ def generate_report(
             "module": MODULE_NAME,
             "version": MODULE_VERSION,
             "generated_at": datetime.now(
-                timezone.utc
+                timezone.utc,
             ).isoformat(),
         },
     }
@@ -290,22 +325,76 @@ def render_markdown(
 
     if not findings:
         lines.append(
-            "No security findings were identified."
+            "No security findings were identified.",
         )
     else:
         for index, finding in enumerate(
             findings,
             start=1,
         ):
+            owasp = finding.get(
+                "owasp",
+                {},
+            )
+
+            cwe = finding.get(
+                "cwe",
+                {},
+            )
+
+            evidence = finding.get(
+                "evidence",
+                {},
+            )
+
             lines.extend(
                 [
-                    f"### {index}. {finding.get('title', 'Unknown Finding')}",
+                    (
+                        f"### {index}. "
+                        f"{finding.get('title', 'Unknown Finding')}"
+                    ),
                     "",
-                    f"**Severity:** `{finding.get('severity', 'UNKNOWN')}`",
+                    (
+                        "**Severity:** "
+                        f"`{finding.get('severity', 'UNKNOWN')}`"
+                    ),
                     "",
-                    f"**Category:** {finding.get('category', 'Unknown')}",
+                    (
+                        "**Category:** "
+                        f"{finding.get('category', 'Unknown')}"
+                    ),
+                    "",
+                    (
+                        "**OWASP:** "
+                        f"{owasp.get('id', 'N/A')} - "
+                        f"{owasp.get('name', 'Unknown')}"
+                    ),
+                    "",
+                    (
+                        "**CWE:** "
+                        f"{cwe.get('id', 'N/A')} - "
+                        f"{cwe.get('name', 'Unknown')}"
+                    ),
                     "",
                     f"{finding.get('description', '')}",
+                    "",
+                    "**Impact**",
+                    "",
+                    f"{finding.get('impact', 'Not specified.')}",
+                    "",
+                    "**Evidence**",
+                    "",
+                    "```json",
+                    json.dumps(
+                        evidence,
+                        indent=2,
+                        default=str,
+                    ),
+                    "```",
+                    "",
+                    "**Remediation**",
+                    "",
+                    f"{finding.get('remediation', 'Not specified.')}",
                     "",
                 ]
             )
@@ -315,24 +404,14 @@ def render_markdown(
             "## Technical Scan Data",
             "",
             "```json",
-        ]
-    )
-
-    import json
-
-    lines.append(
-        json.dumps(
-            report.get(
-                "scan",
-                {},
+            json.dumps(
+                report.get(
+                    "scan",
+                    {},
+                ),
+                indent=2,
+                default=str,
             ),
-            indent=2,
-            default=str,
-        )
-    )
-
-    lines.extend(
-        [
             "```",
             "",
             "---",
@@ -342,7 +421,7 @@ def render_markdown(
     )
 
     return "\n".join(
-        lines
+        lines,
     )
 
 
@@ -391,7 +470,10 @@ def render_html(
 
     finding_html = []
 
-    for finding in findings:
+    for index, finding in enumerate(
+        findings,
+        start=1,
+    ):
         severity = html.escape(
             str(
                 finding.get(
@@ -428,20 +510,128 @@ def render_html(
             )
         )
 
+        impact = html.escape(
+            str(
+                finding.get(
+                    "impact",
+                    "Not specified.",
+                )
+            )
+        )
+
+        remediation = html.escape(
+            str(
+                finding.get(
+                    "remediation",
+                    "Not specified.",
+                )
+            )
+        )
+
+        owasp = finding.get(
+            "owasp",
+            {},
+        )
+
+        cwe = finding.get(
+            "cwe",
+            {},
+        )
+
+        evidence = finding.get(
+            "evidence",
+            {},
+        )
+
+        owasp_id = html.escape(
+            str(
+                owasp.get(
+                    "id",
+                    "N/A",
+                )
+            )
+        )
+
+        owasp_name = html.escape(
+            str(
+                owasp.get(
+                    "name",
+                    "Unknown",
+                )
+            )
+        )
+
+        cwe_id = html.escape(
+            str(
+                cwe.get(
+                    "id",
+                    "N/A",
+                )
+            )
+        )
+
+        cwe_name = html.escape(
+            str(
+                cwe.get(
+                    "name",
+                    "Unknown",
+                )
+            )
+        )
+
+        evidence_json = html.escape(
+            json.dumps(
+                evidence,
+                indent=2,
+                default=str,
+            )
+        )
+
         finding_html.append(
             f"""
             <div class="finding">
-                <h3>{title}</h3>
-                <p><strong>Severity:</strong> {severity}</p>
-                <p><strong>Category:</strong> {category}</p>
-                <p>{description}</p>
+                <h3>{index}. {title}</h3>
+
+                <p>
+                    <strong>Severity:</strong>
+                    {severity}
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    {category}
+                </p>
+
+                <p>
+                    <strong>OWASP:</strong>
+                    {owasp_id} - {owasp_name}
+                </p>
+
+                <p>
+                    <strong>CWE:</strong>
+                    {cwe_id} - {cwe_name}
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    {description}
+                </p>
+
+                <h4>Impact</h4>
+                <p>{impact}</p>
+
+                <h4>Evidence</h4>
+                <pre>{evidence_json}</pre>
+
+                <h4>Remediation</h4>
+                <p>{remediation}</p>
             </div>
             """
         )
 
     if not finding_html:
         finding_html.append(
-            "<p>No security findings were identified.</p>"
+            "<p>No security findings were identified.</p>",
         )
 
     return f"""<!DOCTYPE html>
@@ -458,31 +648,58 @@ body {{
     margin: 40px auto;
     padding: 0 20px;
     line-height: 1.6;
+    color: #222;
 }}
+
 h1 {{
     border-bottom: 2px solid #333;
     padding-bottom: 10px;
 }}
+
+h2 {{
+    margin-top: 0;
+}}
+
+h4 {{
+    margin-bottom: 5px;
+}}
+
 .card {{
     border: 1px solid #ddd;
     padding: 20px;
     margin: 20px 0;
     border-radius: 8px;
 }}
+
 .finding {{
     border-left: 4px solid #333;
     padding: 15px;
     margin: 15px 0;
     background: #f7f7f7;
 }}
+
+pre {{
+    background: #eee;
+    padding: 12px;
+    overflow-x: auto;
+    border-radius: 4px;
+}}
+
 table {{
     width: 100%;
     border-collapse: collapse;
 }}
+
 th, td {{
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
+}}
+
+footer {{
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
 }}
 </style>
 </head>
@@ -492,30 +709,44 @@ th, td {{
 
 <div class="card">
     <h2>Assessment Overview</h2>
-    <p><strong>Target:</strong> {target}</p>
-    <p><strong>Overall Risk:</strong> {risk}</p>
-    <p><strong>Overall Score:</strong> {score}/100</p>
+    <p>
+        <strong>Target:</strong>
+        {target}
+    </p>
+    <p>
+        <strong>Overall Risk:</strong>
+        {risk}
+    </p>
+    <p>
+        <strong>Overall Score:</strong>
+        {score}/100
+    </p>
 </div>
 
 <div class="card">
     <h2>Severity Summary</h2>
+
     <table>
         <tr>
             <th>Severity</th>
             <th>Count</th>
         </tr>
+
         <tr>
             <td>Critical</td>
             <td>{severity_counts.get("CRITICAL", 0)}</td>
         </tr>
+
         <tr>
             <td>High</td>
             <td>{severity_counts.get("HIGH", 0)}</td>
         </tr>
+
         <tr>
             <td>Medium</td>
             <td>{severity_counts.get("MEDIUM", 0)}</td>
         </tr>
+
         <tr>
             <td>Low</td>
             <td>{severity_counts.get("LOW", 0)}</td>
@@ -529,7 +760,9 @@ th, td {{
 </div>
 
 <footer>
-    <p>Generated by Kongali Security.</p>
+    <p>
+        Generated by Kongali Security.
+    </p>
 </footer>
 
 </body>
@@ -537,43 +770,10 @@ th, td {{
 """
 
 
-def save_report(
-    report: Dict[str, Any],
-    output_format: str,
-    output_path: str,
-) -> None:
-    """Save a rendered report to a file."""
-
-    if output_format == "html":
-        content = render_html(
-            report
-        )
-    elif output_format == "markdown":
-        content = render_markdown(
-            report
-        )
-    else:
-        raise ValueError(
-            "File output supports only "
-            "html and markdown formats."
-        )
-
-    with open(
-        output_path,
-        "w",
-        encoding="utf-8",
-    ) as file:
-        file.write(
-            content
-        )
-
-
 def render_sarif(
     report: Dict[str, Any],
 ) -> str:
     """Render a security report as SARIF 2.1.0."""
-
-    import json
 
     findings = report.get(
         "findings",
@@ -600,6 +800,16 @@ def render_sarif(
             "LOW": "note",
         }
 
+        owasp = finding.get(
+            "owasp",
+            {},
+        )
+
+        cwe = finding.get(
+            "cwe",
+            {},
+        )
+
         results.append(
             {
                 "ruleId": (
@@ -624,6 +834,34 @@ def render_sarif(
                             "category",
                             "Unknown",
                         )
+                    ),
+                    "owasp": str(
+                        owasp.get(
+                            "id",
+                            "N/A",
+                        )
+                    ),
+                    "cwe": str(
+                        cwe.get(
+                            "id",
+                            "N/A",
+                        )
+                    ),
+                    "impact": str(
+                        finding.get(
+                            "impact",
+                            "",
+                        )
+                    ),
+                    "remediation": str(
+                        finding.get(
+                            "remediation",
+                            "",
+                        )
+                    ),
+                    "evidence": finding.get(
+                        "evidence",
+                        {},
                     ),
                 },
             }
@@ -657,3 +895,38 @@ def render_sarif(
         sarif,
         indent=2,
     )
+
+
+def save_report(
+    report: Dict[str, Any],
+    output_format: str,
+    output_path: str,
+) -> None:
+    """Save a rendered report to a file."""
+
+    if output_format == "html":
+        content = render_html(
+            report,
+        )
+    elif output_format == "markdown":
+        content = render_markdown(
+            report,
+        )
+    elif output_format == "sarif":
+        content = render_sarif(
+            report,
+        )
+    else:
+        raise ValueError(
+            "File output supports only "
+            "html, markdown, and sarif formats."
+        )
+
+    with open(
+        output_path,
+        "w",
+        encoding="utf-8",
+    ) as file:
+        file.write(
+            content,
+        )
