@@ -1,0 +1,45 @@
+name: Kongali Security Code Scanning
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  kongali-security:
+    name: Kongali Security SARIF Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Kongali Security
+        run: |
+          python -m pip install --upgrade pip
+          pip install .
+
+      - name: Run Kongali Security scan
+        run: |
+          kongali-security report \
+            https://example.com \
+            --format sarif \
+            --output kongali-results.sarif
+
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: kongali-results.sarif
+          category: kongali-security
