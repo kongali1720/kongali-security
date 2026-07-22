@@ -7,6 +7,7 @@ import json
 import sys
 from typing import Any
 
+from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.ioc import analyze_ioc
 
@@ -16,6 +17,7 @@ VERSION = "0.1.0"
 
 def build_parser() -> argparse.ArgumentParser:
     """Build the Kongali Security command-line parser."""
+
     parser = argparse.ArgumentParser(
         prog="kongali-security",
         description=(
@@ -35,7 +37,10 @@ def build_parser() -> argparse.ArgumentParser:
         title="commands",
     )
 
-    # IOC command
+    # ==========================================================
+    # IOC COMMAND
+    # ==========================================================
+
     ioc_parser = subparsers.add_parser(
         "ioc",
         help="Analyze an Indicator of Compromise (IOC).",
@@ -53,7 +58,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="Output format (default: text).",
     )
 
-    # Hash command
+    # ==========================================================
+    # HASH COMMAND
+    # ==========================================================
+
     hash_parser = subparsers.add_parser(
         "hash",
         help="Analyze a cryptographic hash.",
@@ -71,17 +79,35 @@ def build_parser() -> argparse.ArgumentParser:
         help="Output format (default: text).",
     )
 
-    # DNS command
-    subparsers.add_parser(
+    # ==========================================================
+    # DNS COMMAND
+    # ==========================================================
+
+    dns_parser = subparsers.add_parser(
         "dns",
         help="Perform defensive DNS analysis.",
+    )
+
+    dns_parser.add_argument(
+        "domain",
+        help="Domain name to analyze.",
+    )
+
+    dns_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format (default: text).",
     )
 
     return parser
 
 
-def _result_to_dict(result: Any) -> dict[str, Any]:
+def _result_to_dict(
+    result: Any,
+) -> dict[str, Any]:
     """Convert an analysis result to a dictionary."""
+
     if hasattr(result, "to_dict"):
         data = result.to_dict()
 
@@ -94,7 +120,9 @@ def _result_to_dict(result: Any) -> dict[str, Any]:
     if hasattr(result, "__dict__"):
         return dict(result.__dict__)
 
-    return {"result": str(result)}
+    return {
+        "result": str(result),
+    }
 
 
 def _print_result(
@@ -103,6 +131,7 @@ def _print_result(
     title: str,
 ) -> None:
     """Print an analysis result."""
+
     data = _result_to_dict(result)
 
     if output_format == "json":
@@ -131,12 +160,21 @@ def _print_result(
 
 def main() -> int:
     """Run the Kongali Security CLI."""
+
     parser = build_parser()
     args = parser.parse_args()
+
+    # ==========================================================
+    # NO COMMAND
+    # ==========================================================
 
     if args.command is None:
         parser.print_help()
         return 0
+
+    # ==========================================================
+    # IOC ANALYSIS
+    # ==========================================================
 
     if args.command == "ioc":
         try:
@@ -160,6 +198,10 @@ def main() -> int:
 
             return 1
 
+    # ==========================================================
+    # HASH ANALYSIS
+    # ==========================================================
+
     if args.command == "hash":
         try:
             result = analyze_hash(
@@ -182,13 +224,35 @@ def main() -> int:
 
             return 1
 
-    if args.command == "dns":
-        print(
-            "DNS analysis is not yet implemented.",
-            file=sys.stderr,
-        )
+    # ==========================================================
+    # DNS ANALYSIS
+    # ==========================================================
 
-        return 2
+    if args.command == "dns":
+        try:
+            result = analyze_dns(
+                args.domain
+            )
+
+            _print_result(
+                result,
+                args.format,
+                "Kongali Security DNS Analyzer",
+            )
+
+            return 0
+
+        except Exception as exc:
+            print(
+                f"Error: DNS analysis failed: {exc}",
+                file=sys.stderr,
+            )
+
+            return 1
+
+    # ==========================================================
+    # FALLBACK
+    # ==========================================================
 
     parser.print_help()
 
@@ -196,4 +260,6 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(
+        main()
+    )
