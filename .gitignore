@@ -55,5 +55,4 @@ pip-audit-report.json
 gitleaks-report.json
 
 # Local security comparison test artifacts
-baseline.json
 current.json
