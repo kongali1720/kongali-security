@@ -1,0 +1,51 @@
+# KONGALI SECURITY CODEOWNERS
+#
+# This file defines the default code owners for the repository.
+# Code owners are automatically requested for review when changes
+# are made to files they own.
+#
+# Replace the placeholder GitHub username below with the actual
+# maintainer account before enabling mandatory CODEOWNERS reviews.
+
+# Default owner for the entire repository
+* @kongali1720
+
+# Core security engine
+/kongali_security/core/ @kongali1720
+
+# Security analysis modules
+/kongali_security/analysis/ @kongali1720
+
+# Threat intelligence modules
+/kongali_security/intelligence/ @kongali1720
+
+# OSINT modules
+/kongali_security/osint/ @kongali1720
+
+# Monitoring modules
+/kongali_security/monitoring/ @kongali1720
+
+# Security automation
+/kongali_security/automation/ @kongali1720
+
+# Reporting modules
+/kongali_security/reporting/ @kongali1720
+
+# AI-assisted security modules
+/kongali_security/ai/ @kongali1720
+
+# CLI
+/kongali_security/cli/ @kongali1720
+
+# Tests
+/tests/ @kongali1720
+
+# Documentation
+/docs/ @kongali1720
+
+# GitHub workflows and repository configuration
+/.github/ @kongali1720
+
+# Security-sensitive project files
+/SECURITY.md @kongali1720
+/pyproject.toml @kongali1720
