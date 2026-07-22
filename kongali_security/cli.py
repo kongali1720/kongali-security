@@ -198,10 +198,36 @@ def build_parser() -> argparse.ArgumentParser:
 
     report_parser.add_argument(
         "--output",
-        help=(
-            "Write the report to a file. "
-            "Required for HTML or Markdown file output."
+        help="Write the report to a file.",
+    )
+
+    # Export Report
+    export_parser = subparsers.add_parser(
+        "export",
+        help="Convert an existing security report.",
+    )
+
+    export_parser.add_argument(
+        "input",
+        help="Input report file, currently JSON format.",
+    )
+
+    export_parser.add_argument(
+        "--format",
+        choices=(
+            "text",
+            "json",
+            "markdown",
+            "html",
         ),
+        required=True,
+        help="Output report format.",
+    )
+
+    export_parser.add_argument(
+        "--output",
+        required=True,
+        help="Output file path.",
     )
 
     return parser
@@ -311,6 +337,45 @@ def _run_standard_analysis(
         return 1
 
 
+def _build_text_report(
+    report: dict[str, Any],
+) -> str:
+    """Build a plain-text security report."""
+
+    lines = [
+        "Kongali Security Security Report",
+        "─────────────────────────────",
+    ]
+
+    for key, value in report.items():
+        label = key.replace(
+            "_",
+            " ",
+        ).title()
+
+        lines.append(
+            f"{label:<18}: {value}"
+        )
+
+    return "\n".join(lines) + "\n"
+
+
+def _write_output(
+    output: str,
+    output_path: str,
+) -> None:
+    """Write generated output to a file."""
+
+    with open(
+        output_path,
+        "w",
+        encoding="utf-8",
+    ) as file:
+        file.write(
+            output
+        )
+
+
 def main() -> int:
     """Run the Kongali Security CLI."""
 
@@ -391,6 +456,93 @@ def main() -> int:
             "Full scan",
         )
 
+    # Export Report
+    if args.command == "export":
+        try:
+            with open(
+                args.input,
+                "r",
+                encoding="utf-8",
+            ) as file:
+                report = json.load(file)
+
+            if args.format == "json":
+                output = json.dumps(
+                    report,
+                    indent=2,
+                    default=str,
+                )
+
+                with open(
+                    args.output,
+                    "w",
+                    encoding="utf-8",
+                ) as file:
+                    file.write(output)
+
+            elif args.format == "markdown":
+                output = render_markdown(report)
+
+                with open(
+                    args.output,
+                    "w",
+                    encoding="utf-8",
+                ) as file:
+                    file.write(output)
+
+            elif args.format == "html":
+                output = render_html(report)
+
+                with open(
+                    args.output,
+                    "w",
+                    encoding="utf-8",
+                ) as file:
+                    file.write(output)
+
+            elif args.format == "text":
+                lines = []
+
+                lines.append(
+                    "Kongali Security Security Report"
+                )
+                lines.append(
+                    "─────────────────────────────"
+                )
+
+                for key, value in report.items():
+                    label = key.replace(
+                        "_",
+                        " ",
+                    ).title()
+
+                    lines.append(
+                        f"{label:<18}: {value}"
+                    )
+
+                output = "\n".join(lines) + "\n"
+
+                with open(
+                    args.output,
+                    "w",
+                    encoding="utf-8",
+                ) as file:
+                    file.write(output)
+
+            print(
+                f"Report exported to: {args.output}"
+            )
+
+            return 0
+
+        except Exception as exc:
+            print(
+                f"Error: Report export failed: {exc}",
+                file=sys.stderr,
+            )
+
+            return 1
+
     # Security Report
     if args.command == "report":
         try:
@@ -409,67 +561,49 @@ def main() -> int:
                     default=str,
                 )
 
-                if args.output:
-                    with open(
-                        args.output,
-                        "w",
-                        encoding="utf-8",
-                    ) as file:
-                        file.write(
-                            output
-                        )
-                else:
-                    print(
-                        output
-                    )
-
-                return 0
-
-            if args.format == "markdown":
+            elif args.format == "markdown":
                 output = render_markdown(
                     report
                 )
 
-                if args.output:
-                    save_report(
-                        report,
-                        "markdown",
-                        args.output,
-                    )
-                else:
-                    print(
-                        output
-                    )
-
-                return 0
-
-            if args.format == "html":
+            elif args.format == "html":
                 output = render_html(
                     report
                 )
 
-                if args.output:
+            else:
+                output = _build_text_report(
+                    report
+                )
+
+            if args.output:
+                if args.format in (
+                    "markdown",
+                    "html",
+                ):
                     save_report(
                         report,
-                        "html",
+                        args.format,
+                        args.output,
+                    )
+                else:
+                    _write_output(
+                        output,
                         args.output,
                     )
 
-                    print(
-                        f"Report written to: {args.output}"
-                    )
-                else:
-                    print(
-                        output
-                    )
+                print(
+                    f"Report written to: "
+                    f"{args.output}"
+                )
 
-                return 0
-
-            _print_result(
-                report,
-                "text",
-                "Kongali Security Security Report",
-            )
+            else:
+                print(
+                    output,
+                    end=""
+                    if output.endswith("\n")
+                    else "\n",
+                )
 
             return 0
 
