@@ -1,8 +1,6 @@
 <p align="center">
-<img src="https://github.com/kongali1720/KongWallet-Payment-Gateway-API/blob/main/kop_surat.jpg" width="100%">
+  <img src="https://github.com/kongali1720/KongWallet-Payment-Gateway-API/blob/main/kop_surat.jpg" width="100%" alt="KONGALI1720 Header">
 </p>
-
-<p align="center">
 
 <div align="center">
 
@@ -12,69 +10,85 @@
 
 **Secure. Analyze. Automate.**
 
-[![GitHub](https://img.shields.io/badge/GitHub-kongali1720-181717?style=for-the-badge&logo=github)](https://github.com/kongali1720)
-[![Repository](https://img.shields.io/badge/Repository-kongali--security-181717?style=for-the-badge&logo=github)](https://github.com/kongali1720/kongali-security)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![GitHub](https://img.shields.io/badge/GitHub-kongali1720-181717?style=for-the-badge\&logo=github)](https://github.com/kongali1720)
+[![Repository](https://img.shields.io/badge/Repository-kongali--security-181717?style=for-the-badge\&logo=github)](https://github.com/kongali1720/kongali-security)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge\&logo=python\&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-orange?style=for-the-badge)](https://github.com/kongali1720/kongali-security)
 [![Version](https://img.shields.io/badge/Version-0.1.0-blue?style=for-the-badge)](https://github.com/kongali1720/kongali-security/releases)
-[![Security](https://img.shields.io/badge/Security-Defensive%20First-red?style=for-the-badge&logo=shield)](SECURITY.md)
+[![Security](https://img.shields.io/badge/Security-Defensive%20First-red?style=for-the-badge\&logo=shield)](SECURITY.md)
 
 <br>
 
-[![Stars](https://img.shields.io/github/stars/kongali1720/kongali-security?style=flat-square&logo=github)](https://github.com/kongali1720/kongali-security/stargazers)
-[![Forks](https://img.shields.io/github/forks/kongali1720/kongali-security?style=flat-square&logo=github)](https://github.com/kongali1720/kongali-security/network/members)
-[![Issues](https://img.shields.io/github/issues/kongali1720/kongali-security?style=flat-square&logo=github)](https://github.com/kongali1720/kongali-security/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/kongali1720/kongali-security?style=flat-square&logo=github)](https://github.com/kongali1720/kongali-security/pulls)
-[![Last Commit](https://img.shields.io/github/last-commit/kongali1720/kongali-security?style=flat-square&logo=git)](https://github.com/kongali1720/kongali-security/commits/main)
-[![Python Package](https://img.shields.io/badge/Package-Python%20Library-3776AB?style=flat-square&logo=python)](https://www.python.org/)
+[![Stars](https://img.shields.io/github/stars/kongali1720/kongali-security?style=flat-square\&logo=github)](https://github.com/kongali1720/kongali-security/stargazers)
+[![Forks](https://img.shields.io/github/forks/kongali1720/kongali-security?style=flat-square\&logo=github)](https://github.com/kongali1720/kongali-security/network/members)
+[![Issues](https://img.shields.io/github/issues/kongali1720/kongali-security?style=flat-square\&logo=github)](https://github.com/kongali1720/kongali-security/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/kongali1720/kongali-security?style=flat-square\&logo=github)](https://github.com/kongali1720/kongali-security/pulls)
+[![Last Commit](https://img.shields.io/github/last-commit/kongali1720/kongali-security?style=flat-square\&logo=git)](https://github.com/kongali1720/kongali-security/commits/main)
+[![Python Package](https://img.shields.io/badge/Package-Python%20Project-3776AB?style=flat-square\&logo=python)](https://www.python.org/)
 
 </div>
 
 ---
 
 <p align="center">
-<img src="https://github.com/kongali1720/kongali-security/blob/main/seminar-cyber-BANNER.png" width="50%">
+  <img src="https://github.com/kongali1720/kongali-security/blob/main/seminar-cyber-BANNER.png" width="50%" alt="Kongali Security Banner">
 </p>
-
-<p align="center">
 
 ---
 
 ## 🕷️ About Kongali Security
 
-**Kongali Security** is an open-source cybersecurity and security automation framework designed to help security professionals, developers, system administrators, researchers, and IT teams perform defensive security analysis and automate repetitive security workflows.
+**Kongali Security** is an open-source cybersecurity and security automation framework designed to support security professionals, developers, system administrators, researchers, students, and IT teams in performing defensive security analysis and automating repetitive security workflows.
 
-The project is designed around a modular architecture that brings together:
+The project follows a modular architecture intended to bring together security analysis, threat intelligence, monitoring, detection, automation, reporting, and AI-assisted workflows within a single extensible ecosystem.
 
-- 🔎 Threat Intelligence
-- 🧩 IOC Analysis
-- #️⃣ Hash Analysis
-- 🌐 DNS Intelligence
-- 🕵️ OSINT Workflows
-- 📡 Network Monitoring
-- 📜 Log Analysis
-- 🛡️ File Integrity Monitoring
-- 🧬 YARA-Based Analysis
-- 🤖 AI-Assisted Security Analysis
-- 📊 Security Reporting
-- ⚙️ Security Automation
+The long-term objective is to evolve Kongali Security from a collection of security utilities into a modular cybersecurity framework that can integrate with existing security operations and automation pipelines.
 
-Kongali Security is being developed as part of the broader **KONGALI1720 technology ecosystem**, with a long-term focus on open-source software engineering, cybersecurity research, automation, and defensive security tooling.
+### Core Security Domains
+
+* 🔎 Threat Intelligence
+* 🧩 IOC Analysis
+* #️⃣ Hash Analysis
+* 🌐 DNS Intelligence
+* 🕵️ OSINT Workflows
+* 📡 Network Monitoring
+* 📜 Log Analysis
+* 🛡️ File Integrity Monitoring
+* 🧬 YARA-Based Analysis
+* 🤖 AI-Assisted Security Analysis
+* 📊 Security Reporting
+* ⚙️ Security Automation
+
+Kongali Security is developed as part of the broader **KONGALI1720 technology ecosystem**, with a long-term focus on open-source software engineering, cybersecurity research, automation, and defensive security tooling.
 
 ---
 
-## 🎯 Vision
+# 📌 Project Status
+
+> **Current Status: Active Development — v0.1.x**
+
+Kongali Security is currently under active development.
+
+The project architecture, APIs, CLI commands, modules, configuration formats, and internal interfaces may change during the `0.x` development cycle.
+
+Features documented as **planned**, **future**, or **roadmap items** should not be considered stable or guaranteed to be available in the current release.
+
+For the current implementation status, always refer to the repository source code, tests, releases, and project roadmap.
+
+---
+
+# 🎯 Vision
 
 > **To build an open-source security platform that makes cybersecurity analysis, monitoring, and automation more accessible, modular, transparent, and extensible.**
 
-Kongali Security aims to evolve from a collection of security utilities into a modular security framework that can be extended by developers, security researchers, system administrators, and the wider open-source community.
+Kongali Security aims to provide a foundation where developers, security researchers, system administrators, and the wider open-source community can build, integrate, and improve defensive security capabilities.
 
 ---
 
-## 🚀 Mission
+# 🚀 Mission
 
-Kongali Security is built around several core objectives:
+Kongali Security is built around the following objectives:
 
 1. Build modular and maintainable security tooling.
 2. Automate repetitive defensive security workflows.
@@ -82,65 +96,67 @@ Kongali Security is built around several core objectives:
 4. Provide structured and machine-readable security results.
 5. Support integration with existing security workflows.
 6. Encourage responsible security research.
-7. Build a collaborative open-source cybersecurity ecosystem.
+7. Promote secure software development practices.
+8. Build a collaborative open-source cybersecurity ecosystem.
 
 ---
 
 # 🧠 Core Architecture
 
-    ┌─────────────────────────────────────────────┐
-    │              KONGALI SECURITY               │
-    │          Secure. Analyze. Automate.         │
-    └──────────────────────┬──────────────────────┘
+```text
+┌─────────────────────────────────────────────────────┐
+│                  KONGALI SECURITY                   │
+│              Secure. Analyze. Automate.             │
+└──────────────────────────┬──────────────────────────┘
                            │
                            ▼
-    ┌─────────────────────────────────────────────┐
-    │             CORE SECURITY ENGINE            │
-    └──────────────────────┬──────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│                 CORE SECURITY ENGINE                │
+└──────────────────────────┬──────────────────────────┘
                            │
-           ┌───────────────┼───────────────┐
-           │               │               │
-           ▼               ▼               ▼
-    ┌────────────┐  ┌────────────┐  ┌────────────┐
-    │THREAT INTEL│  │    OSINT   │  │ MONITORING │
-    └─────┬──────┘  └─────┬──────┘  └─────┬──────┘
-          │               │               │
-          ├── IOC         ├── DNS         ├── Network
-          ├── Hash        ├── WHOIS       ├── Logs
-          ├── URL         ├── Domain      └── Events
-          └── Reputation  └── Metadata
-          │               │               │
-          └───────────────┼───────────────┘
+          ┌────────────────┼────────────────┐
+          │                │                │
+          ▼                ▼                ▼
+   ┌────────────┐   ┌────────────┐   ┌────────────┐
+   │THREAT INTEL│   │    OSINT   │   │ MONITORING │
+   └─────┬──────┘   └─────┬──────┘   └─────┬──────┘
+         │                │                │
+         ├── IOC          ├── DNS          ├── Network
+         ├── Hash         ├── WHOIS        ├── Logs
+         ├── URL          ├── Domain       └── Events
+         └── Reputation   └── Metadata
+         │                │                │
+         └────────────────┼────────────────┘
                           │
                           ▼
-    ┌─────────────────────────────────────────────┐
-    │               ANALYSIS ENGINE               │
-    └──────────────────────┬──────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│                  ANALYSIS ENGINE                    │
+└──────────────────────────┬──────────────────────────┘
                            │
-              ┌────────────┼────────────┐
-              │            │            │
-              ▼            ▼            ▼
-          ┌───────┐    ┌───────┐    ┌───────────┐
-          │ Rules │    │ YARA  │    │ Detection │
-          └───────┘    └───────┘    └───────────┘
-              │            │            │
-              └────────────┼────────────┘
-                           │
-                           ▼
-    ┌─────────────────────────────────────────────┐
-    │             SECURITY AUTOMATION             │
-    └──────────────────────┬──────────────────────┘
+             ┌─────────────┼─────────────┐
+             │             │             │
+             ▼             ▼             ▼
+         ┌───────┐     ┌───────┐     ┌───────────┐
+         │ Rules │     │ YARA  │     │ Detection │
+         └───────┘     └───────┘     └───────────┘
+             │             │             │
+             └─────────────┼─────────────┘
                            │
                            ▼
-    ┌─────────────────────────────────────────────┐
-    │                 AI-SOC LAYER                │
-    │              Human-in-the-Loop              │
-    └──────────────────────┬──────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│                SECURITY AUTOMATION                  │
+└──────────────────────────┬──────────────────────────┘
                            │
                            ▼
-    ┌─────────────────────────────────────────────┐
-    │              REPORTING & EXPORT             │
-    └──────────────────────┬──────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│                    AI-SOC LAYER                     │
+│                  Human-in-the-Loop                  │
+└──────────────────────────┬──────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────┐
+│                  REPORTING & EXPORT                 │
+└──────────────────────────┬──────────────────────────┘
                            │
                     ┌──────┼──────┐
                     ▼      ▼      ▼
@@ -149,27 +165,30 @@ Kongali Security is built around several core objectives:
                     └──────┼──────┘
                            │
                            ▼
-    ┌─────────────────────────────────────────────┐
-    │                WEB DASHBOARD                │
-    └─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│                    WEB DASHBOARD                    │
+└─────────────────────────────────────────────────────┘
+```
 
 ---
 
-# 🧩 Key Features
+# 🧩 Security Capabilities
 
 ## 🔎 Threat Intelligence
 
-Analyze and process security indicators including:
+The framework is designed to process and analyze security indicators including:
 
-- IPv4 addresses
-- IPv6 addresses
-- Domains
-- URLs
-- File hashes
-- IOC collections
-- Threat intelligence data
+* IPv4 addresses
+* IPv6 addresses
+* Domains
+* URLs
+* File hashes
+* IOC collections
+* Threat intelligence data
 
-Future integrations may support external threat intelligence providers through a modular plugin architecture.
+The architecture is intended to support modular integrations with external threat intelligence providers.
+
+External integrations should be implemented through secure configuration and should never expose API keys, credentials, or other secrets in source code.
 
 ---
 
@@ -179,77 +198,84 @@ Kongali Security provides a foundation for identifying and classifying common In
 
 Supported IOC categories include:
 
-- IPv4
-- IPv6
-- Domain
-- URL
-- MD5
-- SHA-1
-- SHA-256
+* IPv4
+* IPv6
+* Domain
+* URL
+* MD5
+* SHA-1
+* SHA-256
 
 Example workflow:
 
-    Input
-      │
-      ▼
-    IOC Analyzer
-      │
-      ├── Identify
-      ├── Classify
-      ├── Normalize
-      └── Enrich
-            │
-            ▼
-        Security Result
+```text
+Input
+  │
+  ▼
+IOC Analyzer
+  │
+  ├── Identify
+  ├── Classify
+  ├── Normalize
+  └── Enrich
+        │
+        ▼
+  Security Result
+```
+
+The IOC analysis pipeline is designed to produce structured results that can be consumed by other security automation workflows.
 
 ---
 
 ## #️⃣ Hash Analysis
 
-Analyze cryptographic hashes and identify their likely type.
+The hash analysis layer is designed to identify common cryptographic hash formats.
 
 Supported hash families include:
 
-- MD5
-- SHA-1
-- SHA-256
-- SHA-512
+* MD5
+* SHA-1
+* SHA-256
+* SHA-512
 
-The hash analysis layer is designed to be extensible for future integrations with security intelligence systems.
+Hash identification alone does not determine whether a file or artifact is malicious. Hash analysis should be combined with additional intelligence, reputation data, behavioral analysis, or other security evidence.
 
 ---
 
 ## 🌐 DNS Intelligence
 
-The DNS module provides defensive DNS analysis capabilities.
+The DNS module is intended to provide defensive DNS analysis capabilities.
 
 Planned capabilities include:
 
-- DNS record lookup
-- A / AAAA records
-- MX records
-- NS records
-- TXT records
-- CNAME records
-- Domain resolution
-- DNS intelligence workflows
+* DNS record lookup
+* A records
+* AAAA records
+* MX records
+* NS records
+* TXT records
+* CNAME records
+* Domain resolution
+* DNS intelligence workflows
+
+All DNS analysis should be performed against systems and domains that the operator is authorized to investigate.
 
 ---
 
 ## 🕵️ OSINT
 
-Kongali Security aims to provide modular OSINT capabilities for authorized defensive security investigations.
+Kongali Security is designed to support modular OSINT capabilities for authorized defensive security investigations and research.
 
 Potential modules include:
 
-- DNS intelligence
-- WHOIS information
-- Domain analysis
-- Subdomain discovery
-- Metadata analysis
-- Public information correlation
+* DNS intelligence
+* WHOIS information
+* Domain analysis
+* Subdomain discovery
+* Metadata analysis
+* Public information correlation
 
-All OSINT features should be used responsibly and in accordance with applicable laws and authorization requirements.
+OSINT functionality must be used responsibly and in accordance with applicable laws, regulations, terms of service, and authorization requirements.
 
 ---
 
@@ -257,14 +283,14 @@ All OSINT features should be used responsibly and in accordance with applicable 
 
 Future network security capabilities may include:
 
-- Network connection monitoring
-- Service visibility
-- Connection analysis
-- Event correlation
-- Network anomaly indicators
-- Defensive monitoring workflows
+* Network connection monitoring
+* Service visibility
+* Connection analysis
+* Event correlation
+* Network anomaly indicators
+* Defensive monitoring workflows
 
-The goal is to provide visibility into systems that the operator owns or is explicitly authorized to monitor.
+The framework is intended for monitoring systems, networks, and infrastructure that the operator owns or is explicitly authorized to monitor.
 
 ---
 
@@ -272,14 +298,16 @@ The goal is to provide visibility into systems that the operator owns or is expl
 
 Kongali Security is designed to support automated analysis of security-relevant logs.
 
-Potential capabilities:
+Potential capabilities include:
 
-- Log parsing
-- Event classification
-- Pattern detection
-- Suspicious activity identification
-- Security event summarization
-- Structured reporting
+* Log parsing
+* Event classification
+* Pattern detection
+* Suspicious activity identification
+* Security event summarization
+* Structured reporting
+
+Log data may contain sensitive information. Users should implement appropriate access controls, retention policies, and data protection measures.
 
 ---
 
@@ -287,27 +315,31 @@ Potential capabilities:
 
 The framework is planned to support file integrity monitoring for authorized systems.
 
-Potential capabilities:
+Potential capabilities include:
 
-- File hashing
-- Baseline creation
-- Change detection
-- Integrity verification
-- Alert generation
+* File hashing
+* Baseline creation
+* Change detection
+* Integrity verification
+* Alert generation
+
+File integrity monitoring is intended to help detect unauthorized or unexpected changes to monitored files and directories.
 
 ---
 
 ## 🧬 YARA Analysis
 
-Kongali Security may integrate YARA-based analysis for defensive malware and threat research workflows.
+Kongali Security may integrate YARA-based analysis for defensive malware analysis and threat research workflows.
 
 Potential use cases include:
 
-- Malware analysis
-- Threat hunting
-- File classification
-- Security research
-- Detection engineering
+* Malware analysis
+* Threat hunting
+* File classification
+* Security research
+* Detection engineering
+
+YARA rules and analysis workflows should be used only in authorized environments.
 
 ---
 
@@ -315,162 +347,211 @@ Potential use cases include:
 
 The AI-SOC layer is designed to assist security analysts rather than replace human decision-making.
 
-    SECURITY EVENT
-          │
-          ▼
-    DETECTION ENGINE
-          │
-          ▼
-       AI-SOC
-          │
-      ┌───┼───┐
-      │   │   │
-      ▼   ▼   ▼
-    Explain
-    Summarize
-    Enrich
+```text
+SECURITY EVENT
       │
-      └───────┐
-              ▼
-        HUMAN ANALYST
-              │
-              ▼
-        FINAL DECISION
+      ▼
+DETECTION ENGINE
+      │
+      ▼
+   AI-SOC
+      │
+  ┌───┼────────┐
+  │   │        │
+  ▼   ▼        ▼
+Explain Summarize Enrich
+  │   │        │
+  └───┼────────┘
+      │
+      ▼
+HUMAN ANALYST
+      │
+      ▼
+FINAL DECISION
+```
 
-The project follows a **Human-in-the-Loop** approach.
+Kongali Security follows a **Human-in-the-Loop** approach.
 
-AI-assisted features should provide context, explanations, enrichment, and recommendations while keeping final security decisions under human control.
+AI-assisted security features should provide context, explanations, enrichment, and recommendations while keeping final security decisions under human control.
+
+AI-generated results should be treated as assistance rather than authoritative security conclusions.
+
+Users should validate AI-generated findings before taking consequential security actions.
 
 ---
 
 # 🏗️ Project Structure
 
-The project is designed around a modular Python architecture.
+The project follows a modular Python architecture.
 
-    kongali-security/
-    │
-    ├── .github/
-    │   ├── workflows/
-    │   │   ├── ci.yml
-    │   │   └── security.yml
-    │   ├── ISSUE_TEMPLATE/
-    │   └── pull_request_template.md
-    │
-    ├── docs/
-    │   ├── architecture.md
-    │   ├── installation.md
-    │   ├── configuration.md
-    │   ├── cli.md
-    │   ├── modules.md
-    │   └── security-model.md
-    │
-    ├── examples/
-    │
-    ├── kongali_security/
-    │   ├── core/
-    │   ├── threat_intel/
-    │   ├── osint/
-    │   ├── analysis/
-    │   ├── network/
-    │   ├── reporting/
-    │   └── cli/
-    │
-    ├── tests/
-    │
-    ├── CHANGELOG.md
-    ├── CODE_OF_CONDUCT.md
-    ├── CONTRIBUTING.md
-    ├── LICENSE
-    ├── README.md
-    ├── SECURITY.md
-    ├── pyproject.toml
-    └── requirements.txt
+```text
+kongali-security/
+│
+├── .github/
+│   ├── workflows/
+│   │   ├── ci.yml
+│   │   └── security.yml
+│   ├── ISSUE_TEMPLATE/
+│   ├── CODEOWNERS
+│   ├── dependabot.yml
+│   └── pull_request_template.md
+│
+├── docs/
+│   ├── architecture.md
+│   ├── installation.md
+│   ├── configuration.md
+│   ├── cli.md
+│   ├── modules.md
+│   └── security-model.md
+│
+├── examples/
+│
+├── kongali_security/
+│   ├── core/
+│   ├── threat_intel/
+│   ├── osint/
+│   ├── analysis/
+│   ├── network/
+│   ├── reporting/
+│   └── cli/
+│
+├── tests/
+│
+├── CHANGELOG.md
+├── CITATION.cff
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── GOVERNANCE.md
+├── LICENSE
+├── README.md
+├── ROADMAP.md
+├── SECURITY.md
+├── SUPPORT.md
+└── pyproject.toml
+```
+
+> The actual repository structure may evolve as new modules and capabilities are introduced.
 
 ---
 
 # ⚙️ Installation
 
-> **Note:** Kongali Security is currently under active development. Installation and CLI interfaces may change before the first stable release.
+> **Note:** Kongali Security is currently under active development. Installation procedures and CLI interfaces may change before the first stable release.
 
 ## Requirements
 
-- Python 3.10+
-- pip
-- Git
+* Python 3.10 or newer
+* pip
+* Git
+* Virtual environment support
 
 Clone the repository:
 
-    git clone https://github.com/kongali1720/kongali-security.git
+```bash
+git clone https://github.com/kongali1720/kongali-security.git
+```
 
 Enter the project directory:
 
-    cd kongali-security
+```bash
+cd kongali-security
+```
 
 Create a virtual environment:
 
-    python3 -m venv .venv
+```bash
+python3 -m venv .venv
+```
 
 Activate the environment on Linux/macOS:
 
-    source .venv/bin/activate
+```bash
+source .venv/bin/activate
+```
 
 Activate the environment on Windows:
 
-    .venv\Scripts\activate
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
-Install the project:
+Upgrade packaging tools:
 
-    pip install -e .
+```bash
+python -m pip install --upgrade pip
+```
+
+Install the project in editable mode:
+
+```bash
+python -m pip install -e .
+```
+
+For development dependencies, use the development extras defined by `pyproject.toml` when available.
 
 ---
 
 # 💻 Command Line Interface
 
-The planned CLI interface follows a modular command structure.
+The project is intended to provide a modular command-line interface.
 
-Display help:
+Example command structure:
 
-    kongali-security --help
+```bash
+kongali-security --help
+```
 
 IOC analysis:
 
-    kongali-security ioc example.com
+```bash
+kongali-security ioc example.com
+```
 
 Hash analysis:
 
-    kongali-security hash <HASH>
+```bash
+kongali-security hash <HASH>
+```
 
 DNS analysis:
 
-    kongali-security dns example.com
+```bash
+kongali-security dns example.com
+```
 
 JSON output:
 
-    kongali-security ioc example.com --format json
+```bash
+kongali-security ioc example.com --format json
+```
 
-> CLI commands are subject to change during the v0.x development cycle.
+> **Important:** CLI commands shown above represent the intended interface and may change during the `0.x` development cycle. Always verify available commands using `kongali-security --help` and the current project documentation.
 
 ---
 
 # 📊 Standard Security Result
 
-Kongali Security aims to provide consistent machine-readable output.
+Kongali Security aims to provide consistent machine-readable security results.
 
 Example:
 
-    {
-      "tool": "kongali-security",
-      "version": "0.1.0",
-      "module": "ioc_analyzer",
-      "timestamp": "2026-07-22T00:00:00Z",
-      "input": "example.com",
-      "type": "domain",
-      "findings": [],
-      "risk": "low",
-      "confidence": 0.99
-    }
+```json
+{
+  "tool": "kongali-security",
+  "version": "0.1.0",
+  "module": "ioc_analyzer",
+  "timestamp": "2026-07-22T00:00:00Z",
+  "input": "example.com",
+  "type": "domain",
+  "findings": [],
+  "risk": "low",
+  "confidence": 0.99
+}
+```
 
-A standardized result format allows security modules to be integrated into larger automation pipelines.
+A standardized result format allows individual security modules to integrate into larger automation pipelines.
+
+Future versions may introduce a formally versioned result schema to improve interoperability between modules and external systems.
 
 ---
 
@@ -478,31 +559,35 @@ A standardized result format allows security modules to be integrated into large
 
 Kongali Security is intended to evolve toward an extensible plugin architecture.
 
-    KONGALI SECURITY
-           │
-           ▼
-      PLUGIN ENGINE
-           │
-       ┌───┼───┐
-       │   │   │
-       ▼   ▼   ▼
-      DNS IOC Threat
-    Plugin Plugin Intel
-                  Plugin
-       │   │   │
-       └───┼───┘
-           │
-           ▼
-    Security Results
+```text
+              KONGALI SECURITY
+                      │
+                      ▼
+                PLUGIN ENGINE
+                      │
+          ┌───────────┼───────────┐
+          │           │           │
+          ▼           ▼           ▼
+       DNS Plugin  IOC Plugin  Threat Intel
+                                  Plugin
+          │           │           │
+          └───────────┼───────────┘
+                      │
+                      ▼
+              SECURITY RESULTS
+```
 
-Future plugins may provide:
+Future plugins may provide integrations for:
 
-- Threat intelligence providers
-- Security scanners
-- Log processors
-- SIEM integrations
-- External APIs
-- Custom detection modules
+* Threat intelligence providers
+* Security scanners
+* Log processors
+* SIEM systems
+* External APIs
+* Custom detection modules
+* Security automation pipelines
+
+Plugin interfaces should follow secure development practices and should not execute untrusted code without explicit authorization and appropriate isolation.
 
 ---
 
@@ -512,158 +597,222 @@ Kongali Security follows a **Defensive Security First** philosophy.
 
 The project focuses on:
 
-- Detection
-- Monitoring
-- Analysis
-- Threat Intelligence
-- Security Automation
-- Incident Response
-- Defensive Research
+* Detection
+* Monitoring
+* Analysis
+* Threat Intelligence
+* Security Automation
+* Incident Response
+* Defensive Research
+* Secure Software Development
 
 The framework is intended for:
 
-- Authorized security testing
-- Systems owned by the operator
-- Systems where explicit permission has been granted
-- Defensive security research
-- Educational environments
+* Authorized security testing
+* Systems owned by the operator
+* Systems where explicit permission has been granted
+* Defensive security research
+* Educational environments
+* Controlled laboratory environments
 
-Users are responsible for complying with all applicable laws and regulations.
+Users are responsible for complying with all applicable laws, regulations, contracts, and organizational policies.
 
 ---
 
-# 🛡️ Responsible Disclosure
+# 🛡️ Security & Responsible Disclosure
 
-If you discover a security vulnerability in Kongali Security, please follow the responsible disclosure process described in:
+Security is a core consideration of the project.
 
-[SECURITY.md](SECURITY.md)
+If you discover a potential vulnerability in Kongali Security, please follow the responsible disclosure process described in:
+
+**[SECURITY.md](SECURITY.md)**
 
 Please do not publicly disclose sensitive vulnerabilities before maintainers have had an opportunity to investigate and address them.
+
+For general questions, support requests, or non-sensitive issues, please use the appropriate project channels described in:
+
+* [SUPPORT.md](SUPPORT.md)
+* GitHub Issues
+* GitHub Discussions, when available
+
+---
+
+# 🔒 Security Best Practices
+
+Contributors and users should follow these principles:
+
+* Never commit API keys or credentials.
+* Never commit private keys or authentication tokens.
+* Do not store production secrets in source code.
+* Use environment variables or secure secret-management systems.
+* Review dependencies before introducing them.
+* Keep dependencies updated.
+* Run security checks before submitting changes.
+* Validate external input.
+* Avoid unsafe command execution.
+* Treat external data as untrusted.
+* Apply least-privilege principles.
+* Review CI/CD workflow permissions.
+* Protect sensitive configuration files.
+* Use authorized environments for security testing.
 
 ---
 
 # 🧪 Testing
 
-The project uses automated tests to maintain reliability and code quality.
+The project uses automated testing to maintain reliability and code quality.
 
 Run the test suite:
 
-    pytest
+```bash
+pytest
+```
 
-Run with verbose output:
+Run tests with verbose output:
 
-    pytest -v
+```bash
+pytest -v
+```
 
-Future CI pipelines will automatically validate:
+When configured, development validation may include:
 
-- Python compatibility
-- Unit tests
-- Code quality
-- Security checks
-- Package integrity
+```bash
+pytest
+ruff check .
+```
+
+Additional quality and security checks may include:
+
+* Python compatibility testing
+* Unit tests
+* Integration tests
+* Static analysis
+* Linting
+* Dependency auditing
+* Secret scanning
+* Security scanning
+* Package integrity validation
+
+CI/CD workflows should be treated as part of the project's security boundary.
 
 ---
 
 # 🔄 Development Roadmap
 
-## v0.1.0 — Foundation
+The complete roadmap is maintained in:
 
-- [x] Project initialization
-- [ ] Core Security Engine
-- [ ] CLI foundation
-- [ ] IOC Analyzer
-- [ ] Hash Analyzer
-- [ ] DNS Module
-- [ ] JSON Reporter
-- [ ] Initial Unit Tests
-- [ ] GitHub Actions CI
+**[ROADMAP.md](ROADMAP.md)**
 
----
+The following milestones summarize the long-term development direction.
 
-## v0.2.0 — Threat Intelligence
+## v0.1.x — Foundation
 
-- [ ] IOC normalization
-- [ ] IOC enrichment
-- [ ] URL analysis
-- [ ] Domain intelligence
-- [ ] Threat intelligence adapters
-- [ ] Reputation engine
+* [x] Project initialization
+* [ ] Core Security Engine
+* [ ] CLI foundation
+* [ ] IOC Analyzer
+* [ ] Hash Analyzer
+* [ ] DNS Module
+* [ ] JSON Reporter
+* [ ] Initial Unit Tests
+* [ ] CI validation
 
 ---
 
-## v0.3.0 — OSINT & Network
+## v0.2.x — Threat Intelligence
 
-- [ ] DNS intelligence
-- [ ] WHOIS integration
-- [ ] Subdomain analysis
-- [ ] Network monitoring
-- [ ] Service visibility
-- [ ] Network event analysis
-
----
-
-## v0.4.0 — Detection Engine
-
-- [ ] Detection rules
-- [ ] Log analysis
-- [ ] YARA integration
-- [ ] File integrity monitoring
-- [ ] Security event correlation
+* [ ] IOC normalization
+* [ ] IOC enrichment
+* [ ] URL analysis
+* [ ] Domain intelligence
+* [ ] Threat intelligence adapters
+* [ ] Reputation engine
 
 ---
 
-## v0.5.0 — AI-SOC
+## v0.3.x — OSINT & Network
 
-- [ ] AI-assisted analysis
-- [ ] IOC enrichment
-- [ ] Alert summarization
-- [ ] Security event explanation
-- [ ] Human-in-the-loop workflows
+* [ ] DNS intelligence
+* [ ] WHOIS integration
+* [ ] Subdomain analysis
+* [ ] Network monitoring
+* [ ] Service visibility
+* [ ] Network event analysis
+
+---
+
+## v0.4.x — Detection Engine
+
+* [ ] Detection rules
+* [ ] Log analysis
+* [ ] YARA integration
+* [ ] File integrity monitoring
+* [ ] Security event correlation
+
+---
+
+## v0.5.x — AI-SOC
+
+* [ ] AI-assisted analysis
+* [ ] IOC enrichment
+* [ ] Alert summarization
+* [ ] Security event explanation
+* [ ] Human-in-the-loop workflows
+* [ ] AI safety and guardrails
 
 ---
 
 ## v1.0.0 — Stable Release
 
-- [ ] Stable API
-- [ ] Stable CLI
-- [ ] Plugin architecture
-- [ ] Comprehensive documentation
-- [ ] Production-ready security model
-- [ ] Community contribution ecosystem
+* [ ] Stable API
+* [ ] Stable CLI
+* [ ] Plugin architecture
+* [ ] Comprehensive documentation
+* [ ] Production-ready security model
+* [ ] Community contribution ecosystem
+* [ ] Versioned result schemas
+* [ ] Security hardening review
 
 ---
 
 # 🗺️ Long-Term Vision
 
-    KONGALI1720
-         │
-         ▼
-    KONGALI SECURITY
-         │
-         ├── Threat Intelligence
-         ├── OSINT
-         ├── Security Automation
-         ├── Detection Engineering
-         ├── Network Security
-         ├── AI-SOC
-         └── Security Research
-         │
-         ▼
-      OPEN SOURCE
-         │
-         ▼
-      COMMUNITY
-         │
-         ▼
-    PUBLIC RESEARCH
-         │
-         ▼
-  TECHNICAL PUBLICATIONS
-         │
-         ▼
-  INDUSTRY CONTRIBUTION
+```text
+                 KONGALI1720
+                      │
+                      ▼
+              KONGALI SECURITY
+                      │
+          ┌───────────┼───────────┐
+          │           │           │
+          ▼           ▼           ▼
+     Threat Intel    OSINT    Automation
+          │           │           │
+          ├───────────┼───────────┤
+          │           │           │
+          ▼           ▼           ▼
+      Detection   Network     AI-SOC
+     Engineering  Security
+          │           │           │
+          └───────────┼───────────┘
+                      │
+                      ▼
+                 OPEN SOURCE
+                      │
+                      ▼
+                  COMMUNITY
+                      │
+                      ▼
+              PUBLIC RESEARCH
+                      │
+                      ▼
+           TECHNICAL PUBLICATIONS
+                      │
+                      ▼
+             INDUSTRY CONTRIBUTION
+```
 
-The long-term goal is to build a transparent and community-driven cybersecurity ecosystem.
+The long-term goal is to build a transparent, secure, and community-driven cybersecurity ecosystem.
 
 ---
 
@@ -671,42 +820,70 @@ The long-term goal is to build a transparent and community-driven cybersecurity 
 
 Contributions are welcome.
 
-Before contributing, please read:
+Before opening a Pull Request, contributors should:
 
-- [CONTRIBUTING.md](CONTRIBUTING.md)
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-- [SECURITY.md](SECURITY.md)
+1. Update their branch with the latest `main`.
+2. Run the relevant tests.
+3. Run linting and security checks where applicable.
+4. Review their own changes.
+5. Remove debugging code.
+6. Make sure no secrets or credentials are included.
+7. Update documentation when required.
+8. Ensure changes are focused and clearly described.
+9. Follow the project's security and contribution guidelines.
+
+Please read:
+
+* [CONTRIBUTING.md](CONTRIBUTING.md)
+* [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+* [GOVERNANCE.md](GOVERNANCE.md)
+* [SECURITY.md](SECURITY.md)
+* [SUPPORT.md](SUPPORT.md)
 
 Possible contribution areas include:
 
-- Python development
-- Security engineering
-- Threat intelligence
-- OSINT research
-- Detection engineering
-- Documentation
-- Testing
-- DevOps
-- CI/CD
-- AI-assisted security research
+* Python development
+* Security engineering
+* Threat intelligence
+* OSINT research
+* Detection engineering
+* Documentation
+* Testing
+* DevOps
+* CI/CD
+* Security automation
+* AI-assisted security research
 
-We welcome developers, security researchers, system administrators, students, and open-source contributors.
+We welcome developers, security researchers, system administrators, students, educators, and open-source contributors.
 
 ---
 
 # 📚 Documentation
 
-Project documentation will be expanded as the framework evolves.
+Project documentation will continue to expand as the framework evolves.
 
-Planned documentation:
+Planned documentation areas include:
 
-    docs/
-    ├── architecture.md
-    ├── installation.md
-    ├── configuration.md
-    ├── cli.md
-    ├── modules.md
-    └── security-model.md
+```text
+docs/
+├── architecture.md
+├── installation.md
+├── configuration.md
+├── cli.md
+├── modules.md
+└── security-model.md
+```
+
+Additional project-level documentation includes:
+
+* [CONTRIBUTING.md](CONTRIBUTING.md)
+* [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+* [GOVERNANCE.md](GOVERNANCE.md)
+* [ROADMAP.md](ROADMAP.md)
+* [SECURITY.md](SECURITY.md)
+* [SUPPORT.md](SUPPORT.md)
+* [CHANGELOG.md](CHANGELOG.md)
+* [CITATION.cff](CITATION.cff)
 
 ---
 
@@ -714,17 +891,21 @@ Planned documentation:
 
 Kongali Security aims to become:
 
-    Accessible
-         +
-    Modular
-         +
-    Secure
-         +
-    Extensible
-         +
-    Open Source
-         +
-    Community Driven
+```text
+Accessible
+    +
+Modular
+    +
+Secure
+    +
+Extensible
+    +
+Open Source
+    +
+Community Driven
+    +
+Automation Ready
+```
 
 The project is being developed with a long-term goal of becoming a useful contribution to the cybersecurity and open-source ecosystem.
 
@@ -732,7 +913,7 @@ The project is being developed with a long-term goal of becoming a useful contri
 
 # 🌐 KONGALI1720 TECHNOLOGY ECOSYSTEM
 
-Kongali Security is part of the broader **KONGALI1720 technology ecosystem**, focused on cybersecurity, blockchain technology, software engineering, open-source development, and public technical research.
+Kongali Security is part of the broader **KONGALI1720 technology ecosystem**, focused on cybersecurity, blockchain technology, software engineering, open-source development, security automation, and public technical research.
 
 ```mermaid
 flowchart TD
@@ -775,7 +956,7 @@ flowchart TD
 
 Kongali Security is released under the **MIT License**.
 
-See the [LICENSE](LICENSE) file for details.
+See the [LICENSE](LICENSE) file for the full license text.
 
 ---
 
@@ -785,9 +966,9 @@ Kongali Security is provided for legitimate defensive security, authorized testi
 
 The maintainers are not responsible for misuse of the software.
 
-Users must ensure that they have appropriate authorization before analyzing systems, networks, domains, or data.
+Users must ensure that they have appropriate authorization before analyzing systems, networks, domains, files, or data.
 
-Always comply with applicable laws, regulations, contracts, and organizational security policies.
+Always comply with applicable laws, regulations, contracts, terms of service, and organizational security policies.
 
 ---
 
@@ -795,14 +976,14 @@ Always comply with applicable laws, regulations, contracts, and organizational s
 
 **Kongali Security** is developed under the **KONGALI1720** technology identity with a focus on:
 
-- Cybersecurity
-- Blockchain
-- Software Engineering
-- Open Source
-- Security Automation
-- Research
+* Cybersecurity
+* Security Automation
+* Blockchain Technology
+* Software Engineering
+* Open Source
+* Security Research
 
-The project is built with a long-term vision:
+The project is built around a long-term vision:
 
 > **Build useful technology. Share knowledge. Improve security. Contribute to open source.**
 
