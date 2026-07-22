@@ -11,6 +11,12 @@ from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.headers import analyze_headers
 from kongali_security.analysis.ioc import analyze_ioc
+from kongali_security.analysis.report import (
+    generate_report,
+    render_html,
+    render_markdown,
+    save_report,
+)
 from kongali_security.analysis.scan import analyze_scan
 from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
@@ -167,25 +173,74 @@ def build_parser() -> argparse.ArgumentParser:
         help="Output format.",
     )
 
+    # Security Report
+    report_parser = subparsers.add_parser(
+        "report",
+        help="Generate a complete security assessment report.",
+    )
+
+    report_parser.add_argument(
+        "target",
+        help="Target URL to assess.",
+    )
+
+    report_parser.add_argument(
+        "--format",
+        choices=(
+            "text",
+            "json",
+            "markdown",
+            "html",
+        ),
+        default="text",
+        help="Report output format.",
+    )
+
+    report_parser.add_argument(
+        "--output",
+        help=(
+            "Write the report to a file. "
+            "Required for HTML or Markdown file output."
+        ),
+    )
+
     return parser
 
 
-def _result_to_dict(result: Any) -> dict[str, Any]:
-    """Convert an analysis result to a dictionary."""
+def _result_to_dict(
+    result: Any,
+) -> dict[str, Any]:
+    """Convert an analysis result into a dictionary."""
 
-    if hasattr(result, "to_dict"):
+    if hasattr(
+        result,
+        "to_dict",
+    ):
         data = result.to_dict()
 
-        if isinstance(data, dict):
+        if isinstance(
+            data,
+            dict,
+        ):
             return data
 
-    if isinstance(result, dict):
+    if isinstance(
+        result,
+        dict,
+    ):
         return result
 
-    if hasattr(result, "__dict__"):
-        return dict(result.__dict__)
+    if hasattr(
+        result,
+        "__dict__",
+    ):
+        return dict(
+            result.__dict__
+        )
 
-    return {"result": str(result)}
+    return {
+        "result": str(result)
+    }
 
 
 def _print_result(
@@ -195,7 +250,9 @@ def _print_result(
 ) -> None:
     """Print an analysis result."""
 
-    data = _result_to_dict(result)
+    data = _result_to_dict(
+        result
+    )
 
     if output_format == "json":
         print(
@@ -208,7 +265,9 @@ def _print_result(
         return
 
     print(title)
-    print("─────────────────────────────")
+    print(
+        "─────────────────────────────"
+    )
 
     for key, value in data.items():
         label = key.replace(
@@ -219,6 +278,37 @@ def _print_result(
         print(
             f"{label:<18}: {value}"
         )
+
+
+def _run_standard_analysis(
+    analyzer: Any,
+    value: str,
+    output_format: str,
+    title: str,
+    error_name: str,
+) -> int:
+    """Run a standard analyzer."""
+
+    try:
+        result = analyzer(
+            value
+        )
+
+        _print_result(
+            result,
+            output_format,
+            title,
+        )
+
+        return 0
+
+    except Exception as exc:
+        print(
+            f"Error: {error_name} analysis failed: {exc}",
+            file=sys.stderr,
+        )
+
+        return 1
 
 
 def main() -> int:
@@ -233,154 +323,170 @@ def main() -> int:
 
     # IOC
     if args.command == "ioc":
-        try:
-            result = analyze_ioc(args.input)
-
-            _print_result(
-                result,
-                args.format,
-                "Kongali Security IOC Analyzer",
-            )
-
-            return 0
-
-        except Exception as exc:
-            print(
-                f"Error: IOC analysis failed: {exc}",
-                file=sys.stderr,
-            )
-
-            return 1
+        return _run_standard_analysis(
+            analyze_ioc,
+            args.input,
+            args.format,
+            "Kongali Security IOC Analyzer",
+            "IOC",
+        )
 
     # Hash
     if args.command == "hash":
-        try:
-            result = analyze_hash(args.input)
-
-            _print_result(
-                result,
-                args.format,
-                "Kongali Security Hash Analyzer",
-            )
-
-            return 0
-
-        except Exception as exc:
-            print(
-                f"Error: Hash analysis failed: {exc}",
-                file=sys.stderr,
-            )
-
-            return 1
+        return _run_standard_analysis(
+            analyze_hash,
+            args.input,
+            args.format,
+            "Kongali Security Hash Analyzer",
+            "Hash",
+        )
 
     # DNS
     if args.command == "dns":
-        try:
-            result = analyze_dns(args.domain)
-
-            _print_result(
-                result,
-                args.format,
-                "Kongali Security DNS Analyzer",
-            )
-
-            return 0
-
-        except Exception as exc:
-            print(
-                f"Error: DNS analysis failed: {exc}",
-                file=sys.stderr,
-            )
-
-            return 1
+        return _run_standard_analysis(
+            analyze_dns,
+            args.domain,
+            args.format,
+            "Kongali Security DNS Analyzer",
+            "DNS",
+        )
 
     # WHOIS
     if args.command == "whois":
-        try:
-            result = analyze_whois(args.domain)
-
-            _print_result(
-                result,
-                args.format,
-                "Kongali Security WHOIS Analyzer",
-            )
-
-            return 0
-
-        except Exception as exc:
-            print(
-                f"Error: WHOIS analysis failed: {exc}",
-                file=sys.stderr,
-            )
-
-            return 1
+        return _run_standard_analysis(
+            analyze_whois,
+            args.domain,
+            args.format,
+            "Kongali Security WHOIS Analyzer",
+            "WHOIS",
+        )
 
     # URL
     if args.command == "url":
-        try:
-            result = analyze_url(args.url)
-
-            _print_result(
-                result,
-                args.format,
-                "Kongali Security URL Analyzer",
-            )
-
-            return 0
-
-        except Exception as exc:
-            print(
-                f"Error: URL analysis failed: {exc}",
-                file=sys.stderr,
-            )
-
-            return 1
+        return _run_standard_analysis(
+            analyze_url,
+            args.url,
+            args.format,
+            "Kongali Security URL Analyzer",
+            "URL",
+        )
 
     # HTTP Headers
     if args.command == "headers":
-        try:
-            result = analyze_headers(args.url)
+        return _run_standard_analysis(
+            analyze_headers,
+            args.url,
+            args.format,
+            "Kongali Security HTTP Headers Analyzer",
+            "HTTP headers",
+        )
 
-            _print_result(
-                result,
-                args.format,
-                "Kongali Security HTTP Headers Analyzer",
-            )
-
-            return 0
-
-        except Exception as exc:
-            print(
-                f"Error: HTTP headers analysis failed: {exc}",
-                file=sys.stderr,
-            )
-
-            return 1
-
-    # Full Security Scan
+    # Full Scan
     if args.command == "scan":
+        return _run_standard_analysis(
+            analyze_scan,
+            args.target,
+            args.format,
+            "Kongali Security Full Scan",
+            "Full scan",
+        )
+
+    # Security Report
+    if args.command == "report":
         try:
-            result = analyze_scan(args.target)
+            scan_result = analyze_scan(
+                args.target
+            )
+
+            report = generate_report(
+                scan_result
+            )
+
+            if args.format == "json":
+                output = json.dumps(
+                    report,
+                    indent=2,
+                    default=str,
+                )
+
+                if args.output:
+                    with open(
+                        args.output,
+                        "w",
+                        encoding="utf-8",
+                    ) as file:
+                        file.write(
+                            output
+                        )
+                else:
+                    print(
+                        output
+                    )
+
+                return 0
+
+            if args.format == "markdown":
+                output = render_markdown(
+                    report
+                )
+
+                if args.output:
+                    save_report(
+                        report,
+                        "markdown",
+                        args.output,
+                    )
+                else:
+                    print(
+                        output
+                    )
+
+                return 0
+
+            if args.format == "html":
+                output = render_html(
+                    report
+                )
+
+                if args.output:
+                    save_report(
+                        report,
+                        "html",
+                        args.output,
+                    )
+
+                    print(
+                        f"Report written to: {args.output}"
+                    )
+                else:
+                    print(
+                        output
+                    )
+
+                return 0
 
             _print_result(
-                result,
-                args.format,
-                "Kongali Security Full Scan",
+                report,
+                "text",
+                "Kongali Security Security Report",
             )
 
             return 0
 
         except Exception as exc:
             print(
-                f"Error: Full security scan failed: {exc}",
+                f"Error: Security report generation failed: {exc}",
                 file=sys.stderr,
             )
 
             return 1
 
     parser.print_help()
+
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(
+        main()
+    )
