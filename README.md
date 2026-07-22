@@ -33,6 +33,14 @@
 
 ---
 
+<p align="center">
+<img src="https://github.com/kongali1720/kongali-security/blob/main/seminar-cyber-BANNER.png" width="50%">
+</p>
+
+<p align="center">
+
+---
+
 ## 🕷️ About Kongali Security
 
 **Kongali Security** is an open-source cybersecurity and security automation framework designed to help security professionals, developers, system administrators, researchers, and IT teams perform defensive security analysis and automate repetitive security workflows.
