@@ -8,6 +8,11 @@ import sys
 from typing import Any
 
 from kongali_security.analysis.audit import analyze_audit
+from kongali_security.analysis.compare import compare_reports, load_json
+from kongali_security.analysis.baseline import (
+    create_baseline,
+    save_baseline,
+)
 from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.headers import analyze_headers
@@ -195,6 +200,23 @@ def build_parser() -> argparse.ArgumentParser:
         help="Audit output format.",
     )
 
+    # Security Baseline
+    baseline_parser = subparsers.add_parser(
+        "baseline",
+        help="Create a security baseline.",
+    )
+
+    baseline_parser.add_argument(
+        "target",
+        help="Target URL to baseline.",
+    )
+
+    baseline_parser.add_argument(
+        "--output",
+        default="baseline.json",
+        help="Output baseline JSON file.",
+    )
+
     # Security Report
     report_parser = subparsers.add_parser(
         "report",
@@ -221,6 +243,32 @@ def build_parser() -> argparse.ArgumentParser:
     report_parser.add_argument(
         "--output",
         help="Write the report to a file.",
+    )
+
+    # Compare Security Reports
+    compare_parser = subparsers.add_parser(
+        "compare",
+        help="Compare a security baseline with a current report.",
+    )
+
+    compare_parser.add_argument(
+        "baseline",
+        help="Baseline JSON file.",
+    )
+
+    compare_parser.add_argument(
+        "current",
+        help="Current security report JSON file.",
+    )
+
+    compare_parser.add_argument(
+        "--format",
+        choices=(
+            "text",
+            "json",
+        ),
+        default="text",
+        help="Comparison output format.",
     )
 
     # Export Report
@@ -478,6 +526,66 @@ def main() -> int:
             "Full scan",
         )
 
+    # Security Compare
+    if args.command == "compare":
+        try:
+            baseline = load_json(
+                args.baseline
+            )
+
+            current = load_json(
+                args.current
+            )
+
+            comparison = compare_reports(
+                baseline,
+                current,
+            )
+
+            if args.format == "json":
+                print(
+                    json.dumps(
+                        comparison,
+                        indent=2,
+                        default=str,
+                    )
+                )
+            else:
+                print(
+                    "Kongali Security Baseline Comparison"
+                )
+                print(
+                    "─────────────────────────────"
+                )
+
+                if isinstance(
+                    comparison,
+                    dict,
+                ):
+                    for key, value in comparison.items():
+                        label = key.replace(
+                            "_",
+                            " ",
+                        ).title()
+
+                        print(
+                            f"{label:<18}: {value}"
+                        )
+                else:
+                    print(
+                        comparison
+                    )
+
+            return 0
+
+        except Exception as exc:
+            print(
+                f"Error: Security comparison failed: {exc}",
+                file=sys.stderr,
+            )
+
+            return 1
+
     # Export Report
     if args.command == "export":
         try:
@@ -583,6 +691,54 @@ def main() -> int:
         except Exception as exc:
             print(
                 f"Error: Security audit failed: {exc}",
+                file=sys.stderr,
+            )
+
+            return 1
+
+    # Security Baseline
+    if args.command == "baseline":
+        try:
+            baseline = create_baseline(
+                args.target
+            )
+
+            save_baseline(
+                baseline,
+                args.output,
+            )
+
+            print(
+                "Kongali Security Baseline"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target       : {args.target}"
+            )
+            print(
+                f"Risk         : "
+                f"{baseline['overall_risk']}"
+            )
+            print(
+                f"Score        : "
+                f"{baseline['overall_score']}"
+            )
+            print(
+                f"Findings     : "
+                f"{len(baseline['findings'])}"
+            )
+            print(
+                f"Baseline     : "
+                f"{args.output}"
+            )
+
+            return 0
+
+        except Exception as exc:
+            print(
+                f"Error: Baseline creation failed: {exc}",
                 file=sys.stderr,
             )
 
