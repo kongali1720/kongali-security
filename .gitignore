@@ -57,3 +57,6 @@ gitleaks-report.json
 # Local security comparison test artifacts
 current.json
 kongali-results.sarif
+
+# Local SARIF security scan results
+kongali-results.sarif
