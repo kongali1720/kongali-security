@@ -15,8 +15,7 @@ import re
 import shutil
 import subprocess
 from dataclasses import dataclass
-from typing import Any, Dict, List
-
+from typing import Any
 
 MODULE_NAME = "whois_analyzer"
 MODULE_VERSION = "0.1.0"
@@ -33,11 +32,11 @@ class WHOISResult:
     creation_date: str | None
     expiration_date: str | None
     updated_date: str | None
-    name_servers: List[str]
-    statuses: List[str]
-    metadata: Dict[str, Any]
+    name_servers: list[str]
+    statuses: list[str]
+    metadata: dict[str, Any]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert WHOIS result to a dictionary."""
         return {
             "domain": self.domain,
@@ -246,7 +245,7 @@ class WHOISAnalyzer:
     @staticmethod
     def _extract_first(
         text: str,
-        patterns: List[str],
+        patterns: list[str],
     ) -> str | None:
         """Extract the first matching value."""
         for pattern in patterns:
@@ -265,10 +264,10 @@ class WHOISAnalyzer:
     @staticmethod
     def _extract_all(
         text: str,
-        patterns: List[str],
-    ) -> List[str]:
+        patterns: list[str],
+    ) -> list[str]:
         """Extract all unique matching values."""
-        values: List[str] = []
+        values: list[str] = []
 
         for pattern in patterns:
             matches = re.findall(

@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
-
-SECURITY_KNOWLEDGE: Dict[str, Dict[str, Any]] = {
+SECURITY_KNOWLEDGE: dict[str, dict[str, Any]] = {
     "Content-Security-Policy": {
         "cwe": {
             "id": "CWE-693",
@@ -153,7 +152,7 @@ SECURITY_KNOWLEDGE: Dict[str, Dict[str, Any]] = {
 
 def get_security_knowledge(
     finding_key: str,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Return security knowledge for a finding key."""
 
     return SECURITY_KNOWLEDGE.get(

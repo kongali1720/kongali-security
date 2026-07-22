@@ -24,10 +24,10 @@ from __future__ import annotations
 
 import time
 import traceback
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict, List, Optional
-
+from typing import Any
 
 ENGINE_VERSION = "0.1.0"
 
@@ -87,12 +87,12 @@ class SecurityResult:
     status: str = "success"
     risk: str = "unknown"
     confidence: float = 0.0
-    findings: List[Dict[str, Any]] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    findings: list[dict[str, Any]] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     execution_time_ms: float = 0.0
-    error: Optional[str] = None
+    error: str | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """
         Convert the security result into a JSON-compatible dictionary.
 
@@ -171,10 +171,10 @@ class SecurityEngine:
         self.name = "kongali-security"
         self.version = ENGINE_VERSION
 
-        self._modules: Dict[str, SecurityModule] = {}
+        self._modules: dict[str, SecurityModule] = {}
 
     @property
-    def modules(self) -> Dict[str, SecurityModule]:
+    def modules(self) -> dict[str, SecurityModule]:
         """
         Return all registered security modules.
 
@@ -297,7 +297,7 @@ class SecurityEngine:
 
         return self._get_module(name)
 
-    def list_modules(self) -> List[Dict[str, Any]]:
+    def list_modules(self) -> list[dict[str, Any]]:
         """
         Return a serializable list of registered modules.
 
@@ -416,7 +416,7 @@ class SecurityEngine:
         input_data: Any,
         input_type: str = "unknown",
         **kwargs: Any,
-    ) -> List[SecurityResult]:
+    ) -> list[SecurityResult]:
         """
         Execute all enabled registered security modules.
 
@@ -434,7 +434,7 @@ class SecurityEngine:
             List of standardized SecurityResult objects.
         """
 
-        results: List[SecurityResult] = []
+        results: list[SecurityResult] = []
 
         for module in self._modules.values():
             if not module.enabled:

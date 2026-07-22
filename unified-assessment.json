@@ -1,0 +1,327 @@
+{
+  "target": "https://example.com",
+  "assessment": {
+    "url": {
+      "value": "https://example.com",
+      "type": "url",
+      "valid": true,
+      "scheme": "https",
+      "hostname": "example.com",
+      "port": null,
+      "path": "",
+      "query": "",
+      "fragment": "",
+      "metadata": {
+        "username_present": false,
+        "password_present": false,
+        "netloc": "example.com"
+      }
+    },
+    "headers": {
+      "url": "https://example.com",
+      "reachable": true,
+      "status_code": 200,
+      "headers": {},
+      "present": [],
+      "missing": [
+        "Content-Security-Policy",
+        "Strict-Transport-Security",
+        "X-Content-Type-Options",
+        "X-Frame-Options",
+        "Referrer-Policy",
+        "Permissions-Policy"
+      ],
+      "security_score": 0,
+      "risk_level": "HIGH",
+      "metadata": {
+        "total_security_headers": 6,
+        "headers_present": 0,
+        "headers_missing": 6
+      }
+    },
+    "tls": {
+      "target": "https://example.com",
+      "hostname": "example.com",
+      "port": 443,
+      "tls": {
+        "status": "secure_connection",
+        "version": "TLSv1.3",
+        "cipher": {
+          "name": "TLS_AES_256_GCM_SHA384",
+          "protocol": "TLSv1.3",
+          "bits": 256
+        },
+        "certificate": {
+          "subject": [
+            [
+              [
+                "commonName",
+                "example.com"
+              ]
+            ]
+          ],
+          "issuer": [
+            [
+              [
+                "countryName",
+                "US"
+              ]
+            ],
+            [
+              [
+                "organizationName",
+                "SSL Corporation"
+              ]
+            ],
+            [
+              [
+                "commonName",
+                "Cloudflare TLS Issuing ECC CA 3"
+              ]
+            ]
+          ],
+          "serial_number": "1AA73FEA257BE3334B9A29552E6F878E",
+          "not_before": "May 31 21:39:12 2026 GMT",
+          "not_after": "Aug 29 21:41:26 2026 GMT",
+          "subject_alt_name": [
+            [
+              "DNS",
+              "example.com"
+            ],
+            [
+              "DNS",
+              "*.example.com"
+            ]
+          ],
+          "days_remaining": 38
+        }
+      },
+      "findings": []
+    }
+  },
+  "findings": [
+    {
+      "id": "KONGALI-HEADERS-0001",
+      "title": "Missing security header: Content-Security-Policy",
+      "severity": "HIGH",
+      "category": "HTTP Security Headers",
+      "description": "The HTTP response does not include the Content-Security-Policy security header.",
+      "owasp": {
+        "id": "A05:2021",
+        "name": "Security Misconfiguration"
+      },
+      "cwe": {
+        "id": "CWE-693",
+        "name": "Protection Mechanism Failure"
+      },
+      "cvss": {
+        "version": "3.1",
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "impact": "Missing Content-Security-Policy may increase the risk of client-side injection and content execution attacks.",
+      "remediation": "Implement a restrictive Content-Security-Policy appropriate for the application.",
+      "evidence": {
+        "header": "Content-Security-Policy",
+        "status": "missing",
+        "target": "https://example.com"
+      },
+      "references": [
+        "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/"
+      ],
+      "metadata": {
+        "source": "headers"
+      }
+    },
+    {
+      "id": "KONGALI-HEADERS-0002",
+      "title": "Missing security header: Strict-Transport-Security",
+      "severity": "HIGH",
+      "category": "HTTP Security Headers",
+      "description": "The HTTP response does not include the Strict-Transport-Security security header.",
+      "owasp": {
+        "id": "A05:2021",
+        "name": "Security Misconfiguration"
+      },
+      "cwe": {
+        "id": "CWE-319",
+        "name": "Cleartext Transmission of Sensitive Information"
+      },
+      "cvss": {
+        "version": "3.1",
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "impact": "Without HSTS, users may be exposed to protocol downgrade or insecure HTTP connections.",
+      "remediation": "Enable HTTP Strict Transport Security with an appropriate max-age and HTTPS deployment.",
+      "evidence": {
+        "header": "Strict-Transport-Security",
+        "status": "missing",
+        "target": "https://example.com"
+      },
+      "references": [
+        "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/"
+      ],
+      "metadata": {
+        "source": "headers"
+      }
+    },
+    {
+      "id": "KONGALI-HEADERS-0003",
+      "title": "Missing security header: X-Content-Type-Options",
+      "severity": "HIGH",
+      "category": "HTTP Security Headers",
+      "description": "The HTTP response does not include the X-Content-Type-Options security header.",
+      "owasp": {
+        "id": "A05:2021",
+        "name": "Security Misconfiguration"
+      },
+      "cwe": {
+        "id": "CWE-693",
+        "name": "Protection Mechanism Failure"
+      },
+      "cvss": {
+        "version": "3.1",
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "impact": "Missing X-Content-Type-Options may allow browsers to MIME-sniff responses unexpectedly.",
+      "remediation": "Set the X-Content-Type-Options header to nosniff.",
+      "evidence": {
+        "header": "X-Content-Type-Options",
+        "status": "missing",
+        "target": "https://example.com"
+      },
+      "references": [
+        "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/"
+      ],
+      "metadata": {
+        "source": "headers"
+      }
+    },
+    {
+      "id": "KONGALI-HEADERS-0004",
+      "title": "Missing security header: X-Frame-Options",
+      "severity": "HIGH",
+      "category": "HTTP Security Headers",
+      "description": "The HTTP response does not include the X-Frame-Options security header.",
+      "owasp": {
+        "id": "A05:2021",
+        "name": "Security Misconfiguration"
+      },
+      "cwe": {
+        "id": "CWE-693",
+        "name": "Protection Mechanism Failure"
+      },
+      "cvss": {
+        "version": "3.1",
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "impact": "Missing clickjacking protection may allow malicious sites to frame the application.",
+      "remediation": "Set X-Frame-Options to DENY or SAMEORIGIN, or use an appropriate CSP frame-ancestors policy.",
+      "evidence": {
+        "header": "X-Frame-Options",
+        "status": "missing",
+        "target": "https://example.com"
+      },
+      "references": [
+        "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/"
+      ],
+      "metadata": {
+        "source": "headers"
+      }
+    },
+    {
+      "id": "KONGALI-HEADERS-0005",
+      "title": "Missing security header: Referrer-Policy",
+      "severity": "MEDIUM",
+      "category": "HTTP Security Headers",
+      "description": "The HTTP response does not include the Referrer-Policy security header.",
+      "owasp": {
+        "id": "A05:2021",
+        "name": "Security Misconfiguration"
+      },
+      "cwe": {
+        "id": "CWE-200",
+        "name": "Exposure of Sensitive Information to an Unauthorized Actor"
+      },
+      "cvss": {
+        "version": "3.1",
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "impact": "An overly permissive referrer policy may expose sensitive URL information to external origins.",
+      "remediation": "Configure a restrictive Referrer-Policy such as strict-origin-when-cross-origin.",
+      "evidence": {
+        "header": "Referrer-Policy",
+        "status": "missing",
+        "target": "https://example.com"
+      },
+      "references": [
+        "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/"
+      ],
+      "metadata": {
+        "source": "headers"
+      }
+    },
+    {
+      "id": "KONGALI-HEADERS-0006",
+      "title": "Missing security header: Permissions-Policy",
+      "severity": "MEDIUM",
+      "category": "HTTP Security Headers",
+      "description": "The HTTP response does not include the Permissions-Policy security header.",
+      "owasp": {
+        "id": "A05:2021",
+        "name": "Security Misconfiguration"
+      },
+      "cwe": {
+        "id": "CWE-693",
+        "name": "Protection Mechanism Failure"
+      },
+      "cvss": {
+        "version": "3.1",
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "impact": "Missing Permissions-Policy may allow unnecessary browser capabilities to remain available.",
+      "remediation": "Configure Permissions-Policy to explicitly restrict unnecessary browser capabilities.",
+      "evidence": {
+        "header": "Permissions-Policy",
+        "status": "missing",
+        "target": "https://example.com"
+      },
+      "references": [
+        "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/"
+      ],
+      "metadata": {
+        "source": "headers"
+      }
+    }
+  ],
+  "summary": {
+    "total_findings": 6,
+    "severity_counts": {
+      "CRITICAL": 0,
+      "HIGH": 4,
+      "MEDIUM": 2,
+      "LOW": 0,
+      "INFO": 0
+    }
+  },
+  "metadata": {
+    "engine": "Kongali Unified Assessment Engine",
+    "version": "1.0.0",
+    "sources": [
+      "url",
+      "headers",
+      "tls"
+    ]
+  }
+}

@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.platypus import (
     PageBreak,
@@ -45,7 +45,7 @@ def _severity_color(severity: str):
 
 
 def generate_pdf_report(
-    report: Dict[str, Any],
+    report: dict[str, Any],
     output_path: str,
 ) -> None:
     """Generate a professional PDF security assessment report."""

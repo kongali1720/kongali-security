@@ -1,0 +1,59 @@
+{
+  "target": "https://example.com",
+  "hostname": "example.com",
+  "port": 443,
+  "tls": {
+    "status": "secure_connection",
+    "version": "TLSv1.3",
+    "cipher": {
+      "name": "TLS_AES_256_GCM_SHA384",
+      "protocol": "TLSv1.3",
+      "bits": 256
+    },
+    "certificate": {
+      "subject": [
+        [
+          [
+            "commonName",
+            "example.com"
+          ]
+        ]
+      ],
+      "issuer": [
+        [
+          [
+            "countryName",
+            "US"
+          ]
+        ],
+        [
+          [
+            "organizationName",
+            "SSL Corporation"
+          ]
+        ],
+        [
+          [
+            "commonName",
+            "Cloudflare TLS Issuing ECC CA 3"
+          ]
+        ]
+      ],
+      "serial_number": "1AA73FEA257BE3334B9A29552E6F878E",
+      "not_before": "May 31 21:39:12 2026 GMT",
+      "not_after": "Aug 29 21:41:26 2026 GMT",
+      "subject_alt_name": [
+        [
+          "DNS",
+          "example.com"
+        ],
+        [
+          "DNS",
+          "*.example.com"
+        ]
+      ],
+      "days_remaining": 38
+    }
+  },
+  "findings": []
+}

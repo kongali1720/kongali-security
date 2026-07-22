@@ -1,0 +1,41 @@
+Kongali Security Unified Assessment
+===================================
+
+Target: https://example.com
+
+Summary
+-------
+Total Findings: 6
+
+Findings
+--------
+
+1. Missing security header: Content-Security-Policy
+   Severity: HIGH
+   Category: HTTP Security Headers
+   Description: The HTTP response does not include the Content-Security-Policy security header.
+
+2. Missing security header: Strict-Transport-Security
+   Severity: HIGH
+   Category: HTTP Security Headers
+   Description: The HTTP response does not include the Strict-Transport-Security security header.
+
+3. Missing security header: X-Content-Type-Options
+   Severity: HIGH
+   Category: HTTP Security Headers
+   Description: The HTTP response does not include the X-Content-Type-Options security header.
+
+4. Missing security header: X-Frame-Options
+   Severity: HIGH
+   Category: HTTP Security Headers
+   Description: The HTTP response does not include the X-Frame-Options security header.
+
+5. Missing security header: Referrer-Policy
+   Severity: MEDIUM
+   Category: HTTP Security Headers
+   Description: The HTTP response does not include the Referrer-Policy security header.
+
+6. Missing security header: Permissions-Policy
+   Severity: MEDIUM
+   Category: HTTP Security Headers
+   Description: The HTTP response does not include the Permissions-Policy security header.

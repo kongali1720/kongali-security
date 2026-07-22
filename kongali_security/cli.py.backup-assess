@@ -7,22 +7,16 @@ import json
 import sys
 from typing import Any
 
-from kongali_security.analysis.assessment import (
-    run_unified_assessment,
-)
 from kongali_security.analysis.audit import analyze_audit
+from kongali_security.analysis.compare import compare_reports, load_json
 from kongali_security.analysis.baseline import (
     create_baseline,
     save_baseline,
 )
-from kongali_security.analysis.compare import compare_reports, load_json
 from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.headers import analyze_headers
 from kongali_security.analysis.ioc import analyze_ioc
-from kongali_security.analysis.pdf_report import (
-    generate_pdf_report,
-)
 from kongali_security.analysis.report import (
     generate_report,
     render_html,
@@ -30,10 +24,14 @@ from kongali_security.analysis.report import (
     render_sarif,
     save_report,
 )
+from kongali_security.analysis.pdf_report import (
+    generate_pdf_report,
+)
 from kongali_security.analysis.scan import analyze_scan
-from kongali_security.analysis.tls import analyze_tls
 from kongali_security.analysis.url import analyze_url
+from kongali_security.analysis.tls import analyze_tls
 from kongali_security.analysis.whois import analyze_whois
+
 
 VERSION = "0.1.0"
 
@@ -226,39 +224,6 @@ def build_parser() -> argparse.ArgumentParser:
         ),
         default="text",
         help="Audit output format.",
-    )
-
-    # Unified Security Assessment
-    assess_parser = subparsers.add_parser(
-        "assess",
-        help=(
-            "Run a unified security assessment "
-            "including URL, headers, and TLS analysis."
-        ),
-    )
-
-    assess_parser.add_argument(
-        "target",
-        help="Target URL to assess.",
-    )
-
-    assess_parser.add_argument(
-        "--format",
-        choices=(
-            "text",
-            "json",
-            "markdown",
-            "html",
-            "sarif",
-            "pdf",
-        ),
-        default="text",
-        help="Assessment output format.",
-    )
-
-    assess_parser.add_argument(
-        "--output",
-        help="Write assessment results to a file.",
     )
 
     # Security Baseline
@@ -683,6 +648,7 @@ def main() -> int:
         try:
             with open(
                 args.input,
+                "r",
                 encoding="utf-8",
             ) as file:
                 report = json.load(file)
@@ -836,181 +802,6 @@ def main() -> int:
             return 1
 
     # Security Report
-    if args.command == "assess":
-        try:
-            assessment = run_unified_assessment(
-                args.target,
-            )
-
-            if args.format == "pdf":
-                if not args.output:
-                    raise ValueError(
-                        "PDF output requires --output."
-                    )
-
-                generate_pdf_report(
-                    assessment,
-                    args.output,
-                )
-
-                print(
-                    f"Assessment written to: {args.output}"
-                )
-
-                return 0
-
-            if args.format == "json":
-                output = json.dumps(
-                    assessment,
-                    indent=2,
-                    default=str,
-                )
-
-            elif args.format == "markdown":
-                output_lines = [
-                    "# Kongali Security Unified Assessment",
-                    "",
-                    f"**Target:** {assessment.get('target', '')}",
-                    "",
-                    "## Summary",
-                    "",
-                    (
-                        f"**Total Findings:** "
-                        f"{assessment.get('summary', {}).get('total_findings', 0)}"
-                    ),
-                    "",
-                    "## Findings",
-                    "",
-                ]
-
-                findings = assessment.get(
-                    "findings",
-                    [],
-                )
-
-                if not findings:
-                    output_lines.append(
-                        "No security findings identified."
-                    )
-                else:
-                    for index, finding in enumerate(
-                        findings,
-                        start=1,
-                    ):
-                        output_lines.extend(
-                            [
-                                f"### {index}. "
-                                f"{finding.get('title', 'Unknown Finding')}",
-                                "",
-                                (
-                                    f"- **Severity:** "
-                                    f"{finding.get('severity', 'UNKNOWN')}"
-                                ),
-                                (
-                                    f"- **Category:** "
-                                    f"{finding.get('category', 'Unknown')}"
-                                ),
-                                (
-                                    f"- **Description:** "
-                                    f"{finding.get('description', '')}"
-                                ),
-                                "",
-                            ]
-                        )
-
-                output = "\n".join(
-                    output_lines
-                )
-
-            else:
-                output_lines = [
-                    "Kongali Security Unified Assessment",
-                    "===================================",
-                    "",
-                    f"Target: {assessment.get('target', '')}",
-                    "",
-                    "Summary",
-                    "-------",
-                    (
-                        "Total Findings: "
-                        f"{assessment.get('summary', {}).get('total_findings', 0)}"
-                    ),
-                    "",
-                    "Findings",
-                    "--------",
-                ]
-
-                findings = assessment.get(
-                    "findings",
-                    [],
-                )
-
-                if not findings:
-                    output_lines.append(
-                        "No security findings identified."
-                    )
-                else:
-                    for index, finding in enumerate(
-                        findings,
-                        start=1,
-                    ):
-                        output_lines.extend(
-                            [
-                                "",
-                                (
-                                    f"{index}. "
-                                    f"{finding.get('title', 'Unknown Finding')}"
-                                ),
-                                (
-                                    "   Severity: "
-                                    f"{finding.get('severity', 'UNKNOWN')}"
-                                ),
-                                (
-                                    "   Category: "
-                                    f"{finding.get('category', 'Unknown')}"
-                                ),
-                                (
-                                    "   Description: "
-                                    f"{finding.get('description', '')}"
-                                ),
-                            ]
-                        )
-
-                output = "\n".join(
-                    output_lines
-                )
-
-            if args.output:
-                with open(
-                    args.output,
-                    "w",
-                    encoding="utf-8",
-                ) as file:
-                    file.write(
-                        output
-                    )
-
-                print(
-                    f"Assessment written to: {args.output}"
-                )
-            else:
-                print(
-                    output
-                )
-
-            return 0
-
-        except Exception as exc:
-            print(
-                (
-                    "Error: Unified security "
-                    f"assessment failed: {exc}"
-                ),
-                file=sys.stderr,
-            )
-
-            return 1
-
     if args.command == "report":
         try:
             scan_result = analyze_scan(

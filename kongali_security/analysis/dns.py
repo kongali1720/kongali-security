@@ -4,8 +4,7 @@ from __future__ import annotations
 
 import socket
 from dataclasses import dataclass
-from typing import Any, Dict, List
-
+from typing import Any
 
 MODULE_NAME = "dns_analyzer"
 MODULE_VERSION = "0.1.0"
@@ -18,11 +17,11 @@ class DNSResult:
     domain: str
     valid: bool
     resolved: bool
-    ipv4: List[str]
-    ipv6: List[str]
-    metadata: Dict[str, Any]
+    ipv4: list[str]
+    ipv6: list[str]
+    metadata: dict[str, Any]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert the DNS result to a dictionary."""
         return {
             "domain": self.domain,

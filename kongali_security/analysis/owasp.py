@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
-
-OWASP_MAPPINGS: Dict[str, Dict[str, Any]] = {
+OWASP_MAPPINGS: dict[str, dict[str, Any]] = {
     "Content-Security-Policy": {
         "owasp": {
             "id": "A05:2021",
@@ -119,7 +118,7 @@ OWASP_MAPPINGS: Dict[str, Dict[str, Any]] = {
 
 def get_owasp_mapping(
     header: str,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Return OWASP, CWE, impact, and remediation metadata."""
 
     mapping = OWASP_MAPPINGS.get(

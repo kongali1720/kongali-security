@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any
 from urllib.parse import urlparse
-
 
 MODULE_NAME = "url_analyzer"
 MODULE_VERSION = "0.1.0"
@@ -31,9 +30,9 @@ class URLResult:
     path: str
     query: str
     fragment: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert URL result to a dictionary."""
         return {
             "value": self.value,

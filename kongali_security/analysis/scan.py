@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from typing import Any
 
 from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.headers import analyze_headers
 from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
-
 
 MODULE_NAME = "security_scanner"
 MODULE_VERSION = "0.1.0"

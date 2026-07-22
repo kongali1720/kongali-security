@@ -1,7 +1,6 @@
 """Tests for the URL Analyzer."""
 
 from kongali_security.analysis.url import (
-    URLAnalyzer,
     URLType,
     analyze_url,
 )

@@ -5,8 +5,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict
-
+from typing import Any
 
 MODULE_NAME = "hash_analyzer"
 MODULE_VERSION = "0.1.0"
@@ -31,9 +30,9 @@ class HashResult:
     length: int
     valid: bool
     algorithm: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert the hash result to a dictionary."""
         return {
             "value": self.value,

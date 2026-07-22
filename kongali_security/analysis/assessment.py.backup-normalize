@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Dict, List
 
 from kongali_security.analysis.headers import analyze_headers
 from kongali_security.analysis.tls import analyze_tls
@@ -13,6 +13,7 @@ from kongali_security.schemas.finding import (
     OWASPReference,
     SecurityFinding,
 )
+
 
 HEADER_KNOWLEDGE = {
     "Content-Security-Policy": {
@@ -224,7 +225,7 @@ HEADER_KNOWLEDGE = {
 
 def _to_dict(
     result: Any,
-) -> dict[str, Any]:
+) -> Dict[str, Any]:
     """Convert analysis result to dictionary."""
 
     if hasattr(
@@ -259,11 +260,11 @@ def _to_dict(
 
 
 def _build_header_findings(
-    headers_result: dict[str, Any],
-) -> list[SecurityFinding]:
+    headers_result: Dict[str, Any],
+) -> List[SecurityFinding]:
     """Convert missing HTTP security headers into SecurityFinding objects."""
 
-    findings: list[SecurityFinding] = []
+    findings: List[SecurityFinding] = []
 
     missing = headers_result.get(
         "missing",
@@ -434,8 +435,8 @@ def _build_header_findings(
 
 
 def _extract_findings(
-    result: dict[str, Any],
-) -> list[SecurityFinding]:
+    result: Dict[str, Any],
+) -> List[SecurityFinding]:
     """Extract and normalize findings into SecurityFinding objects."""
 
     findings = result.get(
@@ -449,7 +450,7 @@ def _extract_findings(
     ):
         return []
 
-    normalized: list[SecurityFinding] = []
+    normalized: List[SecurityFinding] = []
 
     for finding in findings:
         if isinstance(
@@ -481,8 +482,8 @@ def _extract_findings(
 
 
 def _build_severity_summary(
-    findings: list[SecurityFinding],
-) -> dict[str, int]:
+    findings: List[SecurityFinding],
+) -> Dict[str, int]:
     """Build severity counts from unified findings."""
 
     summary = {
@@ -504,7 +505,7 @@ def _build_severity_summary(
 
 def run_unified_assessment(
     target: str,
-) -> dict[str, Any]:
+) -> Dict[str, Any]:
     """Run a unified defensive security assessment."""
 
     url_result = _to_dict(
@@ -525,7 +526,7 @@ def run_unified_assessment(
         )
     )
 
-    findings: list[SecurityFinding] = []
+    findings: List[Dict[str, Any]] = []
 
     findings.extend(
         _build_header_findings(
@@ -545,11 +546,6 @@ def run_unified_assessment(
         )
     )
 
-    serialized_findings = [
-        finding.to_dict()
-        for finding in findings
-    ]
-
     return {
         "target": target,
         "assessment": {
@@ -557,7 +553,7 @@ def run_unified_assessment(
             "headers": headers_result,
             "tls": tls_result,
         },
-        "findings": serialized_findings,
+        "findings": findings,
         "summary": {
             "total_findings": len(
                 findings

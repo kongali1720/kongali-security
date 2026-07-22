@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict
 
 
 @dataclass(frozen=True)
@@ -21,36 +20,36 @@ class CVSSMetrics:
 
 
 # CVSS 3.1 metric weights.
-AV_VALUES: Dict[str, float] = {
+AV_VALUES: dict[str, float] = {
     "N": 0.85,  # Network
     "A": 0.62,  # Adjacent
     "L": 0.55,  # Local
     "P": 0.20,  # Physical
 }
 
-AC_VALUES: Dict[str, float] = {
+AC_VALUES: dict[str, float] = {
     "L": 0.77,  # Low
     "H": 0.44,  # High
 }
 
-PR_VALUES_UNCHANGED: Dict[str, float] = {
+PR_VALUES_UNCHANGED: dict[str, float] = {
     "N": 0.85,
     "L": 0.62,
     "H": 0.27,
 }
 
-PR_VALUES_CHANGED: Dict[str, float] = {
+PR_VALUES_CHANGED: dict[str, float] = {
     "N": 0.85,
     "L": 0.68,
     "H": 0.50,
 }
 
-UI_VALUES: Dict[str, float] = {
+UI_VALUES: dict[str, float] = {
     "N": 0.85,
     "R": 0.62,
 }
 
-CIA_VALUES: Dict[str, float] = {
+CIA_VALUES: dict[str, float] = {
     "N": 0.00,
     "L": 0.22,
     "H": 0.56,
@@ -197,7 +196,7 @@ def build_cvss_vector(
 
 def build_cvss(
     metrics: CVSSMetrics,
-) -> Dict[str, object]:
+) -> dict[str, object]:
     """Build a complete CVSS result."""
 
     score = calculate_cvss_base_score(
@@ -217,8 +216,8 @@ def build_cvss(
 
 
 def default_cvss_for_finding(
-    finding: Dict[str, object],
-) -> Dict[str, object]:
+    finding: dict[str, object],
+) -> dict[str, object]:
     """Generate a conservative default CVSS assessment.
 
     The current Kongali Security findings are primarily

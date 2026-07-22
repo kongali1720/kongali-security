@@ -5,14 +5,12 @@ from __future__ import annotations
 import html
 import json
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 from kongali_security.analysis.cvss import (
     default_cvss_for_finding,
 )
-
 from kongali_security.analysis.owasp import get_owasp_mapping
-
 
 MODULE_NAME = "security_report"
 MODULE_VERSION = "0.2.0"
@@ -28,7 +26,7 @@ SECURITY_HEADER_SEVERITY = {
 }
 
 
-def _result_to_dict(result: Any) -> Dict[str, Any]:
+def _result_to_dict(result: Any) -> dict[str, Any]:
     """Convert an analysis result into a dictionary."""
 
     if hasattr(result, "to_dict"):
@@ -47,11 +45,11 @@ def _result_to_dict(result: Any) -> Dict[str, Any]:
 
 
 def _build_findings(
-    scan: Dict[str, Any],
-) -> List[Dict[str, Any]]:
+    scan: dict[str, Any],
+) -> list[dict[str, Any]]:
     """Build security findings from scan results."""
 
-    findings: List[Dict[str, Any]] = []
+    findings: list[dict[str, Any]] = []
 
     headers = scan.get(
         "headers",
@@ -109,7 +107,7 @@ def _build_findings(
 
 
 def _calculate_score(
-    scan: Dict[str, Any],
+    scan: dict[str, Any],
 ) -> int:
     """Calculate an overall security score from 0 to 100."""
 
@@ -136,7 +134,7 @@ def _calculate_score(
 
 
 def _calculate_risk(
-    findings: List[Dict[str, Any]],
+    findings: list[dict[str, Any]],
     score: int,
 ) -> str:
     """Calculate overall risk level."""
@@ -188,7 +186,7 @@ def _calculate_risk(
 
 def generate_report(
     scan_result: Any,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Generate a complete security assessment report."""
 
     scan = _result_to_dict(
@@ -256,7 +254,7 @@ def generate_report(
 
 
 def render_markdown(
-    report: Dict[str, Any],
+    report: dict[str, Any],
 ) -> str:
     """Render a security report as Markdown."""
 
@@ -426,7 +424,7 @@ def render_markdown(
 
 
 def render_html(
-    report: Dict[str, Any],
+    report: dict[str, Any],
 ) -> str:
     """Render a security report as standalone HTML."""
 
@@ -771,7 +769,7 @@ footer {{
 
 
 def render_sarif(
-    report: Dict[str, Any],
+    report: dict[str, Any],
 ) -> str:
     """Render a security report as SARIF 2.1.0."""
 
@@ -898,7 +896,7 @@ def render_sarif(
 
 
 def save_report(
-    report: Dict[str, Any],
+    report: dict[str, Any],
     output_format: str,
     output_path: str,
 ) -> None:

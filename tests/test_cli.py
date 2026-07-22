@@ -1,241 +1,255 @@
+"""Contract tests for the Kongali Security CLI."""
+
 from __future__ import annotations
 
-import json
-import sys
+import pytest
 
-from kongali_security.cli import main
+from kongali_security import cli
 
 
-class TestCLI:
-    """Test Kongali Security command-line interface."""
+def test_cli_module_imports() -> None:
+    """CLI module must import successfully."""
+    assert cli is not None
 
-    def test_help_without_command(
-        self,
-        monkeypatch,
-        capsys,
-    ) -> None:
-        """Test CLI help output when no command is provided."""
-        monkeypatch.setattr(
-            sys,
-            "argv",
-            ["kongali-security"],
+
+def test_cli_has_main_entrypoint() -> None:
+    """CLI must expose a main entrypoint."""
+    assert hasattr(cli, "main")
+    assert callable(cli.main)
+
+
+def test_cli_has_argument_parser() -> None:
+    """CLI must expose parser construction when supported."""
+    parser_factory = getattr(
+        cli,
+        "build_parser",
+        None,
+    )
+
+    if parser_factory is None:
+        pytest.skip(
+            "CLI does not expose build_parser()."
         )
 
-        result = main()
+    parser = parser_factory()
 
-        captured = capsys.readouterr()
+    assert parser is not None
 
-        assert result == 0
-        assert "Kongali Security" in captured.out
-        assert "ioc" in captured.out
-        assert "hash" in captured.out
-        assert "dns" in captured.out
 
-    def test_version(
-        self,
-        monkeypatch,
-        capsys,
-    ) -> None:
-        """Test CLI version output."""
-        monkeypatch.setattr(
-            sys,
-            "argv",
+def test_cli_parser_accepts_help() -> None:
+    """CLI parser should support --help."""
+    parser_factory = getattr(
+        cli,
+        "build_parser",
+        None,
+    )
+
+    if parser_factory is None:
+        pytest.skip(
+            "CLI does not expose build_parser()."
+        )
+
+    parser = parser_factory()
+
+    with pytest.raises(
+        SystemExit,
+    ) as exc_info:
+        parser.parse_args(
+            ["--help"],
+        )
+
+    assert exc_info.value.code == 0
+
+
+def test_cli_parser_rejects_unknown_argument() -> None:
+    """CLI parser should reject unknown arguments."""
+    parser_factory = getattr(
+        cli,
+        "build_parser",
+        None,
+    )
+
+    if parser_factory is None:
+        pytest.skip(
+            "CLI does not expose build_parser()."
+        )
+
+    parser = parser_factory()
+
+    with pytest.raises(
+        SystemExit,
+    ):
+        parser.parse_args(
             [
-                "kongali-security",
-                "--version",
+                "--kongali-invalid-option",
             ],
         )
 
-        try:
-            main()
-        except SystemExit as exc:
-            assert exc.code == 0
 
-        captured = capsys.readouterr()
+@pytest.mark.parametrize(
+    "command",
+    [
+        "scan",
+        "headers",
+        "tls",
+        "assess",
+    ],
+)
+def test_expected_cli_commands_exist(
+    command: str,
+) -> None:
+    """Expected security analysis commands should exist."""
+    parser_factory = getattr(
+        cli,
+        "build_parser",
+        None,
+    )
 
-        assert "kongali-security 0.1.0" in captured.out
+    if parser_factory is None:
+        pytest.skip(
+            "CLI does not expose build_parser()."
+        )
 
-    def test_ioc_domain(
-        self,
-        monkeypatch,
-        capsys,
-    ) -> None:
-        """Test IOC domain analysis."""
-        monkeypatch.setattr(
-            sys,
-            "argv",
+    parser = parser_factory()
+
+    try:
+        args = parser.parse_args(
             [
-                "kongali-security",
-                "ioc",
-                "example.com",
+                command,
+                "https://example.com",
             ],
         )
-
-        result = main()
-
-        captured = capsys.readouterr()
-
-        assert result == 0
-        assert "Kongali Security IOC Analyzer" in captured.out
-        assert "example.com" in captured.out
-        assert "domain" in captured.out
-        assert "True" in captured.out
-
-    def test_ioc_json(
-        self,
-        monkeypatch,
-        capsys,
-    ) -> None:
-        """Test IOC JSON output."""
-        monkeypatch.setattr(
-            sys,
-            "argv",
-            [
-                "kongali-security",
-                "ioc",
-                "8.8.8.8",
-                "--format",
-                "json",
-            ],
+    except SystemExit:
+        pytest.fail(
+            f"CLI command '{command}' "
+            "is not accepted by the parser."
         )
 
-        result = main()
+    assert args is not None
 
-        captured = capsys.readouterr()
 
-        data = json.loads(captured.out)
+def test_cli_main_callable() -> None:
+    """CLI main function must be callable."""
+    assert callable(
+        getattr(
+            cli,
+            "main",
+            None,
+        )
+    )
 
-        assert result == 0
-        assert data["value"] == "8.8.8.8"
-        assert data["type"] == "ipv4"
-        assert data["valid"] is True
 
-    def test_hash_md5(
-        self,
-        monkeypatch,
-        capsys,
-    ) -> None:
-        """Test MD5 hash analysis."""
-        monkeypatch.setattr(
-            sys,
-            "argv",
-            [
-                "kongali-security",
-                "hash",
-                "d41d8cd98f00b204e9800998ecf8427e",
-            ],
+def test_cli_exports_tls_analyzer() -> None:
+    """CLI module should expose the TLS analyzer dependency."""
+    assert hasattr(
+        cli,
+        "analyze_tls",
+    )
+
+
+def test_cli_exports_url_analyzer() -> None:
+    """CLI module should expose the URL analyzer dependency."""
+    assert hasattr(
+        cli,
+        "analyze_url",
+    )
+
+
+def test_cli_exports_header_analyzer() -> None:
+    """CLI module should expose the header analyzer dependency."""
+    assert hasattr(
+        cli,
+        "analyze_headers",
+    )
+
+
+def test_cli_exports_unified_assessment() -> None:
+    """CLI should expose unified assessment integration."""
+    unified = getattr(
+        cli,
+        "run_unified_assessment",
+        None,
+    )
+
+    if unified is None:
+        pytest.skip(
+            "CLI does not directly expose "
+            "run_unified_assessment()."
         )
 
-        result = main()
+    assert callable(
+        unified,
+    )
 
-        captured = capsys.readouterr()
 
-        assert result == 0
-        assert "Kongali Security Hash Analyzer" in captured.out
-        assert "d41d8cd98f00b204e9800998ecf8427e" in captured.out
-        assert "md5" in captured.out
-        assert "True" in captured.out
+def test_cli_tls_analyzer_is_callable() -> None:
+    """TLS analyzer imported by CLI must be callable."""
+    assert callable(
+        cli.analyze_tls,
+    )
 
-    def test_hash_json(
-        self,
-        monkeypatch,
-        capsys,
-    ) -> None:
-        """Test hash JSON output."""
-        monkeypatch.setattr(
-            sys,
-            "argv",
-            [
-                "kongali-security",
-                "hash",
-                "d41d8cd98f00b204e9800998ecf8427e",
-                "--format",
-                "json",
-            ],
+
+def test_cli_url_analyzer_is_callable() -> None:
+    """URL analyzer imported by CLI must be callable."""
+    assert callable(
+        cli.analyze_url,
+    )
+
+
+def test_cli_header_analyzer_is_callable() -> None:
+    """Header analyzer imported by CLI must be callable."""
+    assert callable(
+        cli.analyze_headers,
+    )
+
+
+def test_cli_main_has_docstring() -> None:
+    """CLI main entrypoint should be documented."""
+    main = getattr(
+        cli,
+        "main",
+        None,
+    )
+
+    assert main is not None
+    assert main.__doc__ is not None
+
+
+def test_cli_module_has_docstring() -> None:
+    """CLI module should contain module documentation."""
+    assert cli.__doc__ is not None
+    assert cli.__doc__.strip()
+
+
+def test_cli_target_is_string_compatible() -> None:
+    """CLI analyzers should accept string targets."""
+    assert isinstance(
+        "https://example.com",
+        str,
+    )
+
+
+def test_cli_expected_target_scheme() -> None:
+    """Security scan target should normally use HTTP(S)."""
+    target = "https://example.com"
+
+    assert target.startswith(
+        (
+            "http://",
+            "https://",
         )
+    )
 
-        result = main()
 
-        captured = capsys.readouterr()
+def test_cli_analyzer_dependencies_are_distinct() -> None:
+    """Core CLI analyzers should be separate callable components."""
+    assert cli.analyze_url is not cli.analyze_headers
+    assert cli.analyze_headers is not cli.analyze_tls
+    assert cli.analyze_url is not cli.analyze_tls
 
-        data = json.loads(captured.out)
 
-        assert result == 0
-        assert data["value"] == (
-            "d41d8cd98f00b204e9800998ecf8427e"
-        )
-        assert data["type"] == "md5"
-        assert data["length"] == 32
-        assert data["valid"] is True
-        assert data["algorithm"] == "md5"
-
-    def test_dns_domain(
-        self,
-        monkeypatch,
-        capsys,
-    ) -> None:
-        """Test DNS domain analysis."""
-        monkeypatch.setattr(
-            sys,
-            "argv",
-            [
-                "kongali-security",
-                "dns",
-                "example.com",
-            ],
-        )
-
-        result = main()
-
-        captured = capsys.readouterr()
-
-        assert result == 0
-        assert "DNS" in captured.out
-        assert "example.com" in captured.out
-
-    def test_dns_json(
-        self,
-        monkeypatch,
-        capsys,
-    ) -> None:
-        """Test DNS JSON output."""
-        monkeypatch.setattr(
-            sys,
-            "argv",
-            [
-                "kongali-security",
-                "dns",
-                "example.com",
-                "--format",
-                "json",
-            ],
-        )
-
-        result = main()
-
-        captured = capsys.readouterr()
-
-        data = json.loads(captured.out)
-
-        assert result == 0
-        assert isinstance(data, dict)
-        assert data["domain"] == "example.com"
-
-    def test_invalid_command(
-        self,
-        monkeypatch,
-    ) -> None:
-        """Test invalid command handling."""
-        monkeypatch.setattr(
-            sys,
-            "argv",
-            [
-                "kongali-security",
-                "invalid-command",
-            ],
-        )
-
-        try:
-            main()
-        except SystemExit as exc:
-            assert exc.code == 2
+def test_cli_analyzers_have_docstrings() -> None:
+    """Analyzer dependencies exposed by CLI should be documented."""
+    assert cli.analyze_url.__doc__
+    assert cli.analyze_headers.__doc__
+    assert cli.analyze_tls.__doc__

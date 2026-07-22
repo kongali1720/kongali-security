@@ -3,8 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-from typing import Any, Dict, List, Optional
-
+from typing import Any
 
 SEVERITIES = (
     "CRITICAL",
@@ -22,7 +21,7 @@ class OWASPReference:
     id: str
     name: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert OWASP metadata to a dictionary."""
 
         return asdict(self)
@@ -35,7 +34,7 @@ class CWEReference:
     id: str
     name: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert CWE metadata to a dictionary."""
 
         return asdict(self)
@@ -50,7 +49,7 @@ class CVSSScore:
     severity: str
     vector: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert CVSS metadata to a dictionary."""
 
         return asdict(self)
@@ -66,22 +65,22 @@ class SecurityFinding:
     category: str
     description: str
 
-    owasp: Optional[OWASPReference] = None
-    cwe: Optional[CWEReference] = None
-    cvss: Optional[CVSSScore] = None
+    owasp: OWASPReference | None = None
+    cwe: CWEReference | None = None
+    cvss: CVSSScore | None = None
 
     impact: str = ""
     remediation: str = ""
 
-    evidence: Dict[str, Any] = field(
+    evidence: dict[str, Any] = field(
         default_factory=dict,
     )
 
-    references: List[str] = field(
+    references: list[str] = field(
         default_factory=list,
     )
 
-    metadata: Dict[str, Any] = field(
+    metadata: dict[str, Any] = field(
         default_factory=dict,
     )
 
@@ -112,7 +111,7 @@ class SecurityFinding:
                 "Finding category cannot be empty."
             )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert the finding to a JSON-compatible dictionary."""
 
         data = asdict(self)
@@ -137,8 +136,8 @@ class SecurityFinding:
     @classmethod
     def from_dict(
         cls,
-        data: Dict[str, Any],
-    ) -> "SecurityFinding":
+        data: dict[str, Any],
+    ) -> SecurityFinding:
         """Create a SecurityFinding from a dictionary."""
 
         owasp_data = data.get(

@@ -28,9 +28,8 @@ import ipaddress
 import re
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 from urllib.parse import urlparse
-
 
 MODULE_NAME = "ioc_analyzer"
 MODULE_VERSION = "0.1.0"
@@ -76,9 +75,9 @@ class IOCResult:
     ioc_type: IOCType
     confidence: float
     valid: bool
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert IOC result to a dictionary."""
 
         return {
@@ -211,8 +210,8 @@ class IOCAnalyzer:
 
     def analyze_many(
         self,
-        values: List[str],
-    ) -> List[IOCResult]:
+        values: list[str],
+    ) -> list[IOCResult]:
         """
         Analyze multiple IOC values.
 
@@ -232,7 +231,7 @@ class IOCAnalyzer:
     def _analyze_ip(
         self,
         value: str,
-    ) -> Optional[IOCResult]:
+    ) -> IOCResult | None:
         """
         Analyze IPv4 and IPv6 addresses.
 
@@ -287,7 +286,7 @@ class IOCAnalyzer:
     def _analyze_hash(
         self,
         value: str,
-    ) -> Optional[IOCResult]:
+    ) -> IOCResult | None:
         """
         Analyze cryptographic hash candidates.
 
@@ -339,7 +338,7 @@ class IOCAnalyzer:
     def _analyze_url(
         self,
         value: str,
-    ) -> Optional[IOCResult]:
+    ) -> IOCResult | None:
         """
         Analyze URL candidates.
 
@@ -391,7 +390,7 @@ class IOCAnalyzer:
     def _analyze_domain(
         self,
         value: str,
-    ) -> Optional[IOCResult]:
+    ) -> IOCResult | None:
         """
         Analyze domain name candidates.
 
@@ -433,7 +432,7 @@ def analyze_ioc(
     value: str,
     allow_private_ips: bool = True,
     allow_localhost: bool = True,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Convenience function for analyzing a single IOC.
 
