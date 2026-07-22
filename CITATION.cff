@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: "KONGALI SECURITY"
+message: "If you use KONGALI SECURITY in your research, project, publication, or educational work, please cite this software."
+type: software
+authors:
+  - family-names: "Kongali"
+    given-names: "KONGALI"
+    orcid: ""
+repository-code: "https://github.com/kongali1720/kongali-security"
+url: "https://github.com/kongali1720/kongali-security"
+license: MIT
+version: "0.1.0"
+date-released: "2026-07-22"
+abstract: >
+  KONGALI SECURITY is an open-source cybersecurity and security automation
+  framework designed for defensive security operations, security analysis,
+  threat intelligence, OSINT, monitoring, automation, and AI-assisted
+  security workflows.
+keywords:
+  - cybersecurity
+  - information security
+  - security automation
+  - threat intelligence
+  - OSINT
+  - IOC analysis
+  - security analysis
+  - security monitoring
+  - AI security
+  - defensive security
