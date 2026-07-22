@@ -566,3 +566,94 @@ def save_report(
         file.write(
             content
         )
+
+
+def render_sarif(
+    report: Dict[str, Any],
+) -> str:
+    """Render a security report as SARIF 2.1.0."""
+
+    import json
+
+    findings = report.get(
+        "findings",
+        [],
+    )
+
+    results = []
+
+    for index, finding in enumerate(
+        findings,
+        start=1,
+    ):
+        severity = str(
+            finding.get(
+                "severity",
+                "LOW",
+            )
+        ).upper()
+
+        level_map = {
+            "CRITICAL": "error",
+            "HIGH": "error",
+            "MEDIUM": "warning",
+            "LOW": "note",
+        }
+
+        results.append(
+            {
+                "ruleId": (
+                    f"KONGALI-{severity}-{index:04d}"
+                ),
+                "level": level_map.get(
+                    severity,
+                    "warning",
+                ),
+                "message": {
+                    "text": str(
+                        finding.get(
+                            "description",
+                            "Security finding detected.",
+                        )
+                    ),
+                },
+                "properties": {
+                    "severity": severity,
+                    "category": str(
+                        finding.get(
+                            "category",
+                            "Unknown",
+                        )
+                    ),
+                },
+            }
+        )
+
+    sarif = {
+        "$schema": (
+            "https://json.schemastore.org/"
+            "sarif-2.1.0.json"
+        ),
+        "version": "2.1.0",
+        "runs": [
+            {
+                "tool": {
+                    "driver": {
+                        "name": "Kongali Security",
+                        "informationUri": (
+                            "https://github.com/"
+                            "kongali1720/"
+                            "kongali-security"
+                        ),
+                        "version": MODULE_VERSION,
+                    },
+                },
+                "results": results,
+            },
+        ],
+    }
+
+    return json.dumps(
+        sarif,
+        indent=2,
+    )

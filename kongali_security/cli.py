@@ -21,6 +21,7 @@ from kongali_security.analysis.report import (
     generate_report,
     render_html,
     render_markdown,
+    render_sarif,
     save_report,
 )
 from kongali_security.analysis.scan import analyze_scan
@@ -235,6 +236,7 @@ def build_parser() -> argparse.ArgumentParser:
             "json",
             "markdown",
             "html",
+            "sarif",
         ),
         default="text",
         help="Report output format.",
@@ -769,6 +771,11 @@ def main() -> int:
 
             elif args.format == "html":
                 output = render_html(
+                    report
+                )
+
+            elif args.format == "sarif":
+                output = render_sarif(
                     report
                 )
 
