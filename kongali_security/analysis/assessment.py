@@ -423,9 +423,7 @@ def _build_header_findings(
                 ],
                 metadata={
                     "source": "headers",
-                    "module": MODULE_NAME
-                    if "MODULE_NAME" in globals()
-                    else "headers_analyzer",
+                    "module": "headers_analyzer",
                 },
             )
         )
