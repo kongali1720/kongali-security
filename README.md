@@ -39,173 +39,128 @@
 
 # 🕷️ About Kongali Security
 
-**Kongali Security** is an open-source cybersecurity and security automation framework designed to support security professionals, developers, system administrators, researchers, students, and IT teams in performing defensive security analysis and automating repetitive security workflows.
+**Kongali Security** is an open-source Python project focused on building a modular foundation for defensive cybersecurity analysis and security automation.
 
-The project is being developed as a modular Python security framework with an emphasis on:
+The project is being developed with a long-term goal of providing a maintainable and extensible security framework that can help developers, security professionals, system administrators, researchers, students, and open-source contributors build defensive security workflows.
 
-* Defensive security
-* Security automation
-* IOC analysis
-* Threat intelligence
-* Secure software development
-* Structured security results
-* Automated testing
-* Continuous integration
-* Security validation
-* Future AI-assisted security workflows
+The current implementation represents the **early foundation of the project**. The codebase is intentionally small and modular, allowing new security capabilities to be introduced incrementally without prematurely claiming functionality that is not yet implemented.
 
-The long-term objective is to evolve Kongali Security from a collection of security utilities into a modular cybersecurity framework that can integrate with existing security operations and automation pipelines.
+The long-term vision includes security analysis, threat intelligence, IOC processing, monitoring, detection engineering, automation, reporting, and AI-assisted security workflows.
+
+> **Current implementation first. Future capabilities are clearly marked as planned.**
 
 ---
 
 # 📌 Project Status
 
-> **Current Status: Active Development — v0.1.x**
+> **Active Development — v0.1.0**
 
-Kongali Security is currently in the early development stage.
+Kongali Security is currently in an early development stage.
 
-The current repository contains the foundational Python package structure and initial security analysis functionality. The project is actively establishing its packaging, testing, CI/CD, security automation, and contribution infrastructure.
+The project currently focuses on establishing:
 
-The following areas are currently under active development:
-
-* Python package architecture
-* Core security engine
-* IOC analysis
+* A modular Python package
+* Core security processing architecture
+* IOC analysis foundations
 * Automated testing
+* Package building
 * Continuous Integration
-* Security validation
-* Documentation
-* Developer workflow
+* Security-oriented CI workflows
+* Secure open-source development practices
 
-The following areas are planned for future development:
+The APIs, internal architecture, package structure, and CLI interfaces may change during the `0.x` development cycle.
 
-* CLI expansion
-* DNS intelligence
-* Threat intelligence integrations
-* OSINT modules
-* Network monitoring
-* Log analysis
-* File integrity monitoring
-* YARA integration
-* Plugin architecture
-* AI-SOC capabilities
-* Security dashboard
+Features described as **planned**, **future**, or **roadmap items** are not necessarily available in the current release.
 
-> **Important:** Kongali Security is currently a `0.x` project. APIs, CLI commands, module interfaces, configuration formats, and internal architecture may change before the first stable `1.0.0` release.
+For the current implementation, always refer to:
+
+* Source code
+* Tests
+* `pyproject.toml`
+* GitHub Actions workflows
+* `CHANGELOG.md`
+* `ROADMAP.md`
 
 ---
 
 # 🎯 Vision
 
-> **To build an open-source security platform that makes cybersecurity analysis, monitoring, and automation more accessible, modular, transparent, and extensible.**
+> **Build an open-source security platform that makes cybersecurity analysis, monitoring, and automation more accessible, modular, transparent, and extensible.**
 
-Kongali Security aims to provide a foundation where developers, security researchers, system administrators, and the wider open-source community can build, integrate, and improve defensive security capabilities.
+Kongali Security aims to evolve from a small security analysis foundation into a modular cybersecurity ecosystem that can be extended by developers, security researchers, system administrators, educators, and the wider open-source community.
 
 ---
 
 # 🚀 Mission
 
-Kongali Security is built around the following objectives:
+The project is built around the following objectives:
 
-1. Build modular and maintainable security tooling.
+1. Build modular and maintainable security software.
 2. Automate repetitive defensive security workflows.
-3. Improve accessibility of security analysis tools.
+3. Make security analysis more accessible.
 4. Provide structured and machine-readable security results.
-5. Support integration with existing security workflows.
-6. Encourage responsible security research.
-7. Promote secure software development practices.
-8. Establish reliable testing and CI/CD practices.
-9. Build a collaborative open-source cybersecurity ecosystem.
+5. Encourage responsible security research.
+6. Promote secure software development practices.
+7. Support reproducible and testable security tooling.
+8. Build a transparent open-source cybersecurity ecosystem.
 
 ---
 
-# 🧠 Core Architecture
+# 🧠 Current Architecture
+
+The current implementation is intentionally lightweight.
 
 ```text
-┌─────────────────────────────────────────────────────┐
-│                  KONGALI SECURITY                   │
-│              Secure. Analyze. Automate.             │
-└──────────────────────────┬──────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────┐
-│                 CORE SECURITY ENGINE                │
-└──────────────────────────┬──────────────────────────┘
-                           │
-          ┌────────────────┼────────────────┐
-          │                │                │
-          ▼                ▼                ▼
-   ┌────────────┐   ┌────────────┐   ┌────────────┐
-   │THREAT INTEL│   │    OSINT   │   │ MONITORING │
-   │  PLANNED   │   │  PLANNED   │   │  PLANNED   │
-   └────────────┘   └────────────┘   └────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────┐
-│                  ANALYSIS ENGINE                    │
-│                IOC Analysis / Rules                 │
-└──────────────────────────┬──────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────┐
-│                SECURITY AUTOMATION                  │
-└──────────────────────────┬──────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────┐
-│             TESTING & QUALITY VALIDATION            │
-│              Pytest / Ruff / CI Pipeline            │
-└──────────────────────────┬──────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────┐
-│              SECURITY VALIDATION LAYER              │
-│         Security Checks / Dependency Audit          │
-└──────────────────────────┬──────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────┐
-│              REPORTING & FUTURE EXPORT              │
-└─────────────────────────────────────────────────────┘
+                 KONGALI SECURITY
+                         │
+                         ▼
+              Python Security Package
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+              ▼                     ▼
+        Core Engine             Analysis
+              │                     │
+              │                     ▼
+              │                IOC Analyzer
+              │                     │
+              └──────────┬──────────┘
+                         │
+                         ▼
+                  Security Results
+                         │
+                         ▼
+                      Tests
+                         │
+                         ▼
+                 CI / Security CI
 ```
+
+The architecture is designed to grow incrementally as new security modules are introduced.
 
 ---
 
-# 🧩 Security Capabilities
+# 🧩 Current Implementation
 
-## 🔎 Threat Intelligence
+## 🔎 IOC Analysis
 
-The framework is designed to eventually process and analyze security indicators including:
+The current codebase includes an IOC analysis foundation.
+
+The IOC analysis layer is intended to identify and classify common security indicators.
+
+Current and planned IOC categories include:
 
 * IPv4 addresses
 * IPv6 addresses
 * Domains
 * URLs
-* File hashes
-* IOC collections
-* Threat intelligence data
+* MD5 hashes
+* SHA-1 hashes
+* SHA-256 hashes
 
-Future versions may support modular integrations with external threat intelligence providers.
+The current implementation is focused on establishing a reliable foundation for IOC processing before introducing more advanced enrichment and intelligence capabilities.
 
-External integrations should use secure configuration and must never expose API keys, credentials, private keys, or other secrets in source code.
-
----
-
-## 🧬 IOC Analysis
-
-Kongali Security provides the foundation for identifying and classifying common Indicators of Compromise.
-
-Supported IOC categories include:
-
-* IPv4
-* IPv6
-* Domain
-* URL
-* MD5
-* SHA-1
-* SHA-256
-
-Example workflow:
+Conceptually, the analysis pipeline follows:
 
 ```text
 Input
@@ -216,187 +171,135 @@ IOC Analyzer
   ├── Identify
   ├── Classify
   ├── Normalize
-  └── Enrich
+  └── Process
         │
         ▼
   Security Result
 ```
 
-The IOC analysis pipeline is designed to produce structured results that can be consumed by other security automation workflows.
+Future versions may extend this pipeline with enrichment, reputation analysis, external intelligence providers, and structured result schemas.
 
 ---
 
-## #️⃣ Hash Analysis
+## ⚙️ Core Security Engine
 
-The hash analysis layer is designed to identify common cryptographic hash formats.
+The project contains a core engine layer intended to provide a foundation for coordinating security analysis components.
 
-Supported hash families may include:
+The core architecture is intentionally kept modular so that future capabilities can be integrated without tightly coupling individual security modules.
 
-* MD5
-* SHA-1
-* SHA-256
-* SHA-512
+Future development may introduce:
 
-Hash identification alone does not determine whether a file or artifact is malicious.
-
-Hash analysis should be combined with additional intelligence, reputation data, behavioral analysis, or other security evidence.
-
----
-
-## 🌐 DNS Intelligence
-
-DNS intelligence is planned as a future module.
-
-Planned capabilities include:
-
-* DNS record lookup
-* A records
-* AAAA records
-* MX records
-* NS records
-* TXT records
-* CNAME records
-* Domain resolution
-* DNS intelligence workflows
-
-All DNS analysis should be performed against systems and domains that the operator is authorized to investigate.
+* Module registration
+* Analysis pipelines
+* Result handling
+* Configuration management
+* Plugin interfaces
+* Automation workflows
 
 ---
 
-## 🕵️ OSINT
+# 🧪 Testing
 
-Kongali Security is intended to support modular OSINT capabilities for authorized defensive security investigations and research.
+Testing is a core part of the project development process.
 
-Planned capabilities may include:
+The current repository includes automated tests for the implemented security analysis functionality.
 
-* DNS intelligence
-* WHOIS information
-* Domain analysis
-* Subdomain discovery
-* Metadata analysis
-* Public information correlation
+Run the complete test suite:
 
-OSINT functionality must be used responsibly and in accordance with applicable laws, regulations, terms of service, and authorization requirements.
-
----
-
-## 📡 Network Monitoring
-
-Network monitoring is planned for future releases.
-
-Potential capabilities include:
-
-* Network connection monitoring
-* Service visibility
-* Connection analysis
-* Event correlation
-* Network anomaly indicators
-* Defensive monitoring workflows
-
-The framework is intended for monitoring systems, networks, and infrastructure that the operator owns or is explicitly authorized to monitor.
-
----
-
-## 📜 Log Analysis
-
-Automated security log analysis is planned for future development.
-
-Potential capabilities include:
-
-* Log parsing
-* Event classification
-* Pattern detection
-* Suspicious activity identification
-* Security event summarization
-* Structured reporting
-
-Log data may contain sensitive information. Users should implement appropriate access controls, retention policies, and data protection measures.
-
----
-
-## 🛡️ File Integrity Monitoring
-
-File Integrity Monitoring is planned for future development.
-
-Potential capabilities include:
-
-* File hashing
-* Baseline creation
-* Change detection
-* Integrity verification
-* Alert generation
-
----
-
-## 🧬 YARA Analysis
-
-YARA-based analysis is planned for future defensive malware analysis and threat research workflows.
-
-Potential use cases include:
-
-* Malware analysis
-* Threat hunting
-* File classification
-* Security research
-* Detection engineering
-
-YARA rules and analysis workflows should only be used in authorized environments.
-
----
-
-# 🤖 AI-SOC Assistant
-
-The AI-SOC layer is part of the project's long-term roadmap.
-
-The planned architecture follows a **Human-in-the-Loop** approach.
-
-```text
-SECURITY EVENT
-      │
-      ▼
-DETECTION ENGINE
-      │
-      ▼
-   AI-SOC
-      │
-  ┌───┼────────┐
-  │   │        │
-  ▼   ▼        ▼
-Explain Summarize Enrich
-  │   │        │
-  └───┼────────┘
-      │
-      ▼
-HUMAN ANALYST
-      │
-      ▼
-FINAL DECISION
+```bash
+pytest
 ```
 
-Future AI-assisted security features may provide:
+Run tests with verbose output:
 
-* Context
-* Explanations
-* Alert summarization
-* IOC enrichment
-* Security recommendations
+```bash
+pytest -v
+```
 
-AI-generated results should be treated as assistance rather than authoritative security conclusions.
+The project is intended to maintain a test-driven approach as additional security modules are introduced.
 
-Users should validate AI-generated findings before taking consequential security actions.
+Future test coverage may include:
+
+* Unit tests
+* Integration tests
+* Regression tests
+* Security-focused tests
+* Cross-version Python testing
+* Package installation tests
 
 ---
 
-# 🏗️ Current Project Structure
+# 🔄 Continuous Integration
 
-The current repository contains the foundational package structure.
+Kongali Security uses GitHub Actions to automate project validation.
+
+The CI workflow is responsible for validating project changes and helping maintain code quality across contributions.
+
+Typical CI validation may include:
+
+* Python environment setup
+* Dependency installation
+* Test execution
+* Linting
+* Static checks
+* Package validation
+
+The repository also includes a dedicated security workflow for security-oriented checks.
+
+Workflow files:
+
+```text
+.github/
+└── workflows/
+    ├── ci.yml
+    └── security.yml
+```
+
+CI and security workflows are considered part of the project's software supply-chain and security boundary.
+
+Contributors should ensure that changes pass the relevant automated checks before opening a Pull Request.
+
+---
+
+# 📦 Python Package
+
+Kongali Security is structured as a Python package.
+
+The package is configured through:
+
+```text
+pyproject.toml
+```
+
+The project can be installed in editable development mode using:
+
+```bash
+python -m pip install -e .
+```
+
+The package can also be built using standard Python packaging tools.
+
+Build artifacts are generated into:
+
+```text
+dist/
+```
+
+Generated build artifacts should not be committed to the Git repository.
+
+---
+
+# 🏗️ Project Structure
+
+The current repository structure is intentionally minimal and reflects the actual early-stage implementation.
 
 ```text
 kongali-security/
 │
 ├── .github/
 │   └── workflows/
-│       └── ci.yml
+│       ├── ci.yml
+│       └── security.yml
 │
 ├── kongali_security/
 │   ├── __init__.py
@@ -427,7 +330,7 @@ kongali-security/
 └── seminar-cyber-BANNER.png
 ```
 
-> The repository structure will evolve as additional security modules, documentation, workflows, and automation capabilities are implemented.
+The repository structure will evolve as additional modules are implemented.
 
 ---
 
@@ -458,7 +361,7 @@ Create a virtual environment:
 python3 -m venv .venv
 ```
 
-Activate the environment on Linux/macOS/WSL:
+Activate the environment on Linux/macOS:
 
 ```bash
 source .venv/bin/activate
@@ -468,20 +371,6 @@ Activate the environment on Windows PowerShell:
 
 ```powershell
 .venv\Scripts\Activate.ps1
-```
-
-Verify Python:
-
-```bash
-which python
-python --version
-```
-
-On Windows PowerShell:
-
-```powershell
-Get-Command python
-python --version
 ```
 
 Upgrade packaging tools:
@@ -496,15 +385,27 @@ Install the project in editable mode:
 python -m pip install -e .
 ```
 
-Verify the installed package:
+Verify the Python environment:
 
 ```bash
-python -c "import kongali_security; print(kongali_security.__file__)"
+which python
+```
+
+On Windows:
+
+```powershell
+where.exe python
+```
+
+Verify the Python version:
+
+```bash
+python --version
 ```
 
 ---
 
-# 🧪 Development Installation
+# 🧪 Development Setup
 
 For development work, activate the virtual environment first:
 
@@ -516,28 +417,6 @@ Then install the project:
 
 ```bash
 python -m pip install -e .
-```
-
-If development dependencies are defined in `pyproject.toml`, install them using the configured optional dependency group.
-
-Example:
-
-```bash
-python -m pip install -e ".[dev]"
-```
-
-> Always check the current `pyproject.toml` before using optional dependency groups.
-
----
-
-# 🔍 Local Validation
-
-Before committing changes, contributors should validate their work locally.
-
-Check repository status:
-
-```bash
-git status
 ```
 
 Run the test suite:
@@ -552,10 +431,16 @@ Run tests with verbose output:
 pytest -v
 ```
 
-Run Ruff linting:
+Run linting when configured:
 
 ```bash
 ruff check .
+```
+
+Run static type checking when configured:
+
+```bash
+mypy .
 ```
 
 Build the Python package:
@@ -564,72 +449,89 @@ Build the Python package:
 python -m build
 ```
 
-The build output will be generated under:
+The resulting artifacts will be created in:
 
 ```text
 dist/
 ```
 
-Inspect the generated package:
+---
+
+# 📦 Package Build Verification
+
+To verify that the project can be packaged successfully:
+
+```bash
+python -m build
+```
+
+After a successful build, you should see artifacts similar to:
+
+```text
+dist/
+├── kongali_security-0.1.0.tar.gz
+└── kongali_security-0.1.0-py3-none-any.whl
+```
+
+The exact filenames may change as the project version evolves.
+
+To inspect the generated distribution files:
 
 ```bash
 ls -lah dist/
 ```
 
-A successful package build should produce artifacts similar to:
+To verify the package installation in the active virtual environment:
 
-```text
-kongali_security-0.1.0.tar.gz
-kongali_security-0.1.0-py3-none-any.whl
+```bash
+python -m pip install dist/*.whl
 ```
-
-> Build artifacts such as `dist/`, `build/`, `*.egg-info/`, `.venv/`, `__pycache__/`, `.pytest_cache/`, and `.ruff_cache/` should not be committed to Git.
 
 ---
 
 # 💻 Command Line Interface
 
-The project is planned to provide a modular command-line interface.
+A dedicated public CLI is part of the project's planned development direction.
 
-The intended interface may include:
+The following commands represent the **planned CLI architecture** and should not be considered guaranteed to exist in the current `v0.1.0` implementation:
 
 ```bash
 kongali-security --help
 ```
 
-IOC analysis:
+Planned IOC analysis:
 
 ```bash
 kongali-security ioc example.com
 ```
 
-Hash analysis:
+Planned hash analysis:
 
 ```bash
 kongali-security hash <HASH>
 ```
 
-DNS analysis:
+Planned DNS analysis:
 
 ```bash
 kongali-security dns example.com
 ```
 
-JSON output:
+Planned structured output:
 
 ```bash
 kongali-security ioc example.com --format json
 ```
 
-> **Important:** These CLI commands represent the intended interface and may not all be available in the current `0.x` release. Always verify the available interface using the current source code, `pyproject.toml`, and project documentation.
+Until the CLI is officially implemented, users should interact with the Python package and its modules according to the current source code and documentation.
 
 ---
 
 # 📊 Standard Security Result
 
-Kongali Security aims to provide consistent machine-readable security results.
+Kongali Security aims to provide consistent machine-readable results across security modules.
 
-Example:
+The following represents a **future target format**:
 
 ```json
 {
@@ -645,233 +547,117 @@ Example:
 }
 ```
 
-Future versions may introduce a formally versioned result schema to improve interoperability between modules and external security systems.
+This format is currently a conceptual target rather than a guaranteed stable schema.
+
+Future versions may introduce a formally versioned security result specification to improve interoperability between modules and external security systems.
 
 ---
 
-# 🔄 Development Workflow
+# 🔌 Planned Modular Architecture
 
-The recommended development workflow is:
+The long-term architecture is designed to support multiple security capabilities.
 
 ```text
-Clone Repository
-      │
-      ▼
-Create Virtual Environment
-      │
-      ▼
-Install Package
-      │
-      ▼
-Modify Code
-      │
-      ▼
-Run Tests
-      │
-      ▼
-Run Linting
-      │
-      ▼
-Run Security Checks
-      │
-      ▼
-Build Package
-      │
-      ▼
-Review Changes
-      │
-      ▼
-Commit
-      │
-      ▼
-Push to GitHub
-      │
-      ▼
-GitHub Actions CI
-      │
-      ▼
-Review Results
+                     KONGALI SECURITY
+                            │
+                            ▼
+                    CORE SECURITY ENGINE
+                            │
+          ┌─────────────────┼─────────────────┐
+          │                 │                 │
+          ▼                 ▼                 ▼
+       Analysis          Threat Intel       OSINT
+          │                 │                 │
+          ▼                 ▼                 ▼
+      Detection         Enrichment         Research
+          │                 │                 │
+          └─────────────────┼─────────────────┘
+                            │
+                            ▼
+                    Security Automation
+                            │
+                            ▼
+                     Reporting Layer
+                            │
+                            ▼
+                    External Integrations
 ```
 
-Before opening a Pull Request:
+Planned modules may include:
 
-```bash
-git status
-```
+* Threat intelligence
+* IOC enrichment
+* DNS intelligence
+* OSINT
+* Hash analysis
+* URL analysis
+* Log analysis
+* Network monitoring
+* File integrity monitoring
+* YARA analysis
+* Security reporting
+* Detection engineering
+* Automation pipelines
+* AI-assisted security analysis
 
-Run tests:
-
-```bash
-pytest -v
-```
-
-Run linting:
-
-```bash
-ruff check .
-```
-
-Build the package:
-
-```bash
-python -m build
-```
-
-Review the changes:
-
-```bash
-git diff
-```
-
-Review the staged changes:
-
-```bash
-git diff --cached
-```
-
-Commit the changes:
-
-```bash
-git add .
-git commit -m "describe your change"
-```
-
-Push the branch:
-
-```bash
-git push origin main
-```
-
-> Contributors should normally work on a dedicated feature branch and open a Pull Request rather than pushing directly to `main`, subject to repository governance rules.
+These capabilities will be introduced incrementally and documented only after implementation.
 
 ---
 
-# 🤖 Continuous Integration
+# 🤖 Planned AI-SOC Layer
 
-Kongali Security uses GitHub Actions to automate project validation.
+AI-assisted security analysis is part of the project's long-term vision.
 
-The CI workflow is located at:
-
-```text
-.github/workflows/ci.yml
-```
-
-The CI pipeline is intended to validate:
-
-* Supported Python versions
-* Automated tests
-* Code quality
-* Linting
-* Package building
-* Project integrity
-
-The general workflow is:
+The planned architecture follows a Human-in-the-Loop model:
 
 ```text
-Git Push / Pull Request
-          │
-          ▼
-    GitHub Actions
-          │
-          ▼
-      CI Workflow
-          │
-     ┌────┼────┐
-     │    │    │
-     ▼    ▼    ▼
-   Tests Lint Build
-     │    │    │
-     └────┼────┘
-          │
-          ▼
-      CI Result
+SECURITY EVENT
+      │
+      ▼
+DETECTION ENGINE
+      │
+      ▼
+   AI-SOC
+      │
+  ┌───┼────────┐
+  │   │        │
+  ▼   ▼        ▼
+Explain Summarize Enrich
+  │   │        │
+  └───┼────────┘
+      │
+      ▼
+HUMAN ANALYST
+      │
+      ▼
+FINAL DECISION
 ```
 
-To view CI results:
+The intended role of AI is to assist analysts with:
 
-**GitHub Repository → Actions → CI**
+* Context
+* Summarization
+* Enrichment
+* Explanation
+* Recommendation
 
-> CI workflows should be treated as part of the project's software supply-chain and security boundary.
+AI-generated results should not be treated as authoritative security decisions.
+
+Human analysts should validate important findings before taking consequential actions.
+
+Future AI capabilities may include:
+
+* AI-assisted IOC enrichment
+* Security event summarization
+* Detection explanation
+* Alert prioritization
+* Analyst assistance
+* LLM security guardrails
+* Human approval workflows
 
 ---
 
-# 🔐 Security Automation
-
-Security automation is maintained separately from the general CI workflow.
-
-The planned security workflow is:
-
-```text
-Repository Change
-       │
-       ▼
-GitHub Actions
-       │
-       ▼
-Security Workflow
-       │
-   ┌───┼───────────┐
-   │   │           │
-   ▼   ▼           ▼
-Static Dependency Secret
-Analysis Audit     Scanning
-   │   │           │
-   └───┼───────────┘
-       │
-       ▼
-Security Results
-```
-
-Security validation may include:
-
-* Static analysis
-* Dependency auditing
-* Secret scanning
-* Vulnerability detection
-* Supply-chain validation
-* Security configuration checks
-
-The exact tools and workflow behavior are defined by the repository's GitHub Actions configuration.
-
----
-
-# 🔌 Plugin Architecture
-
-Kongali Security is intended to evolve toward an extensible plugin architecture.
-
-```text
-              KONGALI SECURITY
-                      │
-                      ▼
-                PLUGIN ENGINE
-                      │
-          ┌───────────┼───────────┐
-          │           │           │
-          ▼           ▼           ▼
-       DNS Plugin  IOC Plugin  Threat Intel
-                                  Plugin
-          │           │           │
-          └───────────┼───────────┘
-                      │
-                      ▼
-              SECURITY RESULTS
-```
-
-Future plugins may provide integrations for:
-
-* Threat intelligence providers
-* Security scanners
-* Log processors
-* SIEM systems
-* External APIs
-* Custom detection modules
-* Security automation pipelines
-
-Plugin interfaces should follow secure development practices and should not execute untrusted code without explicit authorization and appropriate isolation.
-
----
-
-# 🔐 Security Philosophy
+# 🛡️ Defensive Security Philosophy
 
 Kongali Security follows a **Defensive Security First** philosophy.
 
@@ -886,119 +672,198 @@ The project focuses on:
 * Defensive Research
 * Secure Software Development
 
-The framework is intended for:
+The software is intended for:
 
-* Authorized security testing
 * Systems owned by the operator
+* Authorized security testing
 * Systems where explicit permission has been granted
 * Defensive security research
 * Educational environments
 * Controlled laboratory environments
 
-Users are responsible for complying with all applicable laws, regulations, contracts, and organizational policies.
-
----
-
-# 🛡️ Security & Responsible Disclosure
-
-Security is a core consideration of the project.
-
-If you discover a potential vulnerability in Kongali Security, please follow the responsible disclosure process described in:
-
-**[SECURITY.md](SECURITY.md)**
-
-Please do not publicly disclose sensitive vulnerabilities before maintainers have had an opportunity to investigate and address them.
-
-For general questions, support requests, or non-sensitive issues, please use the appropriate project channels described in:
-
-* [SUPPORT.md](SUPPORT.md)
-* GitHub Issues
-* GitHub Discussions, when available
+Users are responsible for complying with applicable laws, regulations, contracts, terms of service, and organizational policies.
 
 ---
 
 # 🔒 Security Best Practices
 
-Contributors and users should follow these principles:
+Users and contributors should follow secure development practices.
 
-* Never commit API keys or credentials.
-* Never commit private keys or authentication tokens.
-* Do not store production secrets in source code.
-* Use environment variables or secure secret-management systems.
-* Review dependencies before introducing them.
-* Keep dependencies updated.
-* Run security checks before submitting changes.
+Never commit:
+
+* API keys
+* Passwords
+* Authentication tokens
+* Private keys
+* Cloud credentials
+* Production secrets
+
+Use secure secret-management mechanisms such as:
+
+* Environment variables
+* GitHub Actions Secrets
+* Dedicated secret-management systems
+* Platform-specific credential stores
+
+Additional recommendations:
+
 * Validate external input.
-* Avoid unsafe command execution.
 * Treat external data as untrusted.
 * Apply least-privilege principles.
-* Review CI/CD workflow permissions.
-* Protect sensitive configuration files.
+* Review dependencies before adding them.
+* Keep dependencies updated.
+* Review CI/CD permissions.
+* Avoid unsafe command execution.
+* Protect sensitive configuration.
 * Use authorized environments for security testing.
+* Run relevant tests before submitting changes.
 
 ---
 
-# 🗺️ Development Roadmap
+# 🤝 Contributing
+
+Contributions are welcome.
+
+Before opening a Pull Request:
+
+1. Update your branch with the latest `main`.
+2. Run the relevant tests.
+3. Run linting and security checks where applicable.
+4. Review your own changes.
+5. Remove debugging code.
+6. Ensure no secrets or credentials are included.
+7. Update documentation when required.
+8. Keep changes focused and clearly described.
+9. Follow the project's security and contribution guidelines.
+
+A typical contribution workflow is:
+
+```bash
+git checkout main
+git pull --rebase origin main
+```
+
+Create or switch to your working branch:
+
+```bash
+git checkout -b feature/my-change
+```
+
+Run tests:
+
+```bash
+pytest
+```
+
+Run linting:
+
+```bash
+ruff check .
+```
+
+Review changes:
+
+```bash
+git status
+git diff
+```
+
+Stage changes:
+
+```bash
+git add .
+```
+
+Commit:
+
+```bash
+git commit -m "feat: describe your change"
+```
+
+Push your branch:
+
+```bash
+git push -u origin feature/my-change
+```
+
+Then open a Pull Request on GitHub.
+
+Before opening a Pull Request, make sure the branch is synchronized with the latest `main` and that the relevant CI and security checks pass.
+
+Please read:
+
+* [CONTRIBUTING.md](CONTRIBUTING.md)
+* [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+* [GOVERNANCE.md](GOVERNANCE.md)
+* [SECURITY.md](SECURITY.md)
+* [SUPPORT.md](SUPPORT.md)
+
+---
+
+# 🔄 Development Roadmap
 
 The complete roadmap is maintained in:
 
 **[ROADMAP.md](ROADMAP.md)**
 
+The following milestones summarize the project's long-term direction.
+
 ## v0.1.x — Foundation
 
 * [x] Project initialization
-* [x] Python package configuration
-* [x] Package build validation
-* [x] Basic repository documentation
-* [x] Initial IOC analysis foundation
-* [x] Initial test suite
+* [x] Python package structure
+* [x] Core engine foundation
+* [x] IOC analysis foundation
+* [x] Initial unit tests
+* [x] `pyproject.toml` packaging configuration
+* [x] Package build verification
 * [x] `.gitignore`
-* [x] GitHub Actions CI foundation
-* [ ] Core Security Engine expansion
-* [ ] CLI foundation
-* [ ] Expanded IOC Analyzer
-* [ ] Hash Analyzer
-* [ ] DNS Module
-* [ ] JSON Reporter
-* [ ] Expanded CI validation
-* [ ] Security workflow
+* [x] Continuous Integration workflow
+* [x] Security workflow foundation
+* [ ] Expand test coverage
+* [ ] Improve documentation
+* [ ] Establish stable internal APIs
 
 ---
 
-## v0.2.x — Threat Intelligence
+## v0.2.x — Analysis Expansion
 
 * [ ] IOC normalization
 * [ ] IOC enrichment
 * [ ] URL analysis
-* [ ] Domain intelligence
-* [ ] Threat intelligence adapters
-* [ ] Reputation engine
+* [ ] Hash analysis improvements
+* [ ] Domain analysis
+* [ ] Structured security results
+* [ ] Improved reporting
+* [ ] Expanded automated testing
 
 ---
 
-## v0.3.x — OSINT & Network
+## v0.3.x — Intelligence & OSINT
 
 * [ ] DNS intelligence
 * [ ] WHOIS integration
+* [ ] Domain intelligence
 * [ ] Subdomain analysis
-* [ ] Network monitoring
-* [ ] Service visibility
-* [ ] Network event analysis
+* [ ] Threat intelligence adapters
+* [ ] Reputation integrations
 
 ---
 
-## v0.4.x — Detection Engine
+## v0.4.x — Detection & Monitoring
 
 * [ ] Detection rules
 * [ ] Log analysis
-* [ ] YARA integration
+* [ ] Network monitoring
 * [ ] File integrity monitoring
+* [ ] YARA integration
 * [ ] Security event correlation
 
 ---
 
-## v0.5.x — AI-SOC
+## v0.5.x — Automation & AI-SOC
 
+* [ ] Security automation pipelines
 * [ ] AI-assisted analysis
 * [ ] IOC enrichment
 * [ ] Alert summarization
@@ -1016,109 +881,66 @@ The complete roadmap is maintained in:
 * [ ] Comprehensive documentation
 * [ ] Production-ready security model
 * [ ] Community contribution ecosystem
-* [ ] Versioned result schemas
+* [ ] Versioned security result schemas
 * [ ] Security hardening review
+* [ ] Long-term maintenance strategy
 
 ---
 
-# 🤝 Contributing
-
-Contributions are welcome.
-
-Before opening a Pull Request, contributors should:
-
-1. Update their branch with the latest `main`.
-2. Run the relevant tests.
-3. Run linting and security checks where applicable.
-4. Review their own changes.
-5. Remove debugging code.
-6. Make sure no secrets or credentials are included.
-7. Update documentation when required.
-8. Ensure changes are focused and clearly described.
-9. Follow the project's security and contribution guidelines.
-
-Please read:
-
-* [CONTRIBUTING.md](CONTRIBUTING.md)
-* [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-* [GOVERNANCE.md](GOVERNANCE.md)
-* [SECURITY.md](SECURITY.md)
-* [SUPPORT.md](SUPPORT.md)
-
-Possible contribution areas include:
-
-* Python development
-* Security engineering
-* Threat intelligence
-* OSINT research
-* Detection engineering
-* Documentation
-* Testing
-* DevOps
-* CI/CD
-* Security automation
-* AI-assisted security research
-
-We welcome developers, security researchers, system administrators, students, educators, and open-source contributors.
-
----
-
-# 📚 Documentation
-
-Project documentation will continue to expand as the framework evolves.
-
-Planned documentation areas include:
+# 🗺️ Long-Term Vision
 
 ```text
-docs/
-├── architecture.md
-├── installation.md
-├── configuration.md
-├── cli.md
-├── modules.md
-└── security-model.md
+                    KONGALI1720
+                         │
+                         ▼
+                 KONGALI SECURITY
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+          ▼              ▼              ▼
+      Analysis       Threat Intel      OSINT
+          │              │              │
+          └──────────────┼──────────────┘
+                         │
+                         ▼
+                 Detection Engineering
+                         │
+                         ▼
+                  Security Automation
+                         │
+                         ▼
+                      AI-SOC
+                         │
+                         ▼
+                    Open Source
+                         │
+                         ▼
+                     Community
+                         │
+                         ▼
+                  Public Research
+                         │
+                         ▼
+               Technical Publications
+                         │
+                         ▼
+                Industry Contribution
 ```
 
-Additional project-level documentation includes:
-
-* [CONTRIBUTING.md](CONTRIBUTING.md)
-* [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-* [GOVERNANCE.md](GOVERNANCE.md)
-* [ROADMAP.md](ROADMAP.md)
-* [SECURITY.md](SECURITY.md)
-* [SUPPORT.md](SUPPORT.md)
-* [CHANGELOG.md](CHANGELOG.md)
-* [CITATION.cff](CITATION.cff)
-
----
-
-# 🏆 Project Goals
-
-Kongali Security aims to become:
-
-```text
-Accessible
-    +
-Modular
-    +
-Secure
-    +
-Extensible
-    +
-Open Source
-    +
-Community Driven
-    +
-Automation Ready
-```
-
-The project is being developed with a long-term goal of becoming a useful contribution to the cybersecurity and open-source ecosystem.
+The long-term goal is to build a transparent, secure, modular, and community-driven cybersecurity ecosystem.
 
 ---
 
 # 🌐 KONGALI1720 TECHNOLOGY ECOSYSTEM
 
-Kongali Security is part of the broader **KONGALI1720 technology ecosystem**, focused on cybersecurity, blockchain technology, software engineering, open-source development, security automation, and public technical research.
+Kongali Security is part of the broader **KONGALI1720 technology ecosystem**, focused on:
+
+* Cybersecurity
+* Security Automation
+* Blockchain Technology
+* Software Engineering
+* Open Source
+* Security Research
 
 ```mermaid
 flowchart TD
@@ -1157,11 +979,88 @@ flowchart TD
 
 ---
 
+# 📚 Documentation
+
+Project documentation is continuously evolving.
+
+Current project documentation includes:
+
+* [CONTRIBUTING.md](CONTRIBUTING.md)
+* [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+* [GOVERNANCE.md](GOVERNANCE.md)
+* [ROADMAP.md](ROADMAP.md)
+* [SECURITY.md](SECURITY.md)
+* [SUPPORT.md](SUPPORT.md)
+* [CHANGELOG.md](CHANGELOG.md)
+* [CITATION.cff](CITATION.cff)
+* [FAQ.md](FAQ.md)
+* [GLOSSARY.md](GLOSSARY.md)
+* [LEARNING_PATH.md](LEARNING_PATH.md)
+* [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md)
+
+Future documentation may include:
+
+```text
+docs/
+├── architecture.md
+├── installation.md
+├── configuration.md
+├── cli.md
+├── modules.md
+└── security-model.md
+```
+
+These documents will be added as the corresponding features and architecture become sufficiently mature.
+
+---
+
+# 🏆 Project Goals
+
+Kongali Security aims to become:
+
+```text
+Accessible
+    +
+Modular
+    +
+Secure
+    +
+Extensible
+    +
+Open Source
+    +
+Community Driven
+    +
+Automation Ready
+    +
+Developer Friendly
+```
+
+The project is being developed with a long-term goal of becoming a useful contribution to the cybersecurity and open-source ecosystem.
+
+---
+
 # 📜 License
 
 Kongali Security is released under the **MIT License**.
 
-See the [LICENSE](LICENSE) file for the full license text.
+See the [LICENSE](LICENSE) file for the complete license text.
+
+---
+
+# 🛡️ Responsible Disclosure
+
+If you discover a potential security vulnerability in Kongali Security, please follow the responsible disclosure process described in:
+
+**[SECURITY.md](SECURITY.md)**
+
+Please do not publicly disclose sensitive vulnerabilities before maintainers have had an opportunity to investigate and address them.
+
+For general questions and non-sensitive issues, please use the appropriate support channels described in:
+
+* [SUPPORT.md](SUPPORT.md)
+* GitHub Issues
+* GitHub Discussions, when available
 
 ---
 
@@ -1215,3 +1114,21 @@ The project is built around a long-term vision:
 **KONGALI1720 © 2026**
 
 </div>
+
+---
+
+<div align="center">
+  
+## ☕ Support the Project
+
+If this project has helped your research, learning, or security operations, consider supporting its continued development.
+
+<div align="center">
+
+<a href="https://www.paypal.com/paypalme/bungtempong99">
+<img src="https://img.shields.io/badge/☕-Support_Development-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=000000">
+</a>
+
+</div>
+
+---
