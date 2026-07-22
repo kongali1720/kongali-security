@@ -24,6 +24,9 @@ from kongali_security.analysis.report import (
     render_sarif,
     save_report,
 )
+from kongali_security.analysis.pdf_report import (
+    generate_pdf_report,
+)
 from kongali_security.analysis.scan import analyze_scan
 from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
@@ -237,6 +240,7 @@ def build_parser() -> argparse.ArgumentParser:
             "markdown",
             "html",
             "sarif",
+            "pdf",
         ),
         default="text",
         help="Report output format.",
@@ -778,6 +782,25 @@ def main() -> int:
                 output = render_sarif(
                     report
                 )
+
+            elif args.format == "pdf":
+                if not args.output:
+                    print(
+                        "Error: PDF output requires "
+                        "--output FILE.pdf",
+                        file=sys.stderr,
+                    )
+                    return 1
+
+                generate_pdf_report(
+                    report,
+                    args.output,
+                )
+
+                print(
+                    f"Report written to: {args.output}"
+                )
+                return 0
 
             else:
                 output = _build_text_report(
