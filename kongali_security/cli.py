@@ -10,6 +10,7 @@ from typing import Any
 from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.ioc import analyze_ioc
+from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
 
 
@@ -112,10 +113,31 @@ def build_parser() -> argparse.ArgumentParser:
 
     whois_parser.add_argument(
         "domain",
-        help="Domain name to analyze.",
+        help="Domain name to query.",
     )
 
     whois_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format (default: text).",
+    )
+
+    # =========================================================
+    # URL COMMAND
+    # =========================================================
+
+    url_parser = subparsers.add_parser(
+        "url",
+        help="Analyze a URL.",
+    )
+
+    url_parser.add_argument(
+        "input",
+        help="URL value to analyze.",
+    )
+
+    url_parser.add_argument(
         "--format",
         choices=("text", "json"),
         default="text",
@@ -289,6 +311,32 @@ def main() -> int:
         except Exception as exc:
             print(
                 f"Error: WHOIS analysis failed: {exc}",
+                file=sys.stderr,
+            )
+
+            return 1
+
+    # =========================================================
+    # URL
+    # =========================================================
+
+    if args.command == "url":
+        try:
+            result = analyze_url(
+                args.input
+            )
+
+            _print_result(
+                result,
+                args.format,
+                "Kongali Security URL Analyzer",
+            )
+
+            return 0
+
+        except Exception as exc:
+            print(
+                f"Error: URL analysis failed: {exc}",
                 file=sys.stderr,
             )
 
