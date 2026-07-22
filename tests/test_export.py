@@ -35,6 +35,7 @@ def test_export_json_structure(tmp_path):
     report = sample_report()
 
     output = tmp_path / "report.json"
+
     output.write_text(
         json.dumps(report, indent=2),
         encoding="utf-8",
