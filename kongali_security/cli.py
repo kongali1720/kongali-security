@@ -11,6 +11,7 @@ from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.headers import analyze_headers
 from kongali_security.analysis.ioc import analyze_ioc
+from kongali_security.analysis.scan import analyze_scan
 from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
 
@@ -19,7 +20,8 @@ VERSION = "0.1.0"
 
 
 def build_parser() -> argparse.ArgumentParser:
-    """Build the Kongali Security command-line parser."""
+    """Build the Kongali Security CLI parser."""
+
     parser = argparse.ArgumentParser(
         prog="kongali-security",
         description=(
@@ -39,7 +41,7 @@ def build_parser() -> argparse.ArgumentParser:
         title="commands",
     )
 
-    # IOC command
+    # IOC
     ioc_parser = subparsers.add_parser(
         "ioc",
         help="Analyze an Indicator of Compromise (IOC).",
@@ -54,10 +56,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--format",
         choices=("text", "json"),
         default="text",
-        help="Output format (default: text).",
+        help="Output format.",
     )
 
-    # Hash command
+    # Hash
     hash_parser = subparsers.add_parser(
         "hash",
         help="Analyze a cryptographic hash.",
@@ -72,10 +74,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--format",
         choices=("text", "json"),
         default="text",
-        help="Output format (default: text).",
+        help="Output format.",
     )
 
-    # DNS command
+    # DNS
     dns_parser = subparsers.add_parser(
         "dns",
         help="Perform defensive DNS analysis.",
@@ -90,10 +92,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--format",
         choices=("text", "json"),
         default="text",
-        help="Output format (default: text).",
+        help="Output format.",
     )
 
-    # WHOIS command
+    # WHOIS
     whois_parser = subparsers.add_parser(
         "whois",
         help="Perform defensive WHOIS analysis.",
@@ -108,10 +110,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--format",
         choices=("text", "json"),
         default="text",
-        help="Output format (default: text).",
+        help="Output format.",
     )
 
-    # URL command
+    # URL
     url_parser = subparsers.add_parser(
         "url",
         help="Analyze and validate a URL.",
@@ -126,10 +128,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--format",
         choices=("text", "json"),
         default="text",
-        help="Output format (default: text).",
+        help="Output format.",
     )
 
-    # HTTP Headers command
+    # HTTP Headers
     headers_parser = subparsers.add_parser(
         "headers",
         help="Analyze HTTP security headers.",
@@ -144,7 +146,25 @@ def build_parser() -> argparse.ArgumentParser:
         "--format",
         choices=("text", "json"),
         default="text",
-        help="Output format (default: text).",
+        help="Output format.",
+    )
+
+    # Full Scan
+    scan_parser = subparsers.add_parser(
+        "scan",
+        help="Run a full defensive security scan.",
+    )
+
+    scan_parser.add_argument(
+        "target",
+        help="Target URL to scan.",
+    )
+
+    scan_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
     )
 
     return parser
@@ -152,6 +172,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def _result_to_dict(result: Any) -> dict[str, Any]:
     """Convert an analysis result to a dictionary."""
+
     if hasattr(result, "to_dict"):
         data = result.to_dict()
 
@@ -173,6 +194,7 @@ def _print_result(
     title: str,
 ) -> None:
     """Print an analysis result."""
+
     data = _result_to_dict(result)
 
     if output_format == "json":
@@ -195,12 +217,13 @@ def _print_result(
         ).title()
 
         print(
-            f"{label:<12}: {value}"
+            f"{label:<18}: {value}"
         )
 
 
 def main() -> int:
     """Run the Kongali Security CLI."""
+
     parser = build_parser()
     args = parser.parse_args()
 
@@ -211,9 +234,7 @@ def main() -> int:
     # IOC
     if args.command == "ioc":
         try:
-            result = analyze_ioc(
-                args.input
-            )
+            result = analyze_ioc(args.input)
 
             _print_result(
                 result,
@@ -234,9 +255,7 @@ def main() -> int:
     # Hash
     if args.command == "hash":
         try:
-            result = analyze_hash(
-                args.input
-            )
+            result = analyze_hash(args.input)
 
             _print_result(
                 result,
@@ -257,9 +276,7 @@ def main() -> int:
     # DNS
     if args.command == "dns":
         try:
-            result = analyze_dns(
-                args.domain
-            )
+            result = analyze_dns(args.domain)
 
             _print_result(
                 result,
@@ -280,9 +297,7 @@ def main() -> int:
     # WHOIS
     if args.command == "whois":
         try:
-            result = analyze_whois(
-                args.domain
-            )
+            result = analyze_whois(args.domain)
 
             _print_result(
                 result,
@@ -303,9 +318,7 @@ def main() -> int:
     # URL
     if args.command == "url":
         try:
-            result = analyze_url(
-                args.url
-            )
+            result = analyze_url(args.url)
 
             _print_result(
                 result,
@@ -326,9 +339,7 @@ def main() -> int:
     # HTTP Headers
     if args.command == "headers":
         try:
-            result = analyze_headers(
-                args.url
-            )
+            result = analyze_headers(args.url)
 
             _print_result(
                 result,
@@ -341,6 +352,27 @@ def main() -> int:
         except Exception as exc:
             print(
                 f"Error: HTTP headers analysis failed: {exc}",
+                file=sys.stderr,
+            )
+
+            return 1
+
+    # Full Security Scan
+    if args.command == "scan":
+        try:
+            result = analyze_scan(args.target)
+
+            _print_result(
+                result,
+                args.format,
+                "Kongali Security Full Scan",
+            )
+
+            return 0
+
+        except Exception as exc:
+            print(
+                f"Error: Full security scan failed: {exc}",
                 file=sys.stderr,
             )
 
