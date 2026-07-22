@@ -29,6 +29,7 @@ from kongali_security.analysis.pdf_report import (
 )
 from kongali_security.analysis.scan import analyze_scan
 from kongali_security.analysis.url import analyze_url
+from kongali_security.analysis.tls import analyze_tls
 from kongali_security.analysis.whois import analyze_whois
 
 
@@ -163,6 +164,27 @@ def build_parser() -> argparse.ArgumentParser:
         choices=("text", "json"),
         default="text",
         help="Output format.",
+    )
+
+    # TLS Security Analysis
+    tls_parser = subparsers.add_parser(
+        "tls",
+        help="Perform a defensive TLS/SSL security assessment.",
+    )
+
+    tls_parser.add_argument(
+        "target",
+        help="HTTPS target to assess.",
+    )
+
+    tls_parser.add_argument(
+        "--format",
+        choices=(
+            "text",
+            "json",
+        ),
+        default="text",
+        help="TLS output format.",
     )
 
     # Full Scan
@@ -523,6 +545,35 @@ def main() -> int:
         )
 
     # Full Scan
+    if args.command == "tls":
+        try:
+            result = analyze_tls(
+                args.target
+            )
+
+            if args.format == "json":
+                output = json.dumps(
+                    _result_to_dict(result),
+                    indent=2,
+                    default=str,
+                )
+            else:
+                output = _build_text_report(
+                    _result_to_dict(result)
+                )
+
+            print(output)
+
+            return 0
+
+        except Exception as exc:
+            print(
+                f"Error: TLS analysis failed: {exc}",
+                file=sys.stderr,
+            )
+
+            return 1
+
     if args.command == "scan":
         return _run_standard_analysis(
             analyze_scan,
