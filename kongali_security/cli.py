@@ -10,6 +10,7 @@ from typing import Any
 from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.ioc import analyze_ioc
+from kongali_security.analysis.whois import analyze_whois
 
 
 VERSION = "0.1.0"
@@ -37,9 +38,9 @@ def build_parser() -> argparse.ArgumentParser:
         title="commands",
     )
 
-    # ==========================================================
+    # =========================================================
     # IOC COMMAND
-    # ==========================================================
+    # =========================================================
 
     ioc_parser = subparsers.add_parser(
         "ioc",
@@ -58,9 +59,9 @@ def build_parser() -> argparse.ArgumentParser:
         help="Output format (default: text).",
     )
 
-    # ==========================================================
+    # =========================================================
     # HASH COMMAND
-    # ==========================================================
+    # =========================================================
 
     hash_parser = subparsers.add_parser(
         "hash",
@@ -79,9 +80,9 @@ def build_parser() -> argparse.ArgumentParser:
         help="Output format (default: text).",
     )
 
-    # ==========================================================
+    # =========================================================
     # DNS COMMAND
-    # ==========================================================
+    # =========================================================
 
     dns_parser = subparsers.add_parser(
         "dns",
@@ -94,6 +95,27 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     dns_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format (default: text).",
+    )
+
+    # =========================================================
+    # WHOIS COMMAND
+    # =========================================================
+
+    whois_parser = subparsers.add_parser(
+        "whois",
+        help="Perform defensive WHOIS analysis.",
+    )
+
+    whois_parser.add_argument(
+        "domain",
+        help="Domain name to analyze.",
+    )
+
+    whois_parser.add_argument(
         "--format",
         choices=("text", "json"),
         default="text",
@@ -164,17 +186,13 @@ def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
 
-    # ==========================================================
-    # NO COMMAND
-    # ==========================================================
-
     if args.command is None:
         parser.print_help()
         return 0
 
-    # ==========================================================
-    # IOC ANALYSIS
-    # ==========================================================
+    # =========================================================
+    # IOC
+    # =========================================================
 
     if args.command == "ioc":
         try:
@@ -198,9 +216,9 @@ def main() -> int:
 
             return 1
 
-    # ==========================================================
-    # HASH ANALYSIS
-    # ==========================================================
+    # =========================================================
+    # HASH
+    # =========================================================
 
     if args.command == "hash":
         try:
@@ -224,9 +242,9 @@ def main() -> int:
 
             return 1
 
-    # ==========================================================
-    # DNS ANALYSIS
-    # ==========================================================
+    # =========================================================
+    # DNS
+    # =========================================================
 
     if args.command == "dns":
         try:
@@ -250,9 +268,31 @@ def main() -> int:
 
             return 1
 
-    # ==========================================================
-    # FALLBACK
-    # ==========================================================
+    # =========================================================
+    # WHOIS
+    # =========================================================
+
+    if args.command == "whois":
+        try:
+            result = analyze_whois(
+                args.domain
+            )
+
+            _print_result(
+                result,
+                args.format,
+                "Kongali Security WHOIS Analyzer",
+            )
+
+            return 0
+
+        except Exception as exc:
+            print(
+                f"Error: WHOIS analysis failed: {exc}",
+                file=sys.stderr,
+            )
+
+            return 1
 
     parser.print_help()
 
@@ -260,6 +300,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(
-        main()
-    )
+    raise SystemExit(main())
