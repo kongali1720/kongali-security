@@ -63,3 +63,16 @@ kongali-results.sarif
 
 # Local SARIF security scan results
 kongali-results.sarif
+
+# Security scan outputs
+*-report.html
+*-report.json
+*-report.md
+*-report.pdf
+*-report.sarif
+security-report/
+security-regression-report.zip
+comparison.json
+current.json
+baseline.json
+*.sarif

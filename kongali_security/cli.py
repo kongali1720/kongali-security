@@ -40,6 +40,7 @@ from kongali_security.analysis.cors import analyze_cors
 from kongali_security.analysis.csp import analyze_csp
 from kongali_security.analysis.tech import analyze_tech
 from kongali_security.analysis.waf import analyze_waf
+from kongali_security.analysis.password import analyze_password
 from kongali_security.analysis.batch import analyze_batch
 
 VERSION = "0.1.0"
@@ -380,6 +381,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     batch_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Password Security Analysis
+    password_parser = subparsers.add_parser(
+        "password",
+        help="Analyze password security controls.",
+    )
+
+    password_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    password_parser.add_argument(
         "--format",
         choices=("text", "json"),
         default="text",
@@ -1323,6 +1343,73 @@ def main() -> int:
                 print(
                     f"{item['target']} "
                     f"- {item['status']}"
+                )
+
+        return
+
+
+    if args.command == "password":
+
+        result = analyze_password(
+            args.target,
+        )
+
+        if args.format == "json":
+
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+
+            print(
+                "Kongali Security Password Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+            print(
+                "Password Fields:"
+            )
+
+            if result["password_fields"]:
+
+                for field in result["password_fields"]:
+                    print(
+                        field
+                    )
+
+            else:
+                print(
+                    "None detected"
+                )
+
+            print()
+
+            print(
+                "Findings:"
+            )
+
+            if result["findings"]:
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+            else:
+                print(
+                    "No findings"
                 )
 
         return
