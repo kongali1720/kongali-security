@@ -41,6 +41,7 @@ from kongali_security.analysis.csp import analyze_csp
 from kongali_security.analysis.tech import analyze_tech
 from kongali_security.analysis.waf import analyze_waf
 from kongali_security.analysis.password import analyze_password
+from kongali_security.analysis.ip import analyze_ip
 from kongali_security.analysis.batch import analyze_batch
 
 VERSION = "0.1.0"
@@ -400,6 +401,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     password_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # IP Intelligence
+    ip_parser = subparsers.add_parser(
+        "ip",
+        help="Analyze IP address intelligence.",
+    )
+
+    ip_parser.add_argument(
+        "target",
+        help="IP address to analyze.",
+    )
+
+    ip_parser.add_argument(
         "--format",
         choices=("text", "json"),
         default="text",
@@ -1410,6 +1430,73 @@ def main() -> int:
             else:
                 print(
                     "No findings"
+                )
+
+        return
+
+
+    if args.command == "ip":
+
+        result = analyze_ip(
+            args.target,
+        )
+
+        if args.format == "json":
+
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+
+            print(
+                "Kongali Security IP Analysis"
+            )
+
+            print(
+                "─────────────────────────────"
+            )
+
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print(
+                f"Valid  : {result['valid']}"
+            )
+
+            print(
+                f"Version: {result['version']}"
+            )
+
+            print(
+                f"Private: {result['private']}"
+            )
+
+            print()
+
+            print(
+                "Reverse DNS:"
+            )
+
+            print(
+                result['reverse_dns']
+            )
+
+            print()
+
+            print(
+                "Findings:"
+            )
+
+            for finding in result["findings"]:
+
+                print(
+                    f"[{finding['severity']}] "
+                    f"{finding['title']}"
                 )
 
         return
