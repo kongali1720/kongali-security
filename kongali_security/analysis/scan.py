@@ -10,6 +10,8 @@ from kongali_security.analysis.headers import analyze_headers
 from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
 
+from kongali_security.analysis.ip import analyze_ip
+
 from kongali_security.analysis.methods import analyze_methods
 from kongali_security.analysis.redirect import analyze_redirect
 from kongali_security.analysis.robots import analyze_robots
@@ -22,16 +24,17 @@ from kongali_security.analysis.waf import analyze_waf
 
 
 MODULE_NAME = "security_scanner"
-MODULE_VERSION = "0.2.0"
+MODULE_VERSION = "1.0.0"
 
 
 @dataclass
 class ScanResult:
-    """Combined result produced by the security scanner."""
+    """Combined security scan result."""
 
     target: str
     url: Any
     dns: Any
+    ip: Any
     whois: Any
     headers: Any
     methods: Any
@@ -44,25 +47,38 @@ class ScanResult:
     tech: Any
     waf: Any
 
-    def to_dict(self) -> dict[str, Any]:
-        """Convert the scan result to dictionary."""
 
-        def serialize(value: Any) -> Any:
-            if hasattr(value, "to_dict"):
+    def to_dict(
+        self,
+    ) -> dict[str, Any]:
+        """Convert result into dictionary."""
+
+        def serialize(
+            value: Any,
+        ) -> Any:
+
+            if hasattr(
+                value,
+                "to_dict",
+            ):
                 return value.to_dict()
 
-            if hasattr(value, "__dict__"):
-                return dict(value.__dict__)
-
-            if isinstance(value, dict):
-                return value
+            if hasattr(
+                value,
+                "__dict__",
+            ):
+                return dict(
+                    value.__dict__
+                )
 
             return value
+
 
         return {
             "target": self.target,
             "url": serialize(self.url),
             "dns": serialize(self.dns),
+            "ip": serialize(self.ip),
             "whois": serialize(self.whois),
             "headers": serialize(self.headers),
             "methods": serialize(self.methods),
@@ -77,14 +93,19 @@ class ScanResult:
         }
 
 
+
 def analyze_scan(
     target: str,
 ) -> ScanResult:
-    """Run the full defensive security analysis pipeline."""
+    """
+    Run complete defensive security pipeline.
+    """
+
 
     url_result = analyze_url(
         target
     )
+
 
     hostname = getattr(
         url_result,
@@ -92,63 +113,107 @@ def analyze_scan(
         None,
     )
 
+
     if not hostname:
+
         raise ValueError(
             "Target must be a valid URL with a hostname."
         )
+
 
     dns_result = analyze_dns(
         hostname
     )
 
+
+    # IP Intelligence Integration
+
+    ip_result = {
+        "ips": [],
+        "analysis": [],
+    }
+
+
+    resolved_ips = getattr(
+        dns_result,
+        "ipv4",
+        [],
+    )
+
+
+    for address in resolved_ips:
+
+        ip_result["ips"].append(
+            address
+        )
+
+        ip_result["analysis"].append(
+            analyze_ip(
+                address
+            )
+        )
+
+
     whois_result = analyze_whois(
         hostname
     )
 
+
     headers_result = analyze_headers(
-        target
+        url_result.value
     )
+
 
     methods_result = analyze_methods(
-        target
+        url_result.value
     )
+
 
     redirect_result = analyze_redirect(
-        target
+        url_result.value
     )
+
 
     robots_result = analyze_robots(
-        target
+        url_result.value
     )
+
 
     securitytxt_result = analyze_securitytxt(
-        target
+        url_result.value
     )
+
 
     cookies_result = analyze_cookies(
-        target
+        url_result.value
     )
+
 
     cors_result = analyze_cors(
-        target
+        url_result.value
     )
+
 
     csp_result = analyze_csp(
-        target
+        url_result.value
     )
+
 
     tech_result = analyze_tech(
-        target
+        url_result.value
     )
+
 
     waf_result = analyze_waf(
-        target
+        url_result.value
     )
 
+
     return ScanResult(
-        target=target,
+        target=url_result.value,
         url=url_result,
         dns=dns_result,
+        ip=ip_result,
         whois=whois_result,
         headers=headers_result,
         methods=methods_result,
