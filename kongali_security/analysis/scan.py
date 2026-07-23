@@ -102,6 +102,15 @@ def analyze_scan(
     """
 
 
+    if not target.startswith(
+        (
+            "http://",
+            "https://",
+        )
+    ):
+        target = "https://" + target
+
+
     url_result = analyze_url(
         target
     )
@@ -134,11 +143,22 @@ def analyze_scan(
     }
 
 
-    resolved_ips = getattr(
+    resolved_ips = []
+
+    if hasattr(
         dns_result,
         "ipv4",
-        [],
-    )
+    ):
+        resolved_ips = dns_result.ipv4
+
+    elif isinstance(
+        dns_result,
+        dict,
+    ):
+        resolved_ips = dns_result.get(
+            "ipv4",
+            [],
+        )
 
 
     for address in resolved_ips:
