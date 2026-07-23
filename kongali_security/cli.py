@@ -1925,10 +1925,6 @@ def main() -> int:
             "executive",
             False,
         ):
-            from kongali_security.analysis.scan import (
-                analyze_scan,
-            )
-
             target = (
                 getattr(args, "input", None)
                 or getattr(args, "target", None)
