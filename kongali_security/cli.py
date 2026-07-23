@@ -20,9 +20,6 @@ from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.headers import analyze_headers
 from kongali_security.analysis.ioc import analyze_ioc
-from kongali_security.analysis.pdf_report import (
-    generate_pdf_report,
-)
 from kongali_security.analysis.report import (
     generate_report,
     render_html,
@@ -848,7 +845,12 @@ def main() -> int:
                         "PDF output requires --output."
                     )
 
+                from kongali_security.analysis.pdf_report import (
+                    generate_pdf_report,
+                )
+
                 generate_pdf_report(
+
                     assessment,
                     args.output,
                 )
@@ -1052,7 +1054,12 @@ def main() -> int:
                     )
                     return 1
 
+                from kongali_security.analysis.pdf_report import (
+                    generate_pdf_report,
+                )
+
                 generate_pdf_report(
+
                     report,
                     args.output,
                 )
