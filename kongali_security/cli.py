@@ -35,6 +35,12 @@ from kongali_security.analysis.methods import analyze_methods
 from kongali_security.analysis.redirect import analyze_redirect
 from kongali_security.analysis.robots import analyze_robots
 from kongali_security.analysis.securitytxt import analyze_securitytxt
+from kongali_security.analysis.cookies import analyze_cookies
+from kongali_security.analysis.cors import analyze_cors
+from kongali_security.analysis.csp import analyze_csp
+from kongali_security.analysis.tech import analyze_tech
+from kongali_security.analysis.waf import analyze_waf
+from kongali_security.analysis.batch import analyze_batch
 
 VERSION = "0.1.0"
 
@@ -260,6 +266,120 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     securitytxt_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Cookies Analysis
+    cookies_parser = subparsers.add_parser(
+        "cookies",
+        help="Analyze cookie security.",
+    )
+
+    cookies_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    cookies_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # CORS Analysis
+    cors_parser = subparsers.add_parser(
+        "cors",
+        help="Analyze CORS security.",
+    )
+
+    cors_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    cors_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # CSP Analysis
+    csp_parser = subparsers.add_parser(
+        "csp",
+        help="Analyze Content Security Policy.",
+    )
+
+    csp_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    csp_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Technology Detection
+    tech_parser = subparsers.add_parser(
+        "tech",
+        help="Detect web technologies.",
+    )
+
+    tech_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    tech_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # WAF Detection
+    waf_parser = subparsers.add_parser(
+        "waf",
+        help="Detect Web Application Firewall.",
+    )
+
+    waf_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    waf_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Batch Scanner
+    batch_parser = subparsers.add_parser(
+        "batch",
+        help="Scan multiple targets.",
+    )
+
+    batch_parser.add_argument(
+        "file",
+        help="Targets file.",
+    )
+
+    batch_parser.add_argument(
         "--format",
         choices=("text", "json"),
         default="text",
@@ -883,6 +1003,327 @@ def main() -> int:
                         f"[{finding['severity']}] "
                         f"{finding['title']}"
                     )
+
+        return
+
+
+    if args.command == "cookies":
+
+        result = analyze_cookies(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security Cookies Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+            print(
+                "Cookies:"
+            )
+
+            if not result["cookies"]:
+                print(
+                    "None detected"
+                )
+            else:
+                for cookie in result["cookies"]:
+                    print(
+                        f"- {cookie['name']} "
+                        f"Secure={cookie['secure']} "
+                        f"HttpOnly={cookie['httponly']} "
+                        f"SameSite={cookie['samesite']}"
+                    )
+
+            if result["findings"]:
+                print()
+                print("Findings:")
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "cors":
+
+        result = analyze_cors(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security CORS Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+            print("Headers:")
+
+            if result["headers"]:
+                for key, value in result["headers"].items():
+                    print(
+                        f"- {key}: {value}"
+                    )
+            else:
+                print(
+                    "None detected"
+                )
+
+            if result["findings"]:
+                print()
+                print("Findings:")
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "csp":
+
+        result = analyze_csp(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security CSP Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+
+            print(
+                "CSP:"
+            )
+
+            if result["csp"]:
+                print(
+                    result["csp"]
+                )
+            else:
+                print(
+                    "Not configured"
+                )
+
+            if result["findings"]:
+                print()
+                print(
+                    "Findings:"
+                )
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "tech":
+
+        result = analyze_tech(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security Technology Detection"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+            print(
+                "Detected Technologies:"
+            )
+
+            if result["technologies"]:
+                for item in result["technologies"]:
+                    print(
+                        f"- {item}"
+                    )
+            else:
+                print(
+                    "None detected"
+                )
+
+            if result["findings"]:
+                print()
+                print(
+                    "Findings:"
+                )
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "waf":
+
+        result = analyze_waf(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security WAF Detection"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+            print(
+                "Detected WAF:"
+            )
+
+            if result["detected"]:
+                for item in result["detected"]:
+                    print(
+                        f"- {item}"
+                    )
+            else:
+                print(
+                    "None detected"
+                )
+
+            print()
+
+            print(
+                "Findings:"
+            )
+
+            for finding in result["findings"]:
+                print(
+                    f"[{finding['severity']}] "
+                    f"{finding['title']}"
+                )
+
+        return
+
+
+    if args.command == "batch":
+
+        result = analyze_batch(
+            args.file,
+        )
+
+        if args.format == "json":
+
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+
+            print(
+                "Kongali Security Batch Scanner"
+            )
+
+            print(
+                "─────────────────────────────"
+            )
+
+            print(
+                f"Targets : {result['total']}"
+            )
+
+            print(
+                f"Completed : {result['completed']}"
+            )
+
+            print(
+                f"Failed : {result['failed']}"
+            )
+
+            print()
+
+            for item in result["results"]:
+
+                print(
+                    f"{item['target']} "
+                    f"- {item['status']}"
+                )
 
         return
 
