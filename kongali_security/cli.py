@@ -59,6 +59,9 @@ from kongali_security.analysis.password import analyze_password
 from kongali_security.analysis.ip import analyze_ip
 from kongali_security.network import analyze_netstat
 from kongali_security.network import analyze_ports
+from kongali_security.network import analyze_services
+from kongali_security.network import analyze_fingerprint
+from kongali_security.reporting.network import render_fingerprint_report
 from kongali_security.analysis.batch import analyze_batch
 
 VERSION = "0.1.0"
@@ -461,9 +464,44 @@ def build_parser() -> argparse.ArgumentParser:
         help="Target hostname or IP address.",
     )
 
+
+    services_parser = subparsers.add_parser(
+        "services",
+        help="Analyze detected network services.",
+    )
+
+    services_parser.add_argument(
+        "target",
+        help="Target hostname or IP address.",
+    )
+
+
+    fingerprint_parser = subparsers.add_parser(
+        "fingerprint",
+        help="Fingerprint remote services.",
+    )
+
+    fingerprint_parser.add_argument(
+        "target",
+        help="Target hostname or IP address.",
+    )
+
     scan_parser = subparsers.add_parser(
         "scan",
         help="Run a full defensive security scan.",
+    )
+
+
+    scan_parser.add_argument(
+        "--summary",
+        action="store_true",
+        help="Show compact security summary.",
+    )
+
+    scan_parser.add_argument(
+        "--executive",
+        action="store_true",
+        help="Show executive security summary.",
     )
 
     scan_parser.add_argument(
@@ -1633,6 +1671,108 @@ def main() -> int:
                     f"{port.service} "
                     f"{port.state}"
                 )
+
+        return
+
+
+
+    if args.command == "services":
+
+        from kongali_security.network import analyze_ports
+
+        port_result = analyze_ports(
+            args.target
+        )
+
+
+        ports = [
+
+            item.port
+
+            for item in port_result.findings
+
+        ]
+
+
+        result = analyze_services(
+            args.target,
+            ports,
+        )
+
+
+        print(
+            "Kongali Security Service Intelligence"
+        )
+
+        print("=" * 40)
+
+        print(
+            f"Target: {result.target}"
+        )
+
+        print()
+
+
+        if not result.services:
+
+            print(
+                "No services detected."
+            )
+
+
+        for service in result.services:
+
+            print(
+                f"{service.port}/tcp"
+            )
+
+            print(
+                f"Service: {service.service}"
+            )
+
+            print(
+                f"Risk: {service.risk}"
+            )
+
+            print(
+                f"Recommendation: "
+                f"{service.recommendation}"
+            )
+
+            print()
+
+
+        return
+
+
+
+    if args.command == "fingerprint":
+
+        from kongali_security.network import analyze_ports
+
+
+        port_result = analyze_ports(
+            args.target
+        )
+
+
+        ports = [
+            item.port
+            for item in port_result.findings
+        ]
+
+
+        result = analyze_fingerprint(
+            args.target,
+            ports,
+        )
+
+
+        print(
+            render_fingerprint_report(
+                result
+            )
+        )
 
         return
 
