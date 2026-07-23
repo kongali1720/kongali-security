@@ -1396,11 +1396,24 @@ def main() -> int:
             args.target,
         )
 
+        safe_result = {
+            "target": result.get("target"),
+            "https": result.get("https"),
+            "password_fields": [
+                {
+                    "name": "[REDACTED]",
+                    "autocomplete": "[REDACTED]",
+                }
+                for _ in result.get("password_fields", [])
+            ],
+            "findings": result.get("findings", []),
+        }
+
         if args.format == "json":
 
             print(
                 json.dumps(
-                    result,
+                    safe_result,
                     indent=2,
                 )
             )
@@ -1415,7 +1428,7 @@ def main() -> int:
             )
 
             print(
-                f"Target : {result['target']}"
+                f"Target : {safe_result['target']}"
             )
 
             print()
@@ -1423,9 +1436,9 @@ def main() -> int:
                 "Password Fields:"
             )
 
-            if result["password_fields"]:
+            if safe_result["password_fields"]:
 
-                for field in result["password_fields"]:
+                for field in safe_result["password_fields"]:
                     print(
                         field
                     )
@@ -1441,9 +1454,9 @@ def main() -> int:
                 "Findings:"
             )
 
-            if result["findings"]:
+            if safe_result["findings"]:
 
-                for finding in result["findings"]:
+                for finding in safe_result["findings"]:
                     print(
                         f"[{finding['severity']}] "
                         f"{finding['title']}"
