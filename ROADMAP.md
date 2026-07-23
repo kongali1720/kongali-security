@@ -57,3 +57,86 @@ Platform Integration
     ▼
 Production Readiness
 ```
+
+---
+
+# Release Roadmap
+
+## v1.0.0 — Foundation Release ✅
+
+Status: Released
+
+KONGALI SECURITY v1.0.0 established the core defensive security automation framework.
+
+Completed capabilities:
+
+- Modular security analysis architecture
+- URL intelligence engine
+- DNS analysis
+- WHOIS intelligence
+- IP intelligence analysis
+- HTTP security header analysis
+- Content Security Policy analysis
+- CORS security analysis
+- Cookie security analysis
+- WAF detection
+- Technology fingerprinting
+- Security.txt analysis
+- Robots.txt analysis
+- Redirect analysis
+- HTTP method analysis
+- Risk scoring engine
+- Unified security assessment engine
+- Executive security reporting
+- Markdown report generation
+- HTML report generation
+- PDF audit reporting
+- CLI security automation framework
+- Automated testing framework
+
+
+---
+
+# v1.1.0 — Network Intelligence Expansion 🚧
+
+Status: In Development
+
+The v1.1.0 release expands KONGALI SECURITY from web security analysis into infrastructure and network security intelligence.
+
+## Completed
+
+- Network intelligence module architecture
+- Local socket analysis
+- Netstat intelligence analyzer
+- Remote port intelligence analyzer
+- Network CLI commands
+- Network analysis test coverage
+
+
+## Planned
+
+### Service Intelligence
+
+- Service detection engine
+- Service identification
+- Service risk classification
+- Banner fingerprinting
+- Software exposure analysis
+
+
+### Network Risk Analysis
+
+- Open port risk scoring
+- Dangerous service detection
+- Network exposure assessment
+- Integration with Risk Score Engine
+- Security findings generation
+
+
+Example:
+
+```bash
+kongali-security netstat
+
+kongali-security ports example.com
+```
