@@ -1,0 +1,20 @@
+{
+  "target": "https://example.com",
+  "baseline_risk": "HIGH",
+  "current_risk": "LOW",
+  "baseline_score": 45.0,
+  "current_score": 90.0,
+  "score_change": 45.0,
+  "new_findings": [],
+  "resolved_findings": [
+    {
+      "category": "HTTP Security Headers",
+      "title": "Missing Content-Security-Policy",
+      "severity": "HIGH"
+    }
+  ],
+  "new_findings_count": 0,
+  "resolved_findings_count": 1,
+  "security_trend": "IMPROVED",
+  "regression": false
+}

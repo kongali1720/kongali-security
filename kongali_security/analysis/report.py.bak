@@ -1,0 +1,166 @@
+# ======= HANYA GANTI ISI FUNGSI render_sarif() DENGAN YANG DI BAWAH =======
+
+def render_sarif(
+    report: dict[str, Any],
+) -> str:
+    """Render report as GitHub-compatible SARIF 2.1.0."""
+
+    findings = report.get("findings", [])
+
+    results = []
+    rules = []
+
+    level_map = {
+        "CRITICAL": "error",
+        "HIGH": "error",
+        "MEDIUM": "warning",
+        "LOW": "note",
+    }
+
+    for index, finding in enumerate(findings):
+        severity = str(
+            finding.get("severity", "LOW")
+        ).upper()
+
+        owasp = finding.get("owasp", {})
+        cwe = finding.get("cwe", {})
+
+        rule_id = f"KONGALI-{severity}-{index+1:04d}"
+
+        rules.append(
+            {
+                "id": rule_id,
+                "name": str(
+                    finding.get("title", rule_id)
+                ),
+                "shortDescription": {
+                    "text": str(
+                        finding.get(
+                            "title",
+                            "Security Finding",
+                        )
+                    )
+                },
+                "fullDescription": {
+                    "text": str(
+                        finding.get(
+                            "description",
+                            "",
+                        )
+                    )
+                },
+                "help": {
+                    "text": str(
+                        finding.get(
+                            "remediation",
+                            "",
+                        )
+                    )
+                },
+                "properties": {
+                    "tags": [
+                        "security",
+                        "kongali-security",
+                    ]
+                },
+            }
+        )
+
+        results.append(
+            {
+                "ruleId": rule_id,
+                "ruleIndex": index,
+                "level": level_map.get(
+                    severity,
+                    "warning",
+                ),
+                "message": {
+                    "text": str(
+                        finding.get(
+                            "description",
+                            "Security finding detected.",
+                        )
+                    )
+                },
+                "locations": [
+                    {
+                        "physicalLocation": {
+                            "artifactLocation": {
+                                "uri": "README.md",
+                                "uriBaseId": "%SRCROOT%",
+                            },
+                            "region": {
+                                "startLine": 1,
+                            },
+                        }
+                    }
+                ],
+                "properties": {
+                    "severity": severity,
+                    "category": str(
+                        finding.get(
+                            "category",
+                            "Unknown",
+                        )
+                    ),
+                    "owasp": str(
+                        owasp.get(
+                            "id",
+                            "N/A",
+                        )
+                    ),
+                    "cwe": str(
+                        cwe.get(
+                            "id",
+                            "N/A",
+                        )
+                    ),
+                    "impact": str(
+                        finding.get(
+                            "impact",
+                            "",
+                        )
+                    ),
+                    "remediation": str(
+                        finding.get(
+                            "remediation",
+                            "",
+                        )
+                    ),
+                    "evidence": finding.get(
+                        "evidence",
+                        {},
+                    ),
+                },
+            }
+        )
+
+    sarif = {
+        "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+        "version": "2.1.0",
+        "runs": [
+            {
+                "originalUriBaseIds": {
+                    "%SRCROOT%": {
+                        "uri": "file:///"
+                    }
+                },
+                "tool": {
+                    "driver": {
+                        "name": "Kongali Security",
+                        "informationUri": "https://github.com/kongali1720/kongali-security",
+                        "version": MODULE_VERSION,
+                        "rules": rules,
+                    }
+                },
+                "results": results,
+            }
+        ],
+    }
+
+    return json.dumps(
+        sarif,
+        indent=2,
+    )
+
+# ======= AKHIR FUNGSI =======
