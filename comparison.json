@@ -1,20 +1,14 @@
 {
-  "target": "https://example.com",
-  "baseline_risk": "HIGH",
-  "current_risk": "LOW",
-  "baseline_score": 45.0,
-  "current_score": 90.0,
-  "score_change": 45.0,
+  "target": "https://blanchedalmond-gorilla-295483.hostingersite.com",
+  "baseline_risk": "CRITICAL",
+  "current_risk": "CRITICAL",
+  "baseline_score": 0,
+  "current_score": 0,
+  "score_change": 0,
   "new_findings": [],
-  "resolved_findings": [
-    {
-      "category": "HTTP Security Headers",
-      "title": "Missing Content-Security-Policy",
-      "severity": "HIGH"
-    }
-  ],
+  "resolved_findings": [],
   "new_findings_count": 0,
-  "resolved_findings_count": 1,
-  "security_trend": "IMPROVED",
+  "resolved_findings_count": 0,
+  "security_trend": "UNCHANGED",
   "regression": false
 }

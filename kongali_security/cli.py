@@ -31,6 +31,7 @@ from kongali_security.analysis.scan import analyze_scan
 from kongali_security.analysis.tls import analyze_tls
 from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
+from kongali_security.analysis.methods import analyze_methods
 
 VERSION = "0.1.0"
 
@@ -184,6 +185,25 @@ def build_parser() -> argparse.ArgumentParser:
         ),
         default="text",
         help="TLS output format.",
+    )
+
+
+    # HTTP Methods Analysis
+    methods_parser = subparsers.add_parser(
+        "methods",
+        help="Analyze allowed HTTP methods.",
+    )
+
+    methods_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    methods_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
     )
 
     # Full Scan
@@ -605,6 +625,60 @@ def main() -> int:
             )
 
             return 1
+
+
+    if args.command == "methods":
+
+        result = analyze_methods(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security HTTP Methods Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target      : {result['target']}"
+            )
+            print(
+                f"Reachable   : {result['reachable']}"
+            )
+
+            print()
+            print(
+                "Allowed Methods:"
+            )
+
+            for item in result["allowed_methods"]:
+                print(
+                    f"- {item['method']} "
+                    f"({item['status_code']})"
+                )
+
+            if result["findings"]:
+                print()
+                print(
+                    "Findings:"
+                )
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
 
     if args.command == "scan":
         return _run_standard_analysis(

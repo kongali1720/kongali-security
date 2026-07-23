@@ -1,0 +1,51 @@
+{
+  "target": "https://example.com",
+  "baseline_risk": "HIGH",
+  "current_risk": "CRITICAL",
+  "baseline_score": 45.0,
+  "current_score": 0,
+  "score_change": -45.0,
+  "new_findings": [
+    {
+      "category": "HTTP Security Headers",
+      "title": "Missing security header: Content-Security-Policy",
+      "severity": "HIGH"
+    },
+    {
+      "category": "HTTP Security Headers",
+      "title": "Missing security header: Permissions-Policy",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "HTTP Security Headers",
+      "title": "Missing security header: Referrer-Policy",
+      "severity": "MEDIUM"
+    },
+    {
+      "category": "HTTP Security Headers",
+      "title": "Missing security header: Strict-Transport-Security",
+      "severity": "HIGH"
+    },
+    {
+      "category": "HTTP Security Headers",
+      "title": "Missing security header: X-Content-Type-Options",
+      "severity": "HIGH"
+    },
+    {
+      "category": "HTTP Security Headers",
+      "title": "Missing security header: X-Frame-Options",
+      "severity": "HIGH"
+    }
+  ],
+  "resolved_findings": [
+    {
+      "category": "HTTP Security Headers",
+      "title": "Missing Content-Security-Policy",
+      "severity": "HIGH"
+    }
+  ],
+  "new_findings_count": 6,
+  "resolved_findings_count": 1,
+  "security_trend": "REGRESSED",
+  "regression": true
+}

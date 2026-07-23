@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "file:///"
+        }
+      },
+      "tool": {
+        "driver": {
+          "name": "Kongali Security",
+          "informationUri": "https://github.com/kongali1720/kongali-security",
+          "version": "0.2.0",
+          "rules": [
+            {
+              "id": "KONGALI-HIGH-0001",
+              "name": "Missing security header: Content-Security-Policy",
+              "shortDescription": {
+                "text": "Missing security header: Content-Security-Policy"
+              },
+              "fullDescription": {
+                "text": "The HTTP response does not include the Content-Security-Policy security header."
+              }
+            },
+            {
+              "id": "KONGALI-HIGH-0002",
+              "name": "Missing security header: Strict-Transport-Security",
+              "shortDescription": {
+                "text": "Missing security header: Strict-Transport-Security"
+              },
+              "fullDescription": {
+                "text": "The HTTP response does not include the Strict-Transport-Security security header."
+              }
+            },
+            {
+              "id": "KONGALI-HIGH-0003",
+              "name": "Missing security header: X-Content-Type-Options",
+              "shortDescription": {
+                "text": "Missing security header: X-Content-Type-Options"
+              },
+              "fullDescription": {
+                "text": "The HTTP response does not include the X-Content-Type-Options security header."
+              }
+            },
+            {
+              "id": "KONGALI-HIGH-0004",
+              "name": "Missing security header: X-Frame-Options",
+              "shortDescription": {
+                "text": "Missing security header: X-Frame-Options"
+              },
+              "fullDescription": {
+                "text": "The HTTP response does not include the X-Frame-Options security header."
+              }
+            },
+            {
+              "id": "KONGALI-MEDIUM-0005",
+              "name": "Missing security header: Referrer-Policy",
+              "shortDescription": {
+                "text": "Missing security header: Referrer-Policy"
+              },
+              "fullDescription": {
+                "text": "The HTTP response does not include the Referrer-Policy security header."
+              }
+            },
+            {
+              "id": "KONGALI-MEDIUM-0006",
+              "name": "Missing security header: Permissions-Policy",
+              "shortDescription": {
+                "text": "Missing security header: Permissions-Policy"
+              },
+              "fullDescription": {
+                "text": "The HTTP response does not include the Permissions-Policy security header."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "KONGALI-HIGH-0001",
+          "level": "error",
+          "message": {
+            "text": "The HTTP response does not include the Content-Security-Policy security header."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "README.md",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "HTTP Security Headers",
+            "owasp": "A05:2021",
+            "cwe": "CWE-693",
+            "impact": "Missing Content-Security-Policy may increase the risk of client-side injection and content execution attacks.",
+            "remediation": "Implement a restrictive Content-Security-Policy appropriate for the application.",
+            "evidence": {
+              "header": "Content-Security-Policy",
+              "status": "missing"
+            }
+          }
+        },
+        {
+          "ruleId": "KONGALI-HIGH-0002",
+          "level": "error",
+          "message": {
+            "text": "The HTTP response does not include the Strict-Transport-Security security header."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "README.md",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "HTTP Security Headers",
+            "owasp": "A05:2021",
+            "cwe": "CWE-319",
+            "impact": "Without HSTS, users may be exposed to protocol downgrade or insecure HTTP connections.",
+            "remediation": "Enable HTTP Strict Transport Security with an appropriate max-age and HTTPS deployment.",
+            "evidence": {
+              "header": "Strict-Transport-Security",
+              "status": "missing"
+            }
+          }
+        },
+        {
+          "ruleId": "KONGALI-HIGH-0003",
+          "level": "error",
+          "message": {
+            "text": "The HTTP response does not include the X-Content-Type-Options security header."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "README.md",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "HTTP Security Headers",
+            "owasp": "A05:2021",
+            "cwe": "CWE-693",
+            "impact": "Missing X-Content-Type-Options may allow browsers to MIME-sniff responses unexpectedly.",
+            "remediation": "Set the X-Content-Type-Options header to nosniff.",
+            "evidence": {
+              "header": "X-Content-Type-Options",
+              "status": "missing"
+            }
+          }
+        },
+        {
+          "ruleId": "KONGALI-HIGH-0004",
+          "level": "error",
+          "message": {
+            "text": "The HTTP response does not include the X-Frame-Options security header."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "README.md",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "HIGH",
+            "category": "HTTP Security Headers",
+            "owasp": "A05:2021",
+            "cwe": "CWE-693",
+            "impact": "Missing clickjacking protection may allow malicious sites to frame the application.",
+            "remediation": "Set X-Frame-Options to DENY or SAMEORIGIN, or use an appropriate CSP frame-ancestors policy.",
+            "evidence": {
+              "header": "X-Frame-Options",
+              "status": "missing"
+            }
+          }
+        },
+        {
+          "ruleId": "KONGALI-MEDIUM-0005",
+          "level": "warning",
+          "message": {
+            "text": "The HTTP response does not include the Referrer-Policy security header."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "README.md",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "HTTP Security Headers",
+            "owasp": "A05:2021",
+            "cwe": "CWE-200",
+            "impact": "An overly permissive referrer policy may expose sensitive URL information to external origins.",
+            "remediation": "Configure a restrictive Referrer-Policy such as strict-origin-when-cross-origin.",
+            "evidence": {
+              "header": "Referrer-Policy",
+              "status": "missing"
+            }
+          }
+        },
+        {
+          "ruleId": "KONGALI-MEDIUM-0006",
+          "level": "warning",
+          "message": {
+            "text": "The HTTP response does not include the Permissions-Policy security header."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "README.md",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "MEDIUM",
+            "category": "HTTP Security Headers",
+            "owasp": "A05:2021",
+            "cwe": "CWE-693",
+            "impact": "Missing Permissions-Policy may allow unnecessary browser capabilities to remain available.",
+            "remediation": "Configure Permissions-Policy to explicitly restrict unnecessary browser capabilities.",
+            "evidence": {
+              "header": "Permissions-Policy",
+              "status": "missing"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
