@@ -11,6 +11,7 @@ from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
 
 from kongali_security.analysis.ip import analyze_ip
+from kongali_security.analysis.risk import calculate_risk
 
 from kongali_security.analysis.methods import analyze_methods
 from kongali_security.analysis.redirect import analyze_redirect
@@ -46,6 +47,7 @@ class ScanResult:
     csp: Any
     tech: Any
     waf: Any
+    risk: Any
 
 
     def to_dict(
@@ -90,6 +92,7 @@ class ScanResult:
             "csp": serialize(self.csp),
             "tech": serialize(self.tech),
             "waf": serialize(self.waf),
+            "risk": serialize(self.risk),
         }
 
 
@@ -229,6 +232,29 @@ def analyze_scan(
     )
 
 
+    scan_data = {
+        "url": url_result,
+        "dns": dns_result,
+        "ip": ip_result,
+        "whois": whois_result,
+        "headers": headers_result,
+        "methods": methods_result,
+        "redirect": redirect_result,
+        "robots": robots_result,
+        "securitytxt": securitytxt_result,
+        "cookies": cookies_result,
+        "cors": cors_result,
+        "csp": csp_result,
+        "tech": tech_result,
+        "waf": waf_result,
+    }
+
+
+    risk_result = calculate_risk(
+        scan_data
+    )
+
+
     return ScanResult(
         target=url_result.value,
         url=url_result,
@@ -245,4 +271,5 @@ def analyze_scan(
         csp=csp_result,
         tech=tech_result,
         waf=waf_result,
+        risk=risk_result,
     )
