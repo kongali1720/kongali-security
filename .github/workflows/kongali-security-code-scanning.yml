@@ -36,6 +36,22 @@ jobs:
           echo "===== pip freeze ====="
           python -m pip freeze
 
+      - name: Verify installed CLI
+        run: |
+          python - <<'PY'
+          import inspect
+          import pathlib
+          import kongali_security.cli
+
+          path = pathlib.Path(inspect.getsourcefile(kongali_security.cli))
+          print("CLI:", path)
+
+          text = path.read_text(encoding="utf-8")
+          print("===== First 40 lines =====")
+          for i, line in enumerate(text.splitlines()[:40], start=1):
+              print(f"{i:02d}: {line}")
+          PY
+
       - name: Run Kongali Security scan
         run: |
           kongali-security report \
