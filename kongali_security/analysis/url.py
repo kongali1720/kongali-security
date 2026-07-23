@@ -3,40 +3,64 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 from urllib.parse import urlparse
+from typing import Any
+
 
 MODULE_NAME = "url_analyzer"
-MODULE_VERSION = "0.1.0"
+MODULE_VERSION = "1.1.0"
 
 
-class URLType:
-    """Supported URL analysis types."""
+def normalize_url(
+    value: str,
+) -> str:
+    """
+    Normalize URL input.
 
-    URL = "url"
-    UNKNOWN = "unknown"
+    Accept:
+        example.com
+        www.example.com
+        https://example.com
+
+    Return:
+        https://example.com
+    """
+
+    value = value.strip()
+
+    if not value.startswith(
+        (
+            "http://",
+            "https://",
+        )
+    ):
+        value = (
+            "https://"
+            + value
+        )
+
+    return value
 
 
 @dataclass
 class URLResult:
-    """Result produced by the URL Analyzer."""
+    """URL analysis result."""
 
     value: str
-    url_type: str
     valid: bool
-    scheme: str
+    scheme: str | None
     hostname: str | None
     port: int | None
     path: str
     query: str
     fragment: str
-    metadata: dict[str, Any]
 
-    def to_dict(self) -> dict[str, Any]:
-        """Convert URL result to a dictionary."""
+    def to_dict(
+        self,
+    ) -> dict[str, Any]:
+
         return {
             "value": self.value,
-            "type": self.url_type,
             "valid": self.valid,
             "scheme": self.scheme,
             "hostname": self.hostname,
@@ -44,110 +68,35 @@ class URLResult:
             "path": self.path,
             "query": self.query,
             "fragment": self.fragment,
-            "metadata": self.metadata,
         }
 
 
-class URLAnalyzer:
-    """Analyze and classify URLs using local parsing only."""
+def analyze_url(
+    target: str,
+) -> URLResult:
+    """
+    Analyze and validate URL.
+    """
 
-    ALLOWED_SCHEMES = {
-        "http",
-        "https",
-        "ftp",
-    }
+    target = normalize_url(
+        target
+    )
 
-    def analyze(self, value: str) -> URLResult:
-        """Analyze a single URL."""
+    parsed = urlparse(
+        target
+    )
 
-        normalized_value = value.strip()
+    valid = bool(
+        parsed.hostname
+    )
 
-        if not normalized_value:
-            return URLResult(
-                value=value,
-                url_type=URLType.UNKNOWN,
-                valid=False,
-                scheme="",
-                hostname=None,
-                port=None,
-                path="",
-                query="",
-                fragment="",
-                metadata={
-                    "reason": "Input is empty.",
-                },
-            )
-
-        try:
-            parsed = urlparse(normalized_value)
-
-            scheme = parsed.scheme.lower()
-            hostname = parsed.hostname
-            port = parsed.port
-
-        except ValueError as exc:
-            return URLResult(
-                value=normalized_value,
-                url_type=URLType.UNKNOWN,
-                valid=False,
-                scheme="",
-                hostname=None,
-                port=None,
-                path="",
-                query="",
-                fragment="",
-                metadata={
-                    "reason": str(exc),
-                },
-            )
-
-        valid = bool(
-            scheme
-            and scheme in self.ALLOWED_SCHEMES
-            and hostname
-        )
-
-        if not valid:
-            return URLResult(
-                value=normalized_value,
-                url_type=URLType.UNKNOWN,
-                valid=False,
-                scheme=scheme,
-                hostname=hostname,
-                port=port,
-                path=parsed.path,
-                query=parsed.query,
-                fragment=parsed.fragment,
-                metadata={
-                    "reason": (
-                        "URL must contain a supported scheme "
-                        "and hostname."
-                    ),
-                    "supported_schemes": sorted(
-                        self.ALLOWED_SCHEMES
-                    ),
-                },
-            )
-
-        return URLResult(
-            value=normalized_value,
-            url_type=URLType.URL,
-            valid=True,
-            scheme=scheme,
-            hostname=hostname,
-            port=port,
-            path=parsed.path,
-            query=parsed.query,
-            fragment=parsed.fragment,
-            metadata={
-                "username_present": parsed.username is not None,
-                "password_present": parsed.password is not None,
-                "netloc": parsed.netloc,
-            },
-        )
-
-
-def analyze_url(value: str) -> URLResult:
-    """Convenience function for URL analysis."""
-    analyzer = URLAnalyzer()
-    return analyzer.analyze(value)
+    return URLResult(
+        value=target,
+        valid=valid,
+        scheme=parsed.scheme,
+        hostname=parsed.hostname,
+        port=parsed.port,
+        path=parsed.path,
+        query=parsed.query,
+        fragment=parsed.fragment,
+    )
