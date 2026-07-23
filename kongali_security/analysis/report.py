@@ -779,6 +779,14 @@ def render_sarif(
     )
 
     results = []
+    rules = []
+
+    target = str(
+        report.get(
+            "target",
+            "",
+        )
+    )
 
     for index, finding in enumerate(
         findings,
@@ -808,11 +816,41 @@ def render_sarif(
             {},
         )
 
+        rule_id = (
+            f"KONGALI-{severity}-{index:04d}"
+        )
+
+        rules.append(
+            {
+                "id": rule_id,
+                "name": str(
+                    finding.get(
+                        "title",
+                        rule_id,
+                    )
+                ),
+                "shortDescription": {
+                    "text": str(
+                        finding.get(
+                            "title",
+                            "Security Finding",
+                        )
+                    )
+                },
+                "fullDescription": {
+                    "text": str(
+                        finding.get(
+                            "description",
+                            "",
+                        )
+                    )
+                },
+            }
+        )
+
         results.append(
             {
-                "ruleId": (
-                    f"KONGALI-{severity}-{index:04d}"
-                ),
+                "ruleId": rule_id,
                 "level": level_map.get(
                     severity,
                     "warning",
@@ -825,6 +863,18 @@ def render_sarif(
                         )
                     ),
                 },
+                "locations": [
+                    {
+                        "physicalLocation": {
+                            "artifactLocation": {
+                                "uri": target or "/"
+                            },
+                            "region": {
+                                "startLine": 1
+                            }
+                        }
+                    }
+                ],
                 "properties": {
                     "severity": severity,
                     "category": str(
@@ -882,6 +932,7 @@ def render_sarif(
                             "kongali-security"
                         ),
                         "version": MODULE_VERSION,
+                        "rules": rules,
                     },
                 },
                 "results": results,
