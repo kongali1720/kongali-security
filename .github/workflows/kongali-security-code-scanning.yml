@@ -62,6 +62,26 @@ jobs:
             --format sarif \
             --output kongali-results.sarif
 
+      - name: Debug generated SARIF
+        run: |
+          echo "===== FILE EXISTS ====="
+          ls -lh kongali-results.sarif
+
+          echo "===== LOCATIONS ====="
+          grep -n '"locations"' kongali-results.sarif || true
+
+          echo "===== PHYSICAL LOCATION ====="
+          grep -n '"physicalLocation"' kongali-results.sarif || true
+
+          echo "===== ARTIFACT LOCATION ====="
+          grep -n '"artifactLocation"' kongali-results.sarif || true
+
+          echo "===== URI ====="
+          grep -n '"uri"' kongali-results.sarif || true
+
+          echo "===== FIRST 220 LINES ====="
+          python -m json.tool kongali-results.sarif | head -220
+
       - name: Upload SARIF
         if: always()
         uses: github/codeql-action/upload-sarif@v3
