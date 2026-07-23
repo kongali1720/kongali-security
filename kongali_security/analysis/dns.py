@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import socket
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, cast
 
 MODULE_NAME = "dns_analyzer"
 MODULE_VERSION = "0.1.0"
@@ -75,7 +75,7 @@ class DNSAnalyzer:
 
         ipv4 = sorted(
             {
-                result[4][0]
+                cast(str, result[4][0])
                 for result in results
                 if result[0] == socket.AF_INET
             }
@@ -83,7 +83,7 @@ class DNSAnalyzer:
 
         ipv6 = sorted(
             {
-                result[4][0]
+                cast(str, result[4][0])
                 for result in results
                 if result[0] == socket.AF_INET6
             }

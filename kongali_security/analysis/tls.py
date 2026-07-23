@@ -5,7 +5,7 @@ from __future__ import annotations
 import socket
 import ssl
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, cast
 
 from kongali_security.schemas.finding import (
     CVSSScore,
@@ -176,7 +176,7 @@ def analyze_tls(
                 if not_after:
                     try:
                         expiry = _parse_certificate_date(
-                            not_after,
+                            cast(str, not_after),
                         )
 
                         now = datetime.now(
