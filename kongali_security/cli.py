@@ -31,6 +31,9 @@ from kongali_security.analysis.scan import analyze_scan
 from kongali_security.analysis.tls import analyze_tls
 from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
+from kongali_security.reporting.executive import (
+    generate_executive_report,
+)
 from kongali_security.analysis.methods import analyze_methods
 from kongali_security.analysis.redirect import analyze_redirect
 from kongali_security.analysis.robots import analyze_robots
@@ -544,6 +547,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--output",
         help="Write the report to a file.",
     )
+
+    report_parser.add_argument(
+        "--executive",
+        action="store_true",
+        help="Generate executive security summary.",
+    )
+
 
     # Compare Security Reports
     compare_parser = subparsers.add_parser(
@@ -1909,6 +1919,43 @@ def main() -> int:
             return 1
 
     if args.command == "report":
+
+        if getattr(
+            args,
+            "executive",
+            False,
+        ):
+            from kongali_security.analysis.scan import (
+                analyze_scan,
+            )
+
+            target = (
+                getattr(args, "input", None)
+                or getattr(args, "target", None)
+                or getattr(args, "url", None)
+            )
+
+            if not target:
+                raise ValueError(
+                    "Report target is required."
+                )
+
+            scan_result = analyze_scan(
+                target
+            )
+
+            executive_report = (
+                generate_executive_report(
+                    scan_result.to_dict()
+                )
+            )
+
+            print(
+                executive_report
+            )
+
+            return
+
         try:
             scan_result = analyze_scan(
                 args.target
