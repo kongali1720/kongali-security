@@ -867,7 +867,8 @@ def render_sarif(
                     {
                         "physicalLocation": {
                             "artifactLocation": {
-                                "uri": target or "/"
+                                "uri": "README.md",
+                                "uriBaseId": "%SRCROOT%",
                             },
                             "region": {
                                 "startLine": 1
@@ -923,6 +924,11 @@ def render_sarif(
         "version": "2.1.0",
         "runs": [
             {
+                "originalUriBaseIds": {
+                    "%SRCROOT%": {
+                        "uri": "file:///"
+                    }
+                },
                 "tool": {
                     "driver": {
                         "name": "Kongali Security",
