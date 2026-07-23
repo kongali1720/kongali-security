@@ -14,10 +14,11 @@
 [![Repository](https://img.shields.io/badge/Repository-kongali--security-181717?style=for-the-badge\&logo=github)](https://github.com/kongali1720/kongali-security)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge\&logo=python\&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-0.1.x-blue?style=for-the-badge)](https://github.com/kongali1720/kongali-security/releases)
-[![Status](https://img.shields.io/badge/Status-Active%20Development-orange?style=for-the-badge)](https://github.com/kongali1720/kongali-security)
+[![Release](https://img.shields.io/github/v/release/kongali1720/kongali-security?style=for-the-badge\&logo=github)](https://github.com/kongali1720/kongali-security/releases)
+[![Version](https://img.shields.io/badge/Version-v1.0.0-blue?style=for-the-badge)](https://github.com/kongali1720/kongali-security/releases/tag/v1.0.0)
+[![Status](https://img.shields.io/badge/Status-Stable%20Release-success?style=for-the-badge)](https://github.com/kongali1720/kongali-security/releases)
 [![Security](https://img.shields.io/badge/Security-Defensive%20First-red?style=for-the-badge\&logo=shield)](SECURITY.md)
-[![Tests](https://img.shields.io/badge/Tests-76%20Passed-success?style=for-the-badge\&logo=pytest)](https://github.com/kongali1720/kongali-security/actions)
+[![Tests](https://img.shields.io/badge/Tests-196%20Passed-success?style=for-the-badge\&logo=pytest)](https://github.com/kongali1720/kongali-security/actions)
 
 <br>
 
@@ -27,6 +28,7 @@
 [![Pull Requests](https://img.shields.io/github/issues-pr/kongali1720/kongali-security?style=flat-square\&logo=github)](https://github.com/kongali1720/kongali-security/pulls)
 [![Last Commit](https://img.shields.io/github/last-commit/kongali1720/kongali-security?style=flat-square\&logo=git)](https://github.com/kongali1720/kongali-security/commits/main)
 [![Code Scanning](https://img.shields.io/badge/GitHub%20Code%20Scanning-Integrated-success?style=flat-square\&logo=github)](.github/workflows/security.yml)
+[![Release Date](https://img.shields.io/badge/Release-July%202026-blue?style=flat-square)](https://github.com/kongali1720/kongali-security/releases/tag/v1.0.0)
 
 </div>
 
