@@ -57,6 +57,8 @@ from kongali_security.analysis.tech import analyze_tech
 from kongali_security.analysis.waf import analyze_waf
 from kongali_security.analysis.password import analyze_password
 from kongali_security.analysis.ip import analyze_ip
+from kongali_security.network import analyze_netstat
+from kongali_security.network import analyze_ports
 from kongali_security.analysis.batch import analyze_batch
 
 VERSION = "0.1.0"
@@ -442,6 +444,23 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     # Full Scan
+
+    netstat_parser = subparsers.add_parser(
+        "netstat",
+        help="Analyze local network connections.",
+    )
+
+
+    ports_parser = subparsers.add_parser(
+        "ports",
+        help="Analyze remote open ports.",
+    )
+
+    ports_parser.add_argument(
+        "target",
+        help="Target hostname or IP address.",
+    )
+
     scan_parser = subparsers.add_parser(
         "scan",
         help="Run a full defensive security scan.",
@@ -1535,6 +1554,88 @@ def main() -> int:
                 )
 
         return
+
+
+    if args.command == "netstat":
+
+        result = analyze_netstat()
+
+        print(
+            "Kongali Security Network Intelligence"
+        )
+
+        print("=" * 40)
+
+        data = result.to_dict()
+
+        print(
+            f"Active Connections: {len(data['connections'])}"
+        )
+
+        print()
+
+        for conn in data["connections"]:
+
+            print(
+                f"{conn['local']} -> "
+                f"{conn['remote']} "
+                f"{conn['state']}"
+            )
+
+
+        if data["findings"]:
+
+            print()
+            print("Findings")
+            print("--------")
+
+            for finding in data["findings"]:
+
+                print(
+                    f"[{finding['severity']}] "
+                    f"{finding['title']}"
+                )
+
+        return
+
+
+
+    if args.command == "ports":
+
+        result = analyze_ports(
+            args.target
+        )
+
+        print(
+            "Kongali Security Port Intelligence"
+        )
+
+        print("=" * 40)
+
+        print(
+            f"Target: {result.target}"
+        )
+
+        print()
+
+        if not result.findings:
+
+            print(
+                "No open common ports detected."
+            )
+
+        else:
+
+            for port in result.findings:
+
+                print(
+                    f"{port.port}/tcp "
+                    f"{port.service} "
+                    f"{port.state}"
+                )
+
+        return
+
 
     if args.command == "scan":
         return _run_standard_analysis(
