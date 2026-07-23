@@ -34,6 +34,18 @@ from kongali_security.analysis.whois import analyze_whois
 from kongali_security.reporting.executive import (
     generate_executive_report,
 )
+
+from kongali_security.reporting.executive_pdf import (
+    render_executive_pdf,
+)
+
+from kongali_security.reporting.executive_html import (
+    render_executive_html,
+)
+
+from kongali_security.reporting.executive_markdown import (
+    render_executive_markdown,
+)
 from kongali_security.analysis.methods import analyze_methods
 from kongali_security.analysis.redirect import analyze_redirect
 from kongali_security.analysis.robots import analyze_robots
@@ -1945,6 +1957,65 @@ def main() -> int:
                     scan_result.to_dict()
                 )
             )
+
+
+            if getattr(args, "format", None) == "pdf":
+
+                render_executive_pdf(
+                    executive_report,
+                    args.output,
+                )
+
+                print(
+                    f"Report written to: {args.output}"
+                )
+
+                return
+
+
+            if getattr(args, "format", None) == "html":
+
+                html = render_executive_html(
+                    executive_report
+                )
+
+                with open(
+                    args.output,
+                    "w",
+                    encoding="utf-8",
+                ) as file:
+
+                    file.write(html)
+
+
+                print(
+                    f"Report written to: {args.output}"
+                )
+
+                return
+
+
+            if getattr(args, "format", None) == "markdown":
+
+                md = render_executive_markdown(
+                    executive_report
+                )
+
+                with open(
+                    args.output,
+                    "w",
+                    encoding="utf-8",
+                ) as file:
+
+                    file.write(md)
+
+
+                print(
+                    f"Report written to: {args.output}"
+                )
+
+                return
+
 
             print(
                 executive_report
