@@ -18,11 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
@@ -31,25 +29,17 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install .
 
-          echo "===== Package ====="
-          python -m pip show kongali-security || true
-          python -m pip show reportlab || true
-
-          echo "===== Freeze ====="
-          python -m pip freeze
-
-      - name: Verify installed CLI
+      - name: Debug installed package
         run: |
           python - <<'PY'
           import inspect
           import pathlib
           import kongali_security.cli
 
-          path = pathlib.Path(inspect.getsourcefile(kongali_security.cli))
-          print("CLI FILE:", path)
-
-          print("\n===== First 40 lines =====")
-          for i, line in enumerate(path.read_text().splitlines()[:40], 1):
+          p = pathlib.Path(inspect.getsourcefile(kongali_security.cli))
+          print("CLI:", p)
+          print("=" * 60)
+          for i, line in enumerate(p.read_text().splitlines()[:40], 1):
               print(f"{i:02d}: {line}")
           PY
 
