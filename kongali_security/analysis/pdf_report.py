@@ -28,7 +28,7 @@ def _safe(value: Any, default: str = "") -> str:
     return str(value)
 
 
-def _severity_color(severity: str):
+def _severity_color(severity: str) -> Any:
     """Return a color for a severity level."""
     colors_map = {
         "CRITICAL": colors.HexColor("#7F1D1D"),

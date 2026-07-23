@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from kongali_security.analysis.audit import analyze_audit
 
@@ -66,8 +66,11 @@ def load_baseline(
 
     path = Path(source)
 
-    return json.loads(
-        path.read_text(
-            encoding="utf-8",
-        )
+    return cast(
+        dict[str, Any],
+        json.loads(
+            path.read_text(
+                encoding="utf-8",
+            )
+        ),
     )

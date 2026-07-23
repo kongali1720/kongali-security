@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, cast
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
@@ -277,7 +277,7 @@ def _build_security_findings(
                 ),
             }
 
-        cvss = mapping["cvss"]
+        cvss = cast(CVSSScore, mapping["cvss"])
 
         findings.append(
             SecurityFinding(
@@ -289,11 +289,11 @@ def _build_security_findings(
                     f"The HTTP response does not include "
                     f"the {header} security header."
                 ),
-                owasp=mapping["owasp"],
-                cwe=mapping["cwe"],
+                owasp=cast(OWASPReference, mapping["owasp"]),
+                cwe=cast(CWEReference, mapping["cwe"]),
                 cvss=cvss,
-                impact=mapping["impact"],
-                remediation=mapping["remediation"],
+                impact=cast(str, mapping["impact"]),
+                remediation=cast(str, mapping["remediation"]),
                 evidence={
                     "url": url,
                     "status_code": status_code,
