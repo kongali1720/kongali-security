@@ -32,6 +32,9 @@ from kongali_security.analysis.tls import analyze_tls
 from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
 from kongali_security.analysis.methods import analyze_methods
+from kongali_security.analysis.redirect import analyze_redirect
+from kongali_security.analysis.robots import analyze_robots
+from kongali_security.analysis.securitytxt import analyze_securitytxt
 
 VERSION = "0.1.0"
 
@@ -200,6 +203,63 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     methods_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Redirect Analysis
+    redirect_parser = subparsers.add_parser(
+        "redirect",
+        help="Analyze HTTP redirect behavior.",
+    )
+
+    redirect_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    redirect_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Robots.txt Analysis
+    robots_parser = subparsers.add_parser(
+        "robots",
+        help="Analyze robots.txt security.",
+    )
+
+    robots_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    robots_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # security.txt Analysis
+    securitytxt_parser = subparsers.add_parser(
+        "securitytxt",
+        help="Analyze security.txt disclosure.",
+    )
+
+    securitytxt_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    securitytxt_parser.add_argument(
         "--format",
         choices=("text", "json"),
         default="text",
@@ -671,6 +731,152 @@ def main() -> int:
                 print(
                     "Findings:"
                 )
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "redirect":
+
+        result = analyze_redirect(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security Redirect Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target       : {result['target']}"
+            )
+            print(
+                f"Status Code  : {result['status_code']}"
+            )
+            print(
+                f"Final URL    : {result['final_url']}"
+            )
+            print(
+                f"Redirects    : {result['redirect_count']}"
+            )
+
+        return
+
+
+    if args.command == "robots":
+
+        result = analyze_robots(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security Robots Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target      : {result['target']}"
+            )
+            print(
+                f"Robots URL  : {result['robots_url']}"
+            )
+            print(
+                f"Status      : {result['status_code']}"
+            )
+
+            print()
+            print(
+                "Disallow:"
+            )
+
+            for item in result["disallow"]:
+                print(
+                    f"- {item}"
+                )
+
+            if result["findings"]:
+                print()
+                print(
+                    "Findings:"
+                )
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "securitytxt":
+
+        result = analyze_securitytxt(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security security.txt Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+            print(
+                f"URL    : {result['securitytxt_url']}"
+            )
+            print(
+                f"Status : {result['status_code']}"
+            )
+
+            if result["fields"]:
+                print()
+                print("Fields:")
+
+                for key, value in result["fields"].items():
+                    print(
+                        f"- {key}: {value}"
+                    )
+
+            if result["findings"]:
+                print()
+                print("Findings:")
 
                 for finding in result["findings"]:
                     print(
