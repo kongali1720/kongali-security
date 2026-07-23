@@ -30,10 +30,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install .
-          echo "===== Installed Packages ====="
+
+          echo "===== Package ====="
           python -m pip show kongali-security || true
           python -m pip show reportlab || true
-          echo "===== pip freeze ====="
+
+          echo "===== Freeze ====="
           python -m pip freeze
 
       - name: Verify installed CLI
@@ -44,11 +46,10 @@ jobs:
           import kongali_security.cli
 
           path = pathlib.Path(inspect.getsourcefile(kongali_security.cli))
-          print("CLI:", path)
+          print("CLI FILE:", path)
 
-          text = path.read_text(encoding="utf-8")
-          print("===== First 40 lines =====")
-          for i, line in enumerate(text.splitlines()[:40], start=1):
+          print("\n===== First 40 lines =====")
+          for i, line in enumerate(path.read_text().splitlines()[:40], 1):
               print(f"{i:02d}: {line}")
           PY
 
