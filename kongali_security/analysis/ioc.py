@@ -249,10 +249,7 @@ class IOCAnalyzer:
         except ValueError:
             return None
 
-        if ip.version == 4:
-            ioc_type = IOCType.IPV4
-        else:
-            ioc_type = IOCType.IPV6
+        ioc_type = IOCType.IPV4 if ip.version == 4 else IOCType.IPV6
 
         is_private = ip.is_private
         is_loopback = ip.is_loopback

@@ -1,0 +1,12 @@
+{
+  "target": "https://example.com",
+  "overall_score": 45.0,
+  "overall_risk": "HIGH",
+  "findings": [
+    {
+      "category": "HTTP Security Headers",
+      "title": "Missing Content-Security-Policy",
+      "severity": "HIGH"
+    }
+  ]
+}

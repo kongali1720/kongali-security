@@ -47,7 +47,9 @@ classifiers = [
     "Topic :: Software Development :: Libraries"
 ]
 
-dependencies = []
+dependencies = [
+    "reportlab>=4.0,<5"
+]
 
 
 [project.optional-dependencies]

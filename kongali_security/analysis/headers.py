@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, cast
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 from kongali_security.schemas.finding import (
@@ -276,7 +277,7 @@ def _build_security_findings(
                 ),
             }
 
-        cvss = mapping["cvss"]
+        cvss = cast(CVSSScore, mapping["cvss"])
 
         findings.append(
             SecurityFinding(
@@ -288,11 +289,11 @@ def _build_security_findings(
                     f"The HTTP response does not include "
                     f"the {header} security header."
                 ),
-                owasp=mapping["owasp"],
-                cwe=mapping["cwe"],
+                owasp=cast(OWASPReference, mapping["owasp"]),
+                cwe=cast(CWEReference, mapping["cwe"]),
                 cvss=cvss,
-                impact=mapping["impact"],
-                remediation=mapping["remediation"],
+                impact=cast(str, mapping["impact"]),
+                remediation=cast(str, mapping["remediation"]),
                 evidence={
                     "url": url,
                     "status_code": status_code,
@@ -357,7 +358,29 @@ class HeadersAnalyzer:
                 f"https://{normalized_url}"
             )
 
-        request = Request(
+        parsed_url = urlparse(normalized_url)
+
+        if parsed_url.scheme not in {"http", "https"}:
+            return HeadersResult(
+                url=url,
+                reachable=False,
+                status_code=None,
+                headers={},
+                present=[],
+                missing=list(SECURITY_HEADERS.values()),
+                security_score=0,
+                risk_level="HIGH",
+                metadata={
+                    "error": (
+                        "Unsupported URL scheme. "
+                        "Only http and https are allowed."
+                    ),
+                    "scheme": parsed_url.scheme,
+                },
+                findings=[],
+            )
+
+        request = Request(  # noqa: S310
             normalized_url,
             method="HEAD",
             headers={
@@ -369,7 +392,7 @@ class HeadersAnalyzer:
         )
 
         try:
-            with urlopen(
+            with urlopen(  # noqa: S310
                 request,
                 timeout=self.timeout,
             ) as response:

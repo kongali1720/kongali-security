@@ -20,9 +20,6 @@ from kongali_security.analysis.dns import analyze_dns
 from kongali_security.analysis.hash import analyze_hash
 from kongali_security.analysis.headers import analyze_headers
 from kongali_security.analysis.ioc import analyze_ioc
-from kongali_security.analysis.pdf_report import (
-    generate_pdf_report,
-)
 from kongali_security.analysis.report import (
     generate_report,
     render_html,
@@ -34,6 +31,38 @@ from kongali_security.analysis.scan import analyze_scan
 from kongali_security.analysis.tls import analyze_tls
 from kongali_security.analysis.url import analyze_url
 from kongali_security.analysis.whois import analyze_whois
+from kongali_security.reporting.executive import (
+    generate_executive_report,
+)
+
+from kongali_security.reporting.executive_pdf import (
+    render_executive_pdf,
+)
+
+from kongali_security.reporting.executive_html import (
+    render_executive_html,
+)
+
+from kongali_security.reporting.executive_markdown import (
+    render_executive_markdown,
+)
+from kongali_security.analysis.methods import analyze_methods
+from kongali_security.analysis.redirect import analyze_redirect
+from kongali_security.analysis.robots import analyze_robots
+from kongali_security.analysis.securitytxt import analyze_securitytxt
+from kongali_security.analysis.cookies import analyze_cookies
+from kongali_security.analysis.cors import analyze_cors
+from kongali_security.analysis.csp import analyze_csp
+from kongali_security.analysis.tech import analyze_tech
+from kongali_security.analysis.waf import analyze_waf
+from kongali_security.analysis.password import analyze_password
+from kongali_security.analysis.ip import analyze_ip
+from kongali_security.network import analyze_netstat
+from kongali_security.network import analyze_ports
+from kongali_security.network import analyze_services
+from kongali_security.network import analyze_fingerprint
+from kongali_security.reporting.network import render_fingerprint_report
+from kongali_security.analysis.batch import analyze_batch
 
 VERSION = "0.1.0"
 
@@ -189,10 +218,290 @@ def build_parser() -> argparse.ArgumentParser:
         help="TLS output format.",
     )
 
+
+    # HTTP Methods Analysis
+    methods_parser = subparsers.add_parser(
+        "methods",
+        help="Analyze allowed HTTP methods.",
+    )
+
+    methods_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    methods_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Redirect Analysis
+    redirect_parser = subparsers.add_parser(
+        "redirect",
+        help="Analyze HTTP redirect behavior.",
+    )
+
+    redirect_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    redirect_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Robots.txt Analysis
+    robots_parser = subparsers.add_parser(
+        "robots",
+        help="Analyze robots.txt security.",
+    )
+
+    robots_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    robots_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # security.txt Analysis
+    securitytxt_parser = subparsers.add_parser(
+        "securitytxt",
+        help="Analyze security.txt disclosure.",
+    )
+
+    securitytxt_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    securitytxt_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Cookies Analysis
+    cookies_parser = subparsers.add_parser(
+        "cookies",
+        help="Analyze cookie security.",
+    )
+
+    cookies_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    cookies_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # CORS Analysis
+    cors_parser = subparsers.add_parser(
+        "cors",
+        help="Analyze CORS security.",
+    )
+
+    cors_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    cors_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # CSP Analysis
+    csp_parser = subparsers.add_parser(
+        "csp",
+        help="Analyze Content Security Policy.",
+    )
+
+    csp_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    csp_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Technology Detection
+    tech_parser = subparsers.add_parser(
+        "tech",
+        help="Detect web technologies.",
+    )
+
+    tech_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    tech_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # WAF Detection
+    waf_parser = subparsers.add_parser(
+        "waf",
+        help="Detect Web Application Firewall.",
+    )
+
+    waf_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    waf_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Batch Scanner
+    batch_parser = subparsers.add_parser(
+        "batch",
+        help="Scan multiple targets.",
+    )
+
+    batch_parser.add_argument(
+        "file",
+        help="Targets file.",
+    )
+
+    batch_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # Password Security Analysis
+    password_parser = subparsers.add_parser(
+        "password",
+        help="Analyze password security controls.",
+    )
+
+    password_parser.add_argument(
+        "target",
+        help="Target URL to analyze.",
+    )
+
+    password_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
+
+    # IP Intelligence
+    ip_parser = subparsers.add_parser(
+        "ip",
+        help="Analyze IP address intelligence.",
+    )
+
+    ip_parser.add_argument(
+        "target",
+        help="IP address to analyze.",
+    )
+
+    ip_parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format.",
+    )
+
     # Full Scan
+
+    netstat_parser = subparsers.add_parser(
+        "netstat",
+        help="Analyze local network connections.",
+    )
+
+
+    ports_parser = subparsers.add_parser(
+        "ports",
+        help="Analyze remote open ports.",
+    )
+
+    ports_parser.add_argument(
+        "target",
+        help="Target hostname or IP address.",
+    )
+
+
+    services_parser = subparsers.add_parser(
+        "services",
+        help="Analyze detected network services.",
+    )
+
+    services_parser.add_argument(
+        "target",
+        help="Target hostname or IP address.",
+    )
+
+
+    fingerprint_parser = subparsers.add_parser(
+        "fingerprint",
+        help="Fingerprint remote services.",
+    )
+
+    fingerprint_parser.add_argument(
+        "target",
+        help="Target hostname or IP address.",
+    )
+
     scan_parser = subparsers.add_parser(
         "scan",
         help="Run a full defensive security scan.",
+    )
+
+
+    scan_parser.add_argument(
+        "--summary",
+        action="store_true",
+        help="Show compact security summary.",
+    )
+
+    scan_parser.add_argument(
+        "--executive",
+        action="store_true",
+        help="Show executive security summary.",
     )
 
     scan_parser.add_argument(
@@ -307,6 +616,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--output",
         help="Write the report to a file.",
     )
+
+    report_parser.add_argument(
+        "--executive",
+        action="store_true",
+        help="Generate executive security summary.",
+    )
+
 
     # Compare Security Reports
     compare_parser = subparsers.add_parser(
@@ -609,6 +925,858 @@ def main() -> int:
 
             return 1
 
+
+    if args.command == "methods":
+
+        result = analyze_methods(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security HTTP Methods Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target      : {result['target']}"
+            )
+            print(
+                f"Reachable   : {result['reachable']}"
+            )
+
+            print()
+            print(
+                "Allowed Methods:"
+            )
+
+            for item in result["allowed_methods"]:
+                print(
+                    f"- {item['method']} "
+                    f"({item['status_code']})"
+                )
+
+            if result["findings"]:
+                print()
+                print(
+                    "Findings:"
+                )
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "redirect":
+
+        result = analyze_redirect(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security Redirect Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target       : {result['target']}"
+            )
+            print(
+                f"Status Code  : {result['status_code']}"
+            )
+            print(
+                f"Final URL    : {result['final_url']}"
+            )
+            print(
+                f"Redirects    : {result['redirect_count']}"
+            )
+
+        return
+
+
+    if args.command == "robots":
+
+        result = analyze_robots(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security Robots Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target      : {result['target']}"
+            )
+            print(
+                f"Robots URL  : {result['robots_url']}"
+            )
+            print(
+                f"Status      : {result['status_code']}"
+            )
+
+            print()
+            print(
+                "Disallow:"
+            )
+
+            for item in result["disallow"]:
+                print(
+                    f"- {item}"
+                )
+
+            if result["findings"]:
+                print()
+                print(
+                    "Findings:"
+                )
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "securitytxt":
+
+        result = analyze_securitytxt(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security security.txt Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+            print(
+                f"URL    : {result['securitytxt_url']}"
+            )
+            print(
+                f"Status : {result['status_code']}"
+            )
+
+            if result["fields"]:
+                print()
+                print("Fields:")
+
+                for key, value in result["fields"].items():
+                    print(
+                        f"- {key}: {value}"
+                    )
+
+            if result["findings"]:
+                print()
+                print("Findings:")
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "cookies":
+
+        result = analyze_cookies(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security Cookies Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+            print(
+                "Cookies:"
+            )
+
+            if not result["cookies"]:
+                print(
+                    "None detected"
+                )
+            else:
+                for cookie in result["cookies"]:
+                    print(
+                        f"- {cookie['name']} "
+                        f"Secure={cookie['secure']} "
+                        f"HttpOnly={cookie['httponly']} "
+                        f"SameSite={cookie['samesite']}"
+                    )
+
+            if result["findings"]:
+                print()
+                print("Findings:")
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "cors":
+
+        result = analyze_cors(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security CORS Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+            print("Headers:")
+
+            if result["headers"]:
+                for key, value in result["headers"].items():
+                    print(
+                        f"- {key}: {value}"
+                    )
+            else:
+                print(
+                    "None detected"
+                )
+
+            if result["findings"]:
+                print()
+                print("Findings:")
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "csp":
+
+        result = analyze_csp(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security CSP Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+
+            print(
+                "CSP:"
+            )
+
+            if result["csp"]:
+                print(
+                    result["csp"]
+                )
+            else:
+                print(
+                    "Not configured"
+                )
+
+            if result["findings"]:
+                print()
+                print(
+                    "Findings:"
+                )
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "tech":
+
+        result = analyze_tech(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security Technology Detection"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+            print(
+                "Detected Technologies:"
+            )
+
+            if result["technologies"]:
+                for item in result["technologies"]:
+                    print(
+                        f"- {item}"
+                    )
+            else:
+                print(
+                    "None detected"
+                )
+
+            if result["findings"]:
+                print()
+                print(
+                    "Findings:"
+                )
+
+                for finding in result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+        return
+
+
+    if args.command == "waf":
+
+        result = analyze_waf(
+            args.target,
+        )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+            print(
+                "Kongali Security WAF Detection"
+            )
+            print(
+                "─────────────────────────────"
+            )
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print()
+            print(
+                "Detected WAF:"
+            )
+
+            if result["detected"]:
+                for item in result["detected"]:
+                    print(
+                        f"- {item}"
+                    )
+            else:
+                print(
+                    "None detected"
+                )
+
+            print()
+
+            print(
+                "Findings:"
+            )
+
+            for finding in result["findings"]:
+                print(
+                    f"[{finding['severity']}] "
+                    f"{finding['title']}"
+                )
+
+        return
+
+
+    if args.command == "batch":
+
+        result = analyze_batch(
+            args.file,
+        )
+
+        if args.format == "json":
+
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+
+            print(
+                "Kongali Security Batch Scanner"
+            )
+
+            print(
+                "─────────────────────────────"
+            )
+
+            print(
+                f"Targets : {result['total']}"
+            )
+
+            print(
+                f"Completed : {result['completed']}"
+            )
+
+            print(
+                f"Failed : {result['failed']}"
+            )
+
+            print()
+
+            for item in result["results"]:
+
+                print(
+                    f"{item['target']} "
+                    f"- {item['status']}"
+                )
+
+        return
+
+
+    if args.command == "password":
+
+        result = analyze_password(
+            args.target,
+        )
+
+        safe_result = {
+            "target": result.get("target"),
+            "https": result.get("https"),
+            "password_fields": [
+                {
+                    "name": "[REDACTED]",
+                    "autocomplete": "[REDACTED]",
+                }
+                for _ in result.get("password_fields", [])
+            ],
+            "findings": result.get("findings", []),
+        }
+
+        if args.format == "json":
+
+            print(
+                json.dumps(
+                    safe_result,
+                    indent=2,
+                )
+            )
+
+        else:
+
+            print(
+                "Kongali Security Password Analysis"
+            )
+            print(
+                "─────────────────────────────"
+            )
+
+            print(
+                f"Target : {safe_result['target']}"
+            )
+
+            print()
+            print(
+                "Password Fields:"
+            )
+
+            if safe_result["password_fields"]:
+
+                for field in safe_result["password_fields"]:
+                    print(
+                        field
+                    )
+
+            else:
+                print(
+                    "None detected"
+                )
+
+            print()
+
+            print(
+                "Findings:"
+            )
+
+            if safe_result["findings"]:
+
+                for finding in safe_result["findings"]:
+                    print(
+                        f"[{finding['severity']}] "
+                        f"{finding['title']}"
+                    )
+
+            else:
+                print(
+                    "No findings"
+                )
+
+        return
+
+
+    if args.command == "ip":
+
+        result = analyze_ip(
+            args.target,
+        )
+
+        if args.format == "json":
+
+            print(
+                json.dumps(
+                    result,
+                    indent=2,
+                )
+            )
+
+        else:
+
+            print(
+                "Kongali Security IP Analysis"
+            )
+
+            print(
+                "─────────────────────────────"
+            )
+
+            print(
+                f"Target : {result['target']}"
+            )
+
+            print(
+                f"Valid  : {result['valid']}"
+            )
+
+            print(
+                f"Version: {result['version']}"
+            )
+
+            print(
+                f"Private: {result['private']}"
+            )
+
+            print()
+
+            print(
+                "Reverse DNS:"
+            )
+
+            print(
+                result['reverse_dns']
+            )
+
+            print()
+
+            print(
+                "Findings:"
+            )
+
+            for finding in result["findings"]:
+
+                print(
+                    f"[{finding['severity']}] "
+                    f"{finding['title']}"
+                )
+
+        return
+
+
+    if args.command == "netstat":
+
+        result = analyze_netstat()
+
+        print(
+            "Kongali Security Network Intelligence"
+        )
+
+        print("=" * 40)
+
+        data = result.to_dict()
+
+        print(
+            f"Active Connections: {len(data['connections'])}"
+        )
+
+        print()
+
+        for conn in data["connections"]:
+
+            print(
+                f"{conn['local']} -> "
+                f"{conn['remote']} "
+                f"{conn['state']}"
+            )
+
+
+        if data["findings"]:
+
+            print()
+            print("Findings")
+            print("--------")
+
+            for finding in data["findings"]:
+
+                print(
+                    f"[{finding['severity']}] "
+                    f"{finding['title']}"
+                )
+
+        return
+
+
+
+    if args.command == "ports":
+
+        result = analyze_ports(
+            args.target
+        )
+
+        print(
+            "Kongali Security Port Intelligence"
+        )
+
+        print("=" * 40)
+
+        print(
+            f"Target: {result.target}"
+        )
+
+        print()
+
+        if not result.findings:
+
+            print(
+                "No open common ports detected."
+            )
+
+        else:
+
+            for port in result.findings:
+
+                print(
+                    f"{port.port}/tcp "
+                    f"{port.service} "
+                    f"{port.state}"
+                )
+
+        return
+
+
+
+    if args.command == "services":
+
+        from kongali_security.network import analyze_ports
+
+        port_result = analyze_ports(
+            args.target
+        )
+
+
+        ports = [
+
+            item.port
+
+            for item in port_result.findings
+
+        ]
+
+
+        result = analyze_services(
+            args.target,
+            ports,
+        )
+
+
+        print(
+            "Kongali Security Service Intelligence"
+        )
+
+        print("=" * 40)
+
+        print(
+            f"Target: {result.target}"
+        )
+
+        print()
+
+
+        if not result.services:
+
+            print(
+                "No services detected."
+            )
+
+
+        for service in result.services:
+
+            print(
+                f"{service.port}/tcp"
+            )
+
+            print(
+                f"Service: {service.service}"
+            )
+
+            print(
+                f"Risk: {service.risk}"
+            )
+
+            print(
+                f"Recommendation: "
+                f"{service.recommendation}"
+            )
+
+            print()
+
+
+        return
+
+
+
+    if args.command == "fingerprint":
+
+        from kongali_security.network import analyze_ports
+
+
+        port_result = analyze_ports(
+            args.target
+        )
+
+
+        ports = [
+            item.port
+            for item in port_result.findings
+        ]
+
+
+        result = analyze_fingerprint(
+            args.target,
+            ports,
+        )
+
+
+        print(
+            render_fingerprint_report(
+                result
+            )
+        )
+
+        return
+
+
     if args.command == "scan":
         return _run_standard_analysis(
             analyze_scan,
@@ -848,7 +2016,12 @@ def main() -> int:
                         "PDF output requires --output."
                     )
 
+                from kongali_security.analysis.pdf_report import (
+                    generate_pdf_report,
+                )
+
                 generate_pdf_report(
+
                     assessment,
                     args.output,
                 )
@@ -1012,6 +2185,98 @@ def main() -> int:
             return 1
 
     if args.command == "report":
+
+        if getattr(
+            args,
+            "executive",
+            False,
+        ):
+            target = (
+                getattr(args, "input", None)
+                or getattr(args, "target", None)
+                or getattr(args, "url", None)
+            )
+
+            if not target:
+                raise ValueError(
+                    "Report target is required."
+                )
+
+            scan_result = analyze_scan(
+                target
+            )
+
+            executive_report = (
+                generate_executive_report(
+                    scan_result.to_dict()
+                )
+            )
+
+
+            if getattr(args, "format", None) == "pdf":
+
+                render_executive_pdf(
+                    executive_report,
+                    args.output,
+                )
+
+                print(
+                    f"Report written to: {args.output}"
+                )
+
+                return
+
+
+            if getattr(args, "format", None) == "html":
+
+                html = render_executive_html(
+                    executive_report
+                )
+
+                with open(
+                    args.output,
+                    "w",
+                    encoding="utf-8",
+                ) as file:
+
+                    file.write(html)
+
+
+                print(
+                    f"Report written to: {args.output}"
+                )
+
+                return
+
+
+            if getattr(args, "format", None) == "markdown":
+
+                md = render_executive_markdown(
+                    executive_report
+                )
+
+                with open(
+                    args.output,
+                    "w",
+                    encoding="utf-8",
+                ) as file:
+
+                    file.write(md)
+
+
+                print(
+                    f"Report written to: {args.output}"
+                )
+
+                return
+
+
+            print(
+                executive_report
+            )
+
+            return
+
         try:
             scan_result = analyze_scan(
                 args.target
@@ -1052,7 +2317,12 @@ def main() -> int:
                     )
                     return 1
 
+                from kongali_security.analysis.pdf_report import (
+                    generate_pdf_report,
+                )
+
                 generate_pdf_report(
+
                     report,
                     args.output,
                 )

@@ -1,0 +1,14 @@
+{
+  "target": "https://blanchedalmond-gorilla-295483.hostingersite.com",
+  "baseline_risk": "CRITICAL",
+  "current_risk": "CRITICAL",
+  "baseline_score": 0,
+  "current_score": 0,
+  "score_change": 0,
+  "new_findings": [],
+  "resolved_findings": [],
+  "new_findings_count": 0,
+  "resolved_findings_count": 0,
+  "security_trend": "UNCHANGED",
+  "regression": false
+}

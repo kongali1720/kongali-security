@@ -123,7 +123,7 @@ class WHOISAnalyzer:
             )
 
         try:
-            process = subprocess.run(
+            process = subprocess.run(  # noqa: S603
                 [
                     whois_binary,
                     normalized_domain,

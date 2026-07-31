@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+<title>Kongali Security Report</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    line-height: 1.6;
+    color: #222;
+}
+
+h1 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+h4 {
+    margin-bottom: 5px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+.finding {
+    border-left: 4px solid #333;
+    padding: 15px;
+    margin: 15px 0;
+    background: #f7f7f7;
+}
+
+pre {
+    background: #eee;
+    padding: 12px;
+    overflow-x: auto;
+    border-radius: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+footer {
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<h1>Kongali Security Report</h1>
+
+<div class="card">
+    <h2>Assessment Overview</h2>
+    <p>
+        <strong>Target:</strong>
+        https://kongali1720.com
+    </p>
+    <p>
+        <strong>Overall Risk:</strong>
+        CRITICAL
+    </p>
+    <p>
+        <strong>Overall Score:</strong>
+        0/100
+    </p>
+</div>
+
+<div class="card">
+    <h2>Severity Summary</h2>
+
+    <table>
+        <tr>
+            <th>Severity</th>
+            <th>Count</th>
+        </tr>
+
+        <tr>
+            <td>Critical</td>
+            <td>0</td>
+        </tr>
+
+        <tr>
+            <td>High</td>
+            <td>4</td>
+        </tr>
+
+        <tr>
+            <td>Medium</td>
+            <td>2</td>
+        </tr>
+
+        <tr>
+            <td>Low</td>
+            <td>0</td>
+        </tr>
+    </table>
+</div>
+
+<div class="card">
+    <h2>Security Findings</h2>
+    
+            <div class="finding">
+                <h3>1. Missing security header: Content-Security-Policy</h3>
+
+                <p>
+                    <strong>Severity:</strong>
+                    HIGH
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    HTTP Security Headers
+                </p>
+
+                <p>
+                    <strong>OWASP:</strong>
+                    A05:2021 - Security Misconfiguration
+                </p>
+
+                <p>
+                    <strong>CWE:</strong>
+                    CWE-693 - Protection Mechanism Failure
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    The HTTP response does not include the Content-Security-Policy security header.
+                </p>
+
+                <h4>Impact</h4>
+                <p>Missing Content-Security-Policy may increase the risk of client-side injection and content execution attacks.</p>
+
+                <h4>Evidence</h4>
+                <pre>{
+  &quot;header&quot;: &quot;Content-Security-Policy&quot;,
+  &quot;status&quot;: &quot;missing&quot;
+}</pre>
+
+                <h4>Remediation</h4>
+                <p>Implement a restrictive Content-Security-Policy appropriate for the application.</p>
+            </div>
+            
+            <div class="finding">
+                <h3>2. Missing security header: Strict-Transport-Security</h3>
+
+                <p>
+                    <strong>Severity:</strong>
+                    HIGH
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    HTTP Security Headers
+                </p>
+
+                <p>
+                    <strong>OWASP:</strong>
+                    A05:2021 - Security Misconfiguration
+                </p>
+
+                <p>
+                    <strong>CWE:</strong>
+                    CWE-319 - Cleartext Transmission of Sensitive Information
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    The HTTP response does not include the Strict-Transport-Security security header.
+                </p>
+
+                <h4>Impact</h4>
+                <p>Without HSTS, users may be exposed to protocol downgrade or insecure HTTP connections.</p>
+
+                <h4>Evidence</h4>
+                <pre>{
+  &quot;header&quot;: &quot;Strict-Transport-Security&quot;,
+  &quot;status&quot;: &quot;missing&quot;
+}</pre>
+
+                <h4>Remediation</h4>
+                <p>Enable HTTP Strict Transport Security with an appropriate max-age and HTTPS deployment.</p>
+            </div>
+            
+            <div class="finding">
+                <h3>3. Missing security header: X-Content-Type-Options</h3>
+
+                <p>
+                    <strong>Severity:</strong>
+                    HIGH
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    HTTP Security Headers
+                </p>
+
+                <p>
+                    <strong>OWASP:</strong>
+                    A05:2021 - Security Misconfiguration
+                </p>
+
+                <p>
+                    <strong>CWE:</strong>
+                    CWE-693 - Protection Mechanism Failure
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    The HTTP response does not include the X-Content-Type-Options security header.
+                </p>
+
+                <h4>Impact</h4>
+                <p>Missing X-Content-Type-Options may allow browsers to MIME-sniff responses unexpectedly.</p>
+
+                <h4>Evidence</h4>
+                <pre>{
+  &quot;header&quot;: &quot;X-Content-Type-Options&quot;,
+  &quot;status&quot;: &quot;missing&quot;
+}</pre>
+
+                <h4>Remediation</h4>
+                <p>Set the X-Content-Type-Options header to nosniff.</p>
+            </div>
+            
+            <div class="finding">
+                <h3>4. Missing security header: X-Frame-Options</h3>
+
+                <p>
+                    <strong>Severity:</strong>
+                    HIGH
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    HTTP Security Headers
+                </p>
+
+                <p>
+                    <strong>OWASP:</strong>
+                    A05:2021 - Security Misconfiguration
+                </p>
+
+                <p>
+                    <strong>CWE:</strong>
+                    CWE-693 - Protection Mechanism Failure
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    The HTTP response does not include the X-Frame-Options security header.
+                </p>
+
+                <h4>Impact</h4>
+                <p>Missing clickjacking protection may allow malicious sites to frame the application.</p>
+
+                <h4>Evidence</h4>
+                <pre>{
+  &quot;header&quot;: &quot;X-Frame-Options&quot;,
+  &quot;status&quot;: &quot;missing&quot;
+}</pre>
+
+                <h4>Remediation</h4>
+                <p>Set X-Frame-Options to DENY or SAMEORIGIN, or use an appropriate CSP frame-ancestors policy.</p>
+            </div>
+            
+            <div class="finding">
+                <h3>5. Missing security header: Referrer-Policy</h3>
+
+                <p>
+                    <strong>Severity:</strong>
+                    MEDIUM
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    HTTP Security Headers
+                </p>
+
+                <p>
+                    <strong>OWASP:</strong>
+                    A05:2021 - Security Misconfiguration
+                </p>
+
+                <p>
+                    <strong>CWE:</strong>
+                    CWE-200 - Exposure of Sensitive Information to an Unauthorized Actor
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    The HTTP response does not include the Referrer-Policy security header.
+                </p>
+
+                <h4>Impact</h4>
+                <p>An overly permissive referrer policy may expose sensitive URL information to external origins.</p>
+
+                <h4>Evidence</h4>
+                <pre>{
+  &quot;header&quot;: &quot;Referrer-Policy&quot;,
+  &quot;status&quot;: &quot;missing&quot;
+}</pre>
+
+                <h4>Remediation</h4>
+                <p>Configure a restrictive Referrer-Policy such as strict-origin-when-cross-origin.</p>
+            </div>
+            
+            <div class="finding">
+                <h3>6. Missing security header: Permissions-Policy</h3>
+
+                <p>
+                    <strong>Severity:</strong>
+                    MEDIUM
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    HTTP Security Headers
+                </p>
+
+                <p>
+                    <strong>OWASP:</strong>
+                    A05:2021 - Security Misconfiguration
+                </p>
+
+                <p>
+                    <strong>CWE:</strong>
+                    CWE-693 - Protection Mechanism Failure
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    The HTTP response does not include the Permissions-Policy security header.
+                </p>
+
+                <h4>Impact</h4>
+                <p>Missing Permissions-Policy may allow unnecessary browser capabilities to remain available.</p>
+
+                <h4>Evidence</h4>
+                <pre>{
+  &quot;header&quot;: &quot;Permissions-Policy&quot;,
+  &quot;status&quot;: &quot;missing&quot;
+}</pre>
+
+                <h4>Remediation</h4>
+                <p>Configure Permissions-Policy to explicitly restrict unnecessary browser capabilities.</p>
+            </div>
+            
+</div>
+
+<footer>
+    <p>
+        Generated by Kongali Security.
+    </p>
+</footer>
+
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 from kongali_security.analysis.headers import analyze_headers
 from kongali_security.analysis.tls import analyze_tls
@@ -280,9 +280,12 @@ def _build_header_findings(
         missing,
         start=1,
     ):
-        mapping = HEADER_KNOWLEDGE.get(
-            header,
-            {},
+        mapping = cast(
+            dict[str, Any],
+            HEADER_KNOWLEDGE.get(
+                header,
+                {},
+            ),
         )
 
         severity = (
@@ -398,13 +401,19 @@ def _build_header_findings(
                 owasp=owasp,
                 cwe=cwe,
                 cvss=cvss,
-                impact=mapping.get(
-                    "impact",
-                    "",
+                impact=cast(
+                    str,
+                    mapping.get(
+                        "impact",
+                        "",
+                    ),
                 ),
-                remediation=mapping.get(
-                    "remediation",
-                    "",
+                remediation=cast(
+                    str,
+                    mapping.get(
+                        "remediation",
+                        "",
+                    ),
                 ),
                 evidence={
                     "header": header,
@@ -423,9 +432,7 @@ def _build_header_findings(
                 ],
                 metadata={
                     "source": "headers",
-                    "module": MODULE_NAME
-                    if "MODULE_NAME" in globals()
-                    else "headers_analyzer",
+                    "module": "headers_analyzer",
                 },
             )
         )

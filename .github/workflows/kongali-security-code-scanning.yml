@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - feat/next-security-improvements
   workflow_dispatch:
 
 permissions:
@@ -14,31 +15,75 @@ permissions:
 
 jobs:
   kongali-security:
-    name: Kongali Security SARIF Scan
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install Kongali Security
+      - name: Show checked out commit
+        run: |
+          git rev-parse HEAD
+          git branch --show-current
+          git log --oneline -1
+
+      - name: Verify repository source
+        run: |
+          echo "===== Repository cli.py ====="
+          sed -n '1,35p' kongali_security/cli.py
+
+      - name: Install package
         run: |
           python -m pip install --upgrade pip
-          pip install .
+          python -m pip install .
+          python -m pip install reportlab
+          python -m pip install reportlab
 
-      - name: Run Kongali Security scan
+      - name: Verify installed package
+        run: |
+          python - <<'PY'
+          import inspect
+          import pathlib
+          import kongali_security.cli
+
+          p = pathlib.Path(inspect.getsourcefile(kongali_security.cli))
+          print("Installed file:", p)
+          print("=" * 60)
+          print("\n".join(p.read_text().splitlines()[:35]))
+          PY
+
+      - name: Run scan
         run: |
           kongali-security report \
             https://example.com \
             --format sarif \
             --output kongali-results.sarif
 
-      - name: Upload SARIF results
+      - name: Debug generated SARIF
+        run: |
+          echo "===== FILE EXISTS ====="
+          ls -lh kongali-results.sarif
+
+          echo "===== LOCATIONS ====="
+          grep -n '"locations"' kongali-results.sarif || true
+
+          echo "===== PHYSICAL LOCATION ====="
+          grep -n '"physicalLocation"' kongali-results.sarif || true
+
+          echo "===== ARTIFACT LOCATION ====="
+          grep -n '"artifactLocation"' kongali-results.sarif || true
+
+          echo "===== URI ====="
+          grep -n '"uri"' kongali-results.sarif || true
+
+          echo "===== FIRST 220 LINES ====="
+          python -m json.tool kongali-results.sarif | head -220
+
+      - name: Upload SARIF
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: kongali-results.sarif
